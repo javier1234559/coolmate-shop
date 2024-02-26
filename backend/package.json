@@ -1,0 +1,46 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "This is a backend of coolmate shop",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc && node dist/server.js",
+    "dev:server": "ts-node-dev --respawn --pretty --transpile-only backend/src/server.ts",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run start\" \"npm run client\"",
+    "train": "tsc && node dist/utils/recommend.js",
+    "data:import": "tsc && node dist/seeder.js",
+    "data:destroy": "tsc && node dist/seeder.js -d",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
+    "generate-toc": "markdown-toc -i readme.md",
+    "tsc": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/body-parser": "^1.19.5",
+    "@types/cookie-parser": "^1.4.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.9.4",
+    "nodemon": "^3.0.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.2"
+  },
+  "keywords": [
+    "ecommerce",
+    "api"
+  ],
+  "author": "Javier",
+  "license": "ISC"
+}

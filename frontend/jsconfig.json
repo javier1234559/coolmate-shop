@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["es2020", "DOM"],
+    "moduleResolution": "node",
+    "target": "es2020",
+    "checkJs": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "~/*": ["src/*"],
+    }
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

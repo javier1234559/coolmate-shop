@@ -1,0 +1,27 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: /frontend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: /backend
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_password
+      MYSQL_DATABASE: example_db
+      MYSQL_USER: example_user
+      MYSQL_PASSWORD: example_password
+    ports:
+      - '3306:3306'

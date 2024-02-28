@@ -1,5 +1,6 @@
 // import path from "path";
-// import express, { Express } from "express";
+import express, { Express } from "express";
+
 // import dotenv from "dotenv";
 // dotenv.config();
 // import connectDB from "./config/database";
@@ -21,15 +22,18 @@
 // // --------------------------------------------
 
 // // 1. Initialize configuration variables, import necessary modules, and connect to the database
-// const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 // connectDB();
 
 // // 2. Base server config (config json(), config cor() ,..)
-// const app: Express = express();
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
+const app: Express = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 // // // 3. Define middleware (authen(), validate() ,...)
+app.use('/',(req,res)=>{
+    res.send('Hello');
+})
 
 // // // 4  Define router and errorHandler
 // app.use("/api/products", productRoutes);
@@ -50,6 +54,6 @@
 // app.use(errorHandler);
 
 // // 5. Start server
-// app.listen(port, () =>
-//   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
-// );
+app.listen(port, () =>
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
+);

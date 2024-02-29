@@ -1,15 +1,25 @@
 {
   "compilerOptions": {
-   "target": "es2016",
-   "module": "ESNext",
-   "strict": true,
-   "esModuleInterop": true,
-   "skipLibCheck": true,
-   "forceConsistentCasingInFileNames": true,
-   "outDir": "./dist"
+    "target": "es2016",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "outDir": "./dist"
   },
   "ts-node": {
     "esm": true
   },
-  "include": ["./**/*"]
- }
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+
+}

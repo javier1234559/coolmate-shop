@@ -1,11 +1,12 @@
 // import path from "path";
-import express, { Express } from "express";
+import "reflect-metadata"
 
+import express, { Express } from "express";
+import config from "./config/config";
 // import dotenv from "dotenv";
 // dotenv.config();
-// import connectDB from "./config/database";
 // import cookieParser from "cookie-parser";
-// import productRoutes from "./routes/productRoutes";
+import productController from "./controller/product.controller";
 // import userRoutes from "./routes/userRoutes";
 // import orderRoutes from "./routes/orderRoutes";
 // import uploadRoutes from "./routes/uploadRoutes";
@@ -22,7 +23,7 @@ import express, { Express } from "express";
 // // --------------------------------------------
 
 // // 1. Initialize configuration variables, import necessary modules, and connect to the database
-const port = process.env.PORT || 5000;
+const port = config.port;
 // connectDB();
 
 // // 2. Base server config (config json(), config cor() ,..)
@@ -31,12 +32,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(cookieParser());
 // // // 3. Define middleware (authen(), validate() ,...)
-app.use('/',(req,res)=>{
-    res.send('Hello');
+app.use('/api/health',(req,res)=>{
+    res.send('It work !!');
 })
 
 // // // 4  Define router and errorHandler
-// app.use("/api/products", productRoutes);
+app.use("/api/products", productController);
 // app.use("/api/users", userRoutes);
 // app.use("/api/orders", orderRoutes);
 // app.use("/api/upload", uploadRoutes);

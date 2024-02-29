@@ -1,14 +1,13 @@
-// import express from "express";
-// import ProductServices from "../Servicess/productServices.js";
+import express from 'express';
+import ProductService from '../services/product.service';
 // import { protect, admin } from "../middleware/authMiddleware.js";
 // import checkObjectId from "../middleware/checkObjectId.js";
 
-// const productController = express.Router();
-// const ProductService = new ProductService();
+const productController = express.Router();
 
-// productController
-//   .route("/")
-//   .get(productController.getProducts)
+productController
+  .route("/")
+  .get(ProductService.getProducts)
 //   .post(protect, admin, ProductService.createProduct);
 // productController
 //   .route("/:id/reviews")
@@ -23,4 +22,4 @@
 //   .route("/:id/recommend")
 //   .get(checkObjectId, ProductService.getListRecommendProduct);
 
-// export default productController;
+export default productController;

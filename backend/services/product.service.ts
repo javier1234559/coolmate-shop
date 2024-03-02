@@ -3,9 +3,7 @@ import { Product } from "../entities/product.entity";
 import connectDB from "../database/data-source";
 
 class ProductService {
-  // @desc    Fetch all products
-  // @route   GET /api/products
-  // @access  Public
+
   static getProducts = async (_req: Request, res: Response) => {
     try {
       const productRepository = connectDB.getRepository(Product);

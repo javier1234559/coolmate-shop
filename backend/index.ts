@@ -1,6 +1,4 @@
 // import path from "path";
-import "reflect-metadata"
-
 import express, { Express } from "express";
 import config from "./config/config";
 // import dotenv from "dotenv";

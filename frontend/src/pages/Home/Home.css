@@ -1,0 +1,36 @@
+.product-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 10px; 
+
+  @media (max-width: 1300px) {
+    grid-template-columns: repeat(3, 1fr); 
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+}
+
+
+.content-title {
+  font-size: 2rem;
+  margin: 5rem 0 ;
+}
+
+.product-list {
+  margin-top: 40px;
+}
+
+.product-list h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}

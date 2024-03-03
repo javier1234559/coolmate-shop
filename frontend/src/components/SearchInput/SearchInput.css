@@ -1,0 +1,30 @@
+.search-container {
+  position: relative;
+  display: inline-block;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+input[type="search"] {
+  padding: 2rem 2rem 2rem 4rem;
+  border: none;
+  border-radius: 30px;
+  background-color: #e8e8e8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+  font-size: 1.4rem;
+
+  ::placeholder {
+    color: #aaa;
+  }
+}
+
+input[type="search"]:focus {
+  outline: none;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}

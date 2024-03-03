@@ -1,4 +1,5 @@
 // import path from "path";
+import connectDB from "./database/data-source";
 import express, { Express } from "express";
 import config from "./config/config";
 // import dotenv from "dotenv";
@@ -22,7 +23,13 @@ import productController from "./controller/product.controller";
 
 // // 1. Initialize configuration variables, import necessary modules, and connect to the database
 const port = config.port;
-// connectDB();
+connectDB
+  .initialize()
+  .then(() => {
+    console.log("Database connected")
+  })
+  .catch((error) => console.log(error))
+
 
 // // 2. Base server config (config json(), config cor() ,..)
 const app: Express = express();

@@ -1,8 +1,15 @@
 :root {
   font-size: 62.5%;
-  --primary-background: #f3f3f3;
   --primary-background: #eee;
-  --nav-height: 60px;
+  --secondary-background: #212121;
+  --primary-text: #212121;
+  --secondary-text: #fff;
+  --yellow-color: #eceb67;
+  --red-color: #ff5605;
+  --blue-color: #2f5acf;
+  --green-color: #00b761;
+  --nav-height: 80px;
+  --nav-color: #212121;
 }
 
 * {
@@ -13,12 +20,12 @@
 }
 
 body {
-  background-color: var(--primary-background);
+  /* background-color: var(--primary-background); */
 }
 
 a {
   text-decoration: none;
-  color: black;
+  color: inherit;
 }
 
 li {
@@ -28,4 +35,8 @@ li {
 .container {
   width: 90%;
   margin: 0 auto;
+}
+
+.ml-4{
+  margin-left: 1.5rem;
 }

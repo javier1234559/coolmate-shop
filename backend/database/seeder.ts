@@ -5,36 +5,17 @@ import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
 import config from "../config/config";
 import { products, categories, colors, sizes, productMedia, collections, productColorSizes } from "./data";
-
-const connectDB = new DataSource({
-  type: "mysql",
-  host: config.mysql.host,
-  port: config.mysql.port,
-  username: config.mysql.user,
-  password: config.mysql.password,
-  database: config.mysql.namedb,
-  synchronize: true,
-  logging: true,
-  entities: [
-    Product,
-    ProductColorSize,
-    Size,
-    Color,
-    ProductMedia,
-    Category,
-    Collection
-  ],
-  subscribers: [],
-  migrations: [],
-});
-
-async function initialize() {
-  await connectDB.initialize();
-  console.log("Database connected");
-}
+import connectDB from "./data-source";
 
 async function seeder() {
-  await initialize(); // Wait for the database connection to be established
+
+  await connectDB
+    .initialize()
+    .then(() => {
+      console.log("Database connected")
+    })
+    .catch((error) => console.log(error))
+
   const productRepository = connectDB.getRepository(Product);
   const categoryRepository = connectDB.getRepository(Category);
   const collectionRepository = connectDB.getRepository(Collection);
@@ -56,8 +37,8 @@ async function seeder() {
 
     const productsData = productRepository.create(products);
     productsData.forEach(async (product: any) => {
-      const categoryId = 1;
-      const category = await categoryRepository.findOne(categoryId);
+      const categoryId: number = 1;
+      const category = await categoryRepository.findOne({ where: { id: categoryId } });
 
       if (category) {
         product.category = category;

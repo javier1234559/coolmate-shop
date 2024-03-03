@@ -2,6 +2,7 @@
   position: relative;
   display: block;
   cursor: pointer;
+  color: var(--secondary-text);
 }
 .cart-counter {
   position: absolute;
@@ -13,8 +14,8 @@
   height: 14px;
   width: 14px;
   text-align: center;
-  background-color: black;
-  color: white;
+  background-color: var(--yellow-color);
+  color: var(--primary-text);
 
   /* border: 1px solid black; */
 }

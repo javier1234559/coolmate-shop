@@ -12,7 +12,7 @@ export function CartButton({ toggleShowCart }) {
 
   return (
     <span onClick={toggleShowCart} className="cart-icon">
-      <ShoppingCart size={22} />
+      <ShoppingCart size={30}/>
       <div className="cart-counter">{totalCartQty}</div>
     </span>
   );

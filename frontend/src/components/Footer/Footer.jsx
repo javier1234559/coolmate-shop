@@ -1,157 +1,41 @@
-import './Footer.scss';
-import { Link } from 'react-router-dom';
-// import Logo from '../../assets/imgMaster/logo.svg';
-// import twitterIcon from '../../assets/imgMaster/twitter.png';
-// import youtubeicon from '../../assets/imgMaster/youtube-play--v2.png';
-// import facebookIcon from '../../assets/imgMaster/facebook-footer.png';
-// import instagramIcon from '../../assets/imgMaster/instagram-new.png';
+import './Footer.css';
 
 const Footer = () => {
-    return (
-        <div className="footer">
-            <div className="footer__contact grid wide">
-                <div className="footer__contact-name">
-                    <h3 className="footer__contact-heading">{'footer.titleFooter'}</h3>
-                    <span className="footer__contact-text">{'footer.contentFooter'}</span>
-                </div>
-                <form action="" className="footer__contact-form">
-                    <input type="text" name="" id="" className="footer__contact__input" />
-                    <label htmlFor="footer__contact-submit" className="footer__contact-submit-btn">
-                        {'common.signup'}
-                    </label>
-                </form>
+  return (
+    <footer className="site-footer mobile--hidden">
+      <div className="container">
+        <div className="site-footer__inner">
+          <div className="site-footer__sidebar">
+            <div>
+              <h4 className="site-footer__title">COOLMATE lắng nghe bạn!</h4>
+              <p className="site-footer__description" style={{ marginBottom: '30px' }}>
+                Chúng tôi luôn trân trọng và mong đợi nhận được mọi ý kiến đóng góp từ khách hàng để có thể nâng cấp trải nghiệm dịch vụ và sản phẩm tốt hơn nữa.
+              </p>
             </div>
-            <div className="footer__inner">
-                <div className="grid wide">
-                    <div className="row">
-                        <div className="col l-6 m-12 c-12">
-                            {/* <img src={Logo} alt="" className="footer__logo" />
-                            <p className="footer__desc">{'footer.intro'}</p>
-                            <div className="footer__inner-contact">
-                                <Link to="#" className="footer__contact-logo fab fa-twitter">
-                                    <img src={twitterIcon} alt="alt-t" />
-                                </Link>
-                                <Link to="#" className="footer__contact-logo fab fa-youtube">
-                                    <img src={youtubeicon} alt="alt-y" />
-                                </Link>
-                                <Link to="#" className="footer__contact-logo fab fa-facebook-square">
-                                    <img src={facebookIcon} alt="alt-f" />
-                                </Link>
-                                <Link to="#" className="footer__contact-logo fab fa-instagram-square">
-                                    <img src={instagramIcon} alt="alt-i" />
-                                </Link>
-                            </div> */}
-                        </div>
-                        <div className="col l-2 m-4 c-12">
-                            <ul className="footer__list">
-                                <h3 className="footer__list-heading">{'footer.contact_1'}</h3>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="/" className="footer__item-link">
-                                        {'footer.contact_link_1'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_2'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_3'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_4'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_5'}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="col l-2 m-4 c-12">
-                            <ul className="footer__list">
-                                <h3 className="footer__list-heading">{'footer.contact_2'}</h3>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_6'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_7'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_8'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_9'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_10'}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="col l-2 m-4 c-12">
-                            <ul className="footer__list">
-                                <h3 className="footer__list-heading">{'footer.contact_3'}</h3>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_11'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_12'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_13'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_14'}
-                                    </Link>
-                                </li>
-                                <li className="footer__item">
-                                    <i className="footer__item-icon fas fa-chevron-right"></i>
-                                    <Link to="#" className="footer__item-link">
-                                        {'footer.contact_link_15'}
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div style={{ width: '25%' }}>
+              <div className="footer-social">
+                <a href="https://www.facebook.com/coolmate.me" className="footer-social__item" target="_blank" rel="noreferrer">
+                  <img src="https://mcdn.coolmate.me/image/June2023/mceclip1_43.png" alt="Footer Icon facebook" />
+                </a>
+                <a href="https://zalo.me/1517736583279228381" target="_blank" className="footer-social__item" rel="noreferrer">
+                  <img src="https://mcdn.coolmate.me/image/June2023/mceclip2_68.png" alt="Footer Icon Zalo" />
+                </a>
+                <a href="https://www.tiktok.com/@cool.coolmate" target="_blank" className="footer-social__item" rel="noreferrer">
+                  <img src="https://mcdn.coolmate.me/image/June2023/mceclip0_62.png" alt="Footer Icon tiktok" />
+                </a>
+                <a href="https://www.instagram.com/coolmate.me/" className="footer-social__item" target="_blank" rel="noreferrer">
+                  <img src="https://www.coolmate.me/images/footer/icon-instar.svg" alt="Footer Icon instar" />
+                </a>
+                <a href="https://www.youtube.com/channel/UCWw8wLlodKBtEvVt1tTAsMA" className="footer-social__item" target="_blank" rel="noreferrer">
+                  <img src="https://www.coolmate.me/images/footer/icon-youtube.svg" alt="Footer Icon youtube" />
+                </a>
+              </div>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

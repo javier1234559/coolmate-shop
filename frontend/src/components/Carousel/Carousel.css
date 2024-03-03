@@ -1,0 +1,23 @@
+/* This is a style class of lib  */
+
+.swiper {
+  width: 100%;
+  height: 480px;
+  /* overflow: hidden; */
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

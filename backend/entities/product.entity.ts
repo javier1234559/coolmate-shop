@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from 'typeorm';
 import { Category } from './category.entity';
 import { Collection } from './collection.entity';
+import { CartItem } from './cart.entity';
+import { Review } from './review.entity';
 
 @Entity()
 export class Product {
@@ -10,10 +12,10 @@ export class Product {
   @Column('int')
   seller_id: number;
 
-  @Column('varchar')
+  @Column('text')
   name: string;
 
-  @Column('varchar')
+  @Column('text')
   brand: string;
 
   @Column('text')
@@ -34,22 +36,23 @@ export class Product {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   modified_at: Date;
 
-  // Define many-to-one relationship with Category
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
 
-  // Define many-to-many relationship with Collection
-  @ManyToMany(() => Collection, (collection) => collection.products)
-  @JoinTable()
+  @ManyToMany(() => Collection, (collection) => collection.products, { nullable: true })
   collections: Collection[];
 
-  // Define one-to-many relationship with ProductMedia
-  @OneToMany(() => ProductMedia, (media) => media.product)
+  @OneToMany(() => ProductMedia, (media) => media.product, { cascade: true })
   media: ProductMedia[];
 
-  // Define many-to-many relationship with ProductColorSize
-  @OneToMany(() => ProductColorSize, (pcs) => pcs.product)
+  @OneToMany(() => ProductColorSize, (pcs) => pcs.product, { cascade: true, nullable: true })
   colorSizes: ProductColorSize[];
+
+  @OneToMany(() => CartItem, (cartItem) => cartItem.product,{ nullable: true })
+  cartItems: CartItem[]
+
+  @OneToMany(() => Review, (review) => review.product, { nullable: true })
+  reviews: Review[]
 }
 
 @Entity()
@@ -57,13 +60,10 @@ export class ProductMedia {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('int')
-  product_id: number;
-
-  @Column('varchar')
+  @Column('nvarchar')
   media_type: string;
 
-  @Column('varchar')
+  @Column('nvarchar')
   media_url: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -82,11 +82,14 @@ export class Color {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar')
+  @Column('nvarchar')
   name: string;
 
-  @Column('varchar')
+  @Column('nvarchar')
   hex_code: string;
+
+  @OneToMany(() => ProductColorSize, (pcs) => pcs.size)
+  colorSizes: ProductColorSize[];
 }
 
 @Entity()
@@ -94,8 +97,11 @@ export class Size {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar')
+  @Column('nvarchar')
   name: string;
+
+  @OneToMany(() => ProductColorSize, (pcs) => pcs.size)
+  colorSizes: ProductColorSize[];
 }
 
 @Entity()
@@ -104,26 +110,14 @@ export class ProductColorSize {
   id: number;
 
   @Column('int')
-  product_id: number;
-
-  @Column('int')
-  color_id: number;
-
-  @Column('int')
-  size_id: number;
-
-  @Column('int')
   quantity: number;
 
-  // Define many-to-one relationship with Product
-  @ManyToOne(() => Product, (product) => product.colorSizes)
+  @ManyToOne(() => Product, (product) => product.colorSizes, { cascade: true })
   product: Product;
 
-  // Define many-to-one relationship with Color
-  @ManyToOne(() => Color, (color) => color.id)
+  @ManyToOne(() => Color, (color) => color.colorSizes, { cascade: true })
   color: Color;
 
-  // Define many-to-one relationship with Size
-  @ManyToOne(() => Size, (size) => size.id)
+  @ManyToOne(() => Size, (size) => size.colorSizes, { cascade: true })
   size: Size;
 }

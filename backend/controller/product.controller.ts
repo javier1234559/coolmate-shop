@@ -1,5 +1,6 @@
 import express from 'express';
 import ProductService from '../services/product.service';
+import { validationDto } from '../middleware/validation.middleware';
 // import { protect, admin } from "../middleware/authMiddleware.js";
 // import checkObjectId from "../middleware/checkObjectId.js";
 

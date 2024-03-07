@@ -9,7 +9,7 @@ export class Category {
   @Column('nvarchar') 
   name: string;
 
-  @Column('nvarchar') 
+  @Column('text') 
   description: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

@@ -6,7 +6,7 @@ export class Collection {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'nvarchar', length: 255 })
   title: string;
 
   @Column({ type: 'text' })
@@ -22,7 +22,7 @@ export class Collection {
   is_active: boolean; 
 
   // Define the many-to-many relationship with Product
-  @ManyToMany(() => Product, (product) => product.collections)
+  @ManyToMany(() => Product)
   @JoinTable()
   products: Product[];
 }

@@ -4,6 +4,10 @@ import config from "../config/config";
 import { Product, ProductColorSize, Size, Color, ProductMedia } from "../entities/product.entity";
 import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
+import { Order, OrderItem, PaymentResult } from "../entities/order.entity";
+import { Review } from "../entities/review.entity";
+import { User, UserAddress, UserPayment } from "../entities/user.entity";
+import { Cart, CartItem } from "../entities/cart.entity";
 
 const connectDB = new DataSource({
   type: "mysql",
@@ -15,6 +19,16 @@ const connectDB = new DataSource({
   synchronize: true,
   logging: true,
   entities: [
+    User,
+    Cart,
+    CartItem,
+    Order,
+    OrderItem,
+    Review,
+    UserAddress,
+    UserPayment,
+    PaymentResult,
+    OrderItem,
     Product,
     ProductColorSize,
     Size,
@@ -25,6 +39,7 @@ const connectDB = new DataSource({
   ],
   subscribers: [],
   migrations: [],
+  charset: "utf8mb4",
 });
 
 export default connectDB;

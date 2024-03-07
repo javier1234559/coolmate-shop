@@ -1,7 +1,7 @@
 // import path from "path";
+import config from "./config/config";
 import connectDB from "./database/data-source";
 import express, { Express } from "express";
-import config from "./config/config";
 // import dotenv from "dotenv";
 // dotenv.config();
 // import cookieParser from "cookie-parser";
@@ -63,3 +63,27 @@ app.use("/api/products", productController);
 app.listen(port, () =>
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${port}`)
 );
+
+// Listen for process termination signals
+// Function to close the database connection
+const closeDBConnection = async () => {
+  try {
+     console.log("Closing database connection...");
+     await connectDB.destroy(); 
+     console.log("Database connection closed.");
+  } catch (error) {
+     console.error("Error closing database connection:", error);
+  }
+ };
+
+
+process.on("SIGINT", () => {
+  console.log("Received SIGINT. Shutting down...");
+  closeDBConnection().then(() => process.exit());
+ });
+ 
+ process.on("SIGTERM", () => {
+  console.log("Received SIGTERM. Shutting down...");
+  closeDBConnection().then(() => process.exit());
+ });
+

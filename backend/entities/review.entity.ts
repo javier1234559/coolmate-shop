@@ -13,10 +13,10 @@ export class Review {
   @ManyToOne(() => Product, (product) => product.reviews)
   product: Product;
 
-  @Column()
+  @Column('nvarchar')
   name: string;
 
-  @Column()
+  @Column('text')
   comment: string;
 
   @Column('double')

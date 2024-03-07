@@ -26,14 +26,14 @@ const CardProduct = ({ imageSrc, stars, isNew, colorTags, productName, price, di
       </div>
       <div className="details">
         <div className="color-tags">
-          {colorTags.map((tag) => (
+          {/* {colorTags?.map((tag) => (
             <span key={tag.id}
               style={{ backgroundColor: tag.hexcolor }} 
               className={`color-tag ${selectedColor === tag.id ? 'selected' : ''}`}
               onClick={() => handleColorTagClick(tag)}
               >
             </span>
-          ))}
+          ))} */}
         </div>
         <div className="product-name">{productName}</div>
         <div className="price">
@@ -55,7 +55,7 @@ CardProduct.propTypes = {
       hexcolor: PropTypes.string.isRequired,
       colorName: PropTypes.string.isRequired,
     })
-  ).isRequired,
+  ),
   productName: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   discountedPrice: PropTypes.number.isRequired,

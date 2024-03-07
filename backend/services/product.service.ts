@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Color, Product, ProductColorSize, Size } from "../entities/product.entity";
 import connectDB from "../database/data-source";
 import { FindManyOptions, Like } from "typeorm";
+import { group } from "console";
 
 class ProductService {
 
@@ -9,6 +10,7 @@ class ProductService {
   static productColorSizeRepository = connectDB.getRepository(ProductColorSize);
   static colorRepository = connectDB.getRepository(Color);
   static sizeRepository = connectDB.getRepository(Size);
+
 
   static getProducts = async (_req: Request, res: Response) => {
     const page = parseInt(_req.query.page as string) || 1;
@@ -38,25 +40,70 @@ class ProductService {
     }
     try {
       const [products, total] = await this.productRepository.findAndCount(condition);
-      return res.status(200).json({ products, total });
+      const productDTOs = products.map((product: Product) => ({
+        id: product.id,
+        imageSrc: product.media[0]?.media_url,
+        stars: product?.reviews?.length,
+        isNew: true,
+        colorTags: product.colorSizes[0]?.color,
+        productName: product.name,
+        price: product.price * 0.2,
+        discountedPrice: product.price,
+      }));
+
+      // const responseDTO = new GetProductsResponseDTO(productDTOs, total);
+
+      return res.status(200).json(productDTOs);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
 
   };
 
+  static getProductById = async (_req: Request, res: Response) => {
+    //get id in path /products/:id
+    const { id } = _req.params;
+
+    if (!id || isNaN(parseInt(id))) { //check null and valid int
+      return res.status(404).json({ message: `Product with path ${id} is not valid` });
+    }
+
+    const product = await this.productRepository.findOne({
+      where: { id: parseInt(id) },
+      cache: true,
+    });
+
+    if (product) {
+      return res.status(200).json({
+        message: `Product with id = ${id}`,
+        data: product
+      })
+    } else {
+      return res.status(404).json({
+        message: `Product with id = ${id} is not found`,
+      });
+    }
+
+  }
+
   static getBestSellerProduct = async (_req: Request, res: Response) => {
-    // const condition = {
-    //   relations: {
-    //     review: true,
-    //     order: true
-    //   },
-    //   order: {
-    //     name: "DESC"
-    //   },
-    //   take: 10,
-    // };
-    // const bestSellerProduct = this.productRepository.find(condition);
+    try {
+      const bestSellers = await this.productRepository
+        .createQueryBuilder('product')
+        .leftJoinAndSelect('product.orderItems', 'orderItem')
+        .select(['product.id', 'product.name', 'SUM(orderItem.quantity) AS totalQuantity'])
+        .groupBy('product.id')
+        .orderBy('totalQuantity', 'DESC')
+        .getRawMany();
+
+      return res.status(200).json({
+        message: 'Best-selling products',
+        data: bestSellers,
+      });
+    } catch (error) {
+      console.error('Error fetching best-selling products', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
   }
 
   //getLastProduct

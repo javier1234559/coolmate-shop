@@ -1,4 +1,4 @@
-// import path from "path";
+import cors from "cors";
 import config from "./config/config";
 import connectDB from "./database/data-source";
 import express, { Express } from "express";
@@ -35,7 +35,7 @@ connectDB
 const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
+app.use(cors());// Enable CORS middleware
 // // // 3. Define middleware (authen(), validate() ,...)
 app.use('/api/health',(req,res)=>{
     res.send('It work !!');

@@ -1,9 +1,7 @@
 import "reflect-metadata";
-import { DataSource, FindOneOptions } from "typeorm";
 import { Product, ProductColorSize, Size, Color, ProductMedia } from "../entities/product.entity";
 import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
-import config from "../config/config";
 import { products, categories, colors, sizes, productMedia, collections, productColorSizes } from "./data";
 import connectDB from "./data-source";
 
@@ -36,11 +34,20 @@ async function seeder() {
     await colorRepository.save(colorsData);
 
     const productsData: Product[] = productRepository.create(products);
-    for (const product of productsData) {
+    for (const [index, product] of productsData.entries()) {
       const category = await categoryRepository.findOne({ where: { id: 1 } });
+      const media = await productMediaRepository.save(productMedia[index]);
+
+      // Initialize product.media as an empty array if it's undefined
+      product.media = product.media || [];
+
+      // Push the media object into the array
+      product.media.push(media);
+
       if (category) {
         product.category = category;
       }
+
       await productRepository.save(product);
     }
 

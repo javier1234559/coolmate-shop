@@ -14,13 +14,13 @@ productController
 //   .route("/:id/reviews")
 //   .post(protect, checkObjectId, ProductService.createProductReview);
 // productController.get("/top", ProductService.getTopProducts);
-// productController
-//   .route("/:id")
-//   .get(checkObjectId, ProductService.getProductById)
+productController
+  .route("/getbestseller")
+  .get(ProductService.getBestSellerProduct);
+productController
+  .route("/:id")
+  .get(ProductService.getProductById)
 //   .put(protect, admin, checkObjectId, ProductService.updateProduct)
 //   .delete(protect, admin, checkObjectId, ProductService.deleteProduct);
-// productController
-//   .route("/:id/recommend")
-//   .get(checkObjectId, ProductService.getListRecommendProduct);
 
 export default productController;

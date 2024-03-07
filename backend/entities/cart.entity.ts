@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, OneToMany, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm";
 import { Product } from "./product.entity";
 import { User } from "./user.entity";
 
@@ -13,7 +13,7 @@ export class Cart {
   @Column('double')
   totalprice: number;
 
-  @OneToMany(() => CartItem, (item) => item.cart)
+  @OneToMany(() => CartItem, (item) => item.cart, { cascade: true, eager: true })
   items: CartItem[];
 
   @CreateDateColumn({ type: 'timestamp' })
@@ -31,10 +31,18 @@ export class CartItem {
   @ManyToOne(() => Cart, (cart) => cart.items)
   cart: Cart;
 
-  @ManyToOne(() => Product, (product) => product.cartItems)
+  @ManyToOne(() => Product, (product) => product.cartItems, { eager: true })
   product: Product;
 
-  @Column()
+  @Column('nvarchar')
+  image: string;
+
+  @Column('int')
   quantity: number;
 
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  modified_at: Date;
 }

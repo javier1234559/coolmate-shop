@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Category } from './category.entity';
 import { Collection } from './collection.entity';
 import { CartItem } from './cart.entity';
 import { Review } from './review.entity';
+import { OrderItem } from './order.entity';
 
 @Entity()
 export class Product {
@@ -42,14 +43,17 @@ export class Product {
   @ManyToMany(() => Collection, (collection) => collection.products, { nullable: true })
   collections: Collection[];
 
-  @OneToMany(() => ProductMedia, (media) => media.product, { cascade: true })
+  @OneToMany(() => ProductMedia, (media) => media.product, { cascade: true, eager: true })
   media: ProductMedia[];
 
-  @OneToMany(() => ProductColorSize, (pcs) => pcs.product, { cascade: true, nullable: true })
+  @OneToMany(() => ProductColorSize, (pcs) => pcs.product, { nullable: true, eager: true })
   colorSizes: ProductColorSize[];
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.product,{ nullable: true })
-  cartItems: CartItem[]
+  @OneToOne(() => CartItem, (cartItem) => cartItem.product, { nullable: true })
+  cartItems: CartItem[];
+
+  @OneToOne(() => CartItem, (cartItem) => cartItem.product, { nullable: true })
+  orderItems: OrderItem[];
 
   @OneToMany(() => Review, (review) => review.product, { nullable: true })
   reviews: Review[]
@@ -115,9 +119,9 @@ export class ProductColorSize {
   @ManyToOne(() => Product, (product) => product.colorSizes, { cascade: true })
   product: Product;
 
-  @ManyToOne(() => Color, (color) => color.colorSizes, { cascade: true })
+  @ManyToOne(() => Color, (color) => color.colorSizes, { cascade: true, eager: true })
   color: Color;
 
-  @ManyToOne(() => Size, (size) => size.colorSizes, { cascade: true })
+  @ManyToOne(() => Size, (size) => size.colorSizes, { cascade: true, eager: true })
   size: Size;
 }

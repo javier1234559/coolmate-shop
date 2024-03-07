@@ -50,19 +50,19 @@ export class UserAddress {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('nvarchar')
   address: string;
 
-  @Column()
+  @Column('nvarchar')
   city: string;
 
-  @Column()
+  @Column('nvarchar')
   district: string;
 
-  @Column()
+  @Column('nvarchar')
   commune: string;
 
-  @Column()
+  @Column('varchar')
   phone: string;
 
   @ManyToOne(() => User, (user) => user.addresses)
@@ -75,10 +75,10 @@ export class UserPayment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column('varchar')
   payment_type: string;
 
-  @Column()
+  @Column('varchar')
   provider: string;
 
   @ManyToOne(() => User, (user) => user.payments)

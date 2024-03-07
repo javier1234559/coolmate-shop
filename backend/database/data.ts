@@ -24,12 +24,10 @@ export const products = [
 
 export const productMedia = [
   {
-    product_id: 1,
     media_type: 'image',
     media_url: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg"
   },
   {
-    product_id: 1,
     media_type: 'image',
     media_url: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/photic3d.4.jpg"
   }

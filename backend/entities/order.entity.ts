@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn, JoinColumn, OneToOne } from 'typeorm';
 import { User } from './user.entity';
+import { Product } from './product.entity';
 
 @Entity()
 export class Order {
@@ -19,7 +20,7 @@ export class Order {
   @JoinColumn()
   paymentResult: PaymentResult;
 
-  @OneToMany(() => OrderItem, (item) => item.order, { nullable: true })
+  @OneToMany(() => OrderItem, (item) => item.order, { nullable: true, cascade: true })
   items: OrderItem[];
 
   @Column('double')
@@ -34,13 +35,13 @@ export class Order {
   @Column('double')
   totalPrice: number;
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: true })
   isPaid: boolean;
 
   @Column({ type: 'timestamp', nullable: true })
   paidAt: Date;
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: true })
   isDelivered: boolean;
 
   @Column({ type: 'timestamp', nullable: true })
@@ -62,16 +63,13 @@ export class OrderItem {
   order: Order;
 
   @Column('nvarchar')
-  name: string;
+  image: string;
 
   @Column('int')
   quantity: number;
 
-  @Column('nvarchar')
-  image: string;
-
-  @Column('nvarchar')
-  productid: string;
+  @OneToMany(() => Product, (product) => product.orderItems, { eager: true })
+  product: Product;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;

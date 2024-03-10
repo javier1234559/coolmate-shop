@@ -37,6 +37,11 @@ li {
   margin: 0 auto;
 }
 
-.ml-4{
+.ml-4 {
   margin-left: 1.5rem;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
 }

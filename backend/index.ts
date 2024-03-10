@@ -6,6 +6,7 @@ import express, { Express } from "express";
 // dotenv.config();
 // import cookieParser from "cookie-parser";
 import productController from "./controller/product.controller";
+import collectionController from "./controller/collection.controler";
 // import userRoutes from "./routes/userRoutes";
 // import orderRoutes from "./routes/orderRoutes";
 // import uploadRoutes from "./routes/uploadRoutes";
@@ -43,6 +44,7 @@ app.use('/api/health',(req,res)=>{
 
 // // // 4  Define router and errorHandler
 app.use("/api/products", productController);
+app.use("/api/collections", collectionController);
 // app.use("/api/users", userRoutes);
 // app.use("/api/orders", orderRoutes);
 // app.use("/api/upload", uploadRoutes);

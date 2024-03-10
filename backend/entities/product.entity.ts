@@ -25,6 +25,9 @@ export class Product {
   @Column('float')
   rating: number;
 
+  @Column('varchar', { length: 255, unique: true })
+  slug: string;
+
   @Column('int')
   numReviews: number;
 

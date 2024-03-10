@@ -2,10 +2,8 @@ import { Request, Response } from "express";
 import { Color, Product, ProductColorSize, Size } from "../entities/product.entity";
 import connectDB from "../database/data-source";
 import { FindManyOptions, Like } from "typeorm";
-import { group } from "console";
 
 class ProductService {
-
   static productRepository = connectDB.getRepository(Product);
   static productColorSizeRepository = connectDB.getRepository(ProductColorSize);
   static colorRepository = connectDB.getRepository(Color);
@@ -18,42 +16,38 @@ class ProductService {
     const keyword = _req.query.keyword as string;
     const skip = (page - 1) * pageSize;
 
-    let condition: FindManyOptions<Product>;
-    if (keyword === undefined) {
-      // If keyword is not provided, select all products
-      condition = {
-        relations: ['category'],
-        take: pageSize,
-        skip: skip,
-      };
-    } else {
-      // If keyword is provided, filter products based on the keyword
-      condition = {
-        relations: ['category'],
-        where: [
+    const condition: FindManyOptions<Product> = {
+      relations: ['category'],
+      take: pageSize,
+      skip: skip,
+      where: keyword
+        ? [
           { name: Like('%' + keyword + '%') },
           { category: { name: Like('%' + keyword + '%') } },
-        ],
-        take: pageSize,
-        skip: skip,
-      };
-    }
+        ]
+        : undefined,
+        cache: true,
+    };
+
     try {
       const [products, total] = await this.productRepository.findAndCount(condition);
-      const productDTOs = products.map((product: Product) => ({
-        id: product.id,
-        imageSrc: product.media[0]?.media_url,
-        stars: product?.reviews?.length,
-        isNew: true,
-        colorTags: product.colorSizes[0]?.color,
-        productName: product.name,
-        price: product.price * 0.2,
-        discountedPrice: product.price,
-      }));
+      // const productDTOs = products.map((product: Product) => ({
+      //   id: product.id,
+      //   imageSrc: product.media[0]?.media_url,
+      //   stars: product?.reviews?.length,
+      //   isNew: true,
+      //   colorTags: product.colorSizes[0]?.color,
+      //   productName: product.name,
+      //   price: product.price * 0.2,
+      //   discountedPrice: product.price,
+      // }));
 
       // const responseDTO = new GetProductsResponseDTO(productDTOs, total);
 
-      return res.status(200).json(productDTOs);
+      return res.status(200).json({
+        message: 'List of products',
+        data: products
+      });
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
@@ -61,10 +55,9 @@ class ProductService {
   };
 
   static getProductById = async (_req: Request, res: Response) => {
-    //get id in path /products/:id
     const { id } = _req.params;
 
-    if (!id || isNaN(parseInt(id))) { //check null and valid int
+    if (!id || isNaN(parseInt(id))) {
       return res.status(404).json({ message: `Product with path ${id} is not valid` });
     }
 
@@ -90,11 +83,19 @@ class ProductService {
     try {
       const bestSellers = await this.productRepository
         .createQueryBuilder('product')
-        .leftJoinAndSelect('product.orderItems', 'orderItem')
-        .select(['product.id', 'product.name', 'SUM(orderItem.quantity) AS totalQuantity'])
-        .groupBy('product.id')
+        .leftJoin('product.orderItems', 'orderItem')
+        .leftJoinAndSelect('product.category', 'category')
+        .leftJoinAndSelect('product.media', 'media')
+        .leftJoinAndSelect('product.colorSizes', 'colorSizes')
+        .leftJoinAndSelect('colorSizes.color', 'color')  
+        .leftJoinAndSelect('colorSizes.size', 'size')
+        .addSelect([
+          'SUM(orderItem.quantity) AS totalQuantity'
+        ])
+        .groupBy('product.id, category.id, media.id, colorSizes.id, color.id, size.id')
         .orderBy('totalQuantity', 'DESC')
-        .getRawMany();
+        .getMany();
+
 
       return res.status(200).json({
         message: 'Best-selling products',
@@ -106,10 +107,26 @@ class ProductService {
     }
   }
 
-  //getLastProduct
+  static getLastestProduct = async (_req: Request, res: Response) => {
+    try {
+      const limit = parseInt(_req.query.limit as string) || 10;
 
-  //getTopCollections
+      const lastProducts = await this.productRepository.find({
+        order: {
+          created_at: 'DESC'
+        },
+        take: limit,
+      });
 
+      return res.status(200).json({
+        message: 'Last products',
+        data: lastProducts
+      });
+    } catch (error) {
+      console.error('Error fetching last products', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
 
   //create new Product
   // static createProductWithColorSize = async (_req: Request, res: Response) => {

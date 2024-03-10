@@ -4,117 +4,75 @@ import CardProduct from '~/components/CardProduct/CardProduct';
 import './Home.css';
 import { useState, useEffect } from 'react';
 import productApi from '~/services/productApi';
+import collectionApi from '~/services/collectionApi';
 import Skeleton from '~/components/Skeleton/Skeleton';
+import { carousel_images } from '~/mockdata';
 
 function Home() {
+  const [carouselImages, setCarouselImages] = useState(carousel_images);
   const [products, setProducts] = useState([]);
-  const [isloading, setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
-  // const products = [
-  //   {
-  //     id: 1,
-  //     imageSrc: 'https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/November2023/23CMAW.QD004.z.14_47.jpg',
-  //     stars: 4.5,
-  //     isNew: true,
-  //     colorTags: [
-  //       { id: 1, hexcolor: '#882e46', colorName: 'Purple' },
-  //       { id: 2, hexcolor: '#36729c', colorName: 'Blue' },
-  //     ],
-  //     productName: 'Quần Dài Nam Chạy Bộ Fast & Free',
-  //     price: '199.000',
-  //     discountedPrice: '99.000',
-  //   },
-  //   {
-  //     id: 2,
-  //     imageSrc: 'https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/November2023/23CMAW.QD004.z.14_47.jpg',
-  //     stars: 4.5,
-  //     isNew: true,
-  //     colorTags: [
-  //       { id: 1, hexcolor: '#882e46', colorName: 'Purple' },
-  //       { id: 2, hexcolor: '#36729c', colorName: 'Blue' },
-  //     ],
-  //     productName: 'Quần Dài Nam Chạy Bộ Fast & Free',
-  //     price: '199.000',
-  //     discountedPrice: '99.000',
-  //   },
-  //   {
-  //     id: 3,
-  //     imageSrc: 'https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/November2023/23CMAW.QD004.z.14_47.jpg',
-  //     stars: 4.5,
-  //     isNew: true,
-  //     colorTags: [
-  //       { id: 1, hexcolor: '#882e46', colorName: 'Purple' },
-  //       { id: 2, hexcolor: '#36729c', colorName: 'Blue' },
-  //     ],
-  //     productName: 'Quần Dài Nam Chạy Bộ Fast & Free',
-  //     price: '199.000',
-  //     discountedPrice: '99.000',
-  //   },
-  //   {
-  //     id: 4,
-  //     imageSrc: 'https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/November2023/23CMAW.QD004.z.14_47.jpg',
-  //     stars: 4.5,
-  //     isNew: true,
-  //     colorTags: [
-  //       { id: 1, hexcolor: '#882e46', colorName: 'Purple' },
-  //       { id: 2, hexcolor: '#36729c', colorName: 'Blue' },
-  //     ],
-  //     productName: 'Quần Dài Nam Chạy Bộ Fast & Free',
-  //     price: '199.000',
-  //     discountedPrice: '99.000',
-  //   },
-  //   {
-  //     id: 5,
-  //     imageSrc: 'https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/November2023/23CMAW.QD004.z.14_47.jpg',
-  //     stars: 4.5,
-  //     isNew: true,
-  //     colorTags: [
-  //       { id: 1, hexcolor: '#882e46', colorName: 'Purple' },
-  //       { id: 2, hexcolor: '#36729c', colorName: 'Blue' },
-  //     ],
-  //     productName: 'Quần Dài Nam Chạy Bộ Fast & Free',
-  //     price: '199.000',
-  //     discountedPrice: '99.000',
-  //   },
-  // ];
+  const fetchTopCollections = async () => {
+    try {
+      const response = await collectionApi.getTopCollection();
+      console.log(response);
+      const images = response?.data?.map((collection) => ({
+        id: collection.id,
+        image: collection.imageSrc,
+      }));
+
+      setCarouselImages(images);
+    } catch (error) {
+      console.log('Failed to fetch products: ', error);
+    }
+  };
+
+  const fetchLastestProducts = async () => {
+    try {
+      const response = await productApi.getProduct();
+      console.log(response);
+      setProducts(response?.data);
+    } catch (error) {
+      console.log('Failed to fetch products: ', error);
+    }
+  };
+
+  const fetchBestSellingProducts = async () => {
+    try {
+      const response = await productApi.getBestSellerProduct();
+      console.log(response);
+      setProducts(response?.data);
+    } catch (error) {
+      console.log('Failed to fetch products: ', error);
+    }
+  };
 
   useEffect(() => {
-    setisLoading(true);
-    productApi.getProduct().then((dataResponse) => {
-      setProducts(dataResponse);
-      console.log(dataResponse);
-      setisLoading(false);
-    });
-  }, []);
+    Promise.all([fetchTopCollections(), fetchLastestProducts()])
+      .then(() => setisLoading(false))
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setisLoading(false);
+      });
+  }, [isLoading]);
 
   return (
     <>
       <div>
-        <Carousel />
+        <Carousel images={carouselImages} />
       </div>
       <div className="content-container container">
         <h1 className="content-title">Bạn đang muốn tìm gì?</h1>
         <div>
-          <Button variant="black">Sản phẩm mới nhất</Button>
-          <Button variant="white" className="ml-4">
+          <Button variant="black" onClick={fetchLastestProducts}>
+            Sản phẩm mới nhất
+          </Button>
+          <Button variant="white" onClick={fetchBestSellingProducts} className="ml-4">
             Sản phẩm bán chạy
           </Button>
         </div>
-        <div className="product-list">
-          {isloading ? 
-          (<Skeleton />) :
-           (products?.map((product) => (
-            <CardProduct key={product.id}
-             imageSrc={product.imageSrc} 
-             stars={product.stars} 
-             isNew={product.isNew} 
-             colorTags={product.colorTags} 
-             productName={product.productName} 
-             price={product.price} 
-             discountedPrice={product.discountedPrice} 
-             />
-          )))}
-        </div>
+        <div className="product-list">{isLoading ? <Skeleton /> : products?.map((product) => <CardProduct key={product?.id} product={product} />)}</div>
       </div>
     </>
   );

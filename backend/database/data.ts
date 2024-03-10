@@ -4,18 +4,20 @@ export const products = [
     seller_id: 1,
     name: 'Áo Thun Nam Chạy Bộ Graphic Photic Zone',
     brand: 'Coolmate',
-    description: 'Description for T-Shirt',
+    description: 'Description for Áo Thun Nam Chạy Bộ Graphic Photic Zone',
     rating: 4.5,
+    slug: 'ao-thun-nam-chay-bo-graphic-photic-zone',
     numReviews: 10,
     price: 189.000,
     category_id: 1,
   },
   {
     seller_id: 2,
-    name: 'Pants 1',
+    name: 'Áo Thun Nam Thể Thao V1',
     brand: 'Brand B',
-    description: 'Description for Pants 1',
+    description: 'Description for Áo Thun Nam Thể Thao V1',
     rating: 4.0,
+    slug: 'ao-thun-nam-the-thao-v1',
     numReviews: 8,
     price: 49.99,
     category_id: 1,
@@ -63,7 +65,7 @@ export const categories = [
 
 export const collections = [
   {
-    product_ids : [1, 2],
+    product_ids: [1, 2],
     title: 'Summer Collection',
     description: 'Summer Collection description',
     slug: 'summer-collection',
@@ -71,7 +73,7 @@ export const collections = [
     thumbnail_image: 'https://media.coolmate.me/cdn-cgi/image/width=1800,height=1200,quality=80,format=auto/uploads/February2024/mceclip6_85.png'
   },
   {
-    product_ids : [1],
+    product_ids: [1],
     title: 'Tet Collection',
     description: 'Tet Collection description',
     slug: 'tet-collection',
@@ -79,3 +81,4 @@ export const collections = [
     thumbnail_image: 'https://mcdn.coolmate.me/image/January2024/mceclip1_83.jpg'
   },
 ]
+

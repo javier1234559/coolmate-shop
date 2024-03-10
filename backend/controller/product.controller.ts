@@ -15,8 +15,11 @@ productController
 //   .post(protect, checkObjectId, ProductService.createProductReview);
 // productController.get("/top", ProductService.getTopProducts);
 productController
-  .route("/getbestseller")
+  .route("/best-seller")
   .get(ProductService.getBestSellerProduct);
+productController
+  .route("/latest")
+  .get(ProductService.getLastestProduct);
 productController
   .route("/:id")
   .get(ProductService.getProductById)

@@ -15,7 +15,7 @@ const navigations = [
   {
     id: 2,
     name: 'Sản phẩm',
-    link: '/products',
+    link: '/products',  
   },
   {
     id: 3,

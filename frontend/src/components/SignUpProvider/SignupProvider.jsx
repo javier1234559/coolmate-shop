@@ -1,4 +1,5 @@
 import { API_URL } from '~/constants';
+import './SignupProvider.css';
 import { GoogleLogo ,FacebookLogo } from 'phosphor-react';
 
 const SignupProvider = () => {

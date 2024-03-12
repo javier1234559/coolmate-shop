@@ -1,0 +1,104 @@
+
+.signup-form {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 20px;
+}
+
+
+.form-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items:start;
+}
+
+.form-col {
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.form-group {
+  margin: 20px 0px;
+  max-width: 100%;
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-container {
+  position: relative;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.error {
+  border-color: #ff0000;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.signup-col {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-top: 20px;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;
+}
+
+.button {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.button.black {
+  background-color: #000;
+  color: #fff;
+}
+
+.button.white {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+.forgot-password-link {
+  text-decoration: none;
+  font-size: 12px;
+  color: #555;
+  margin-top: 10px;
+  display: block;
+}

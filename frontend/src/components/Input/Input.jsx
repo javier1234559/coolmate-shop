@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-
+import './Input.css';
 import ReactStars from 'react-rating-stars-component';
 import PropTypes from 'prop-types';
 

@@ -1,0 +1,47 @@
+.signup-provider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-btn,
+.facebook-btn {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 240px;
+  box-sizing: border-box;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.google-btn:hover,
+.facebook-btn:hover {
+  background-color: #f8f8f8;
+  border-color: #aaa;
+}
+
+.google-btn .btn-text,
+.facebook-btn .btn-text {
+  margin-left: 10px;
+}
+
+.google-btn .btn-text {
+  font-size: 14px;
+  color: #323232;
+}
+
+.facebook-btn .btn-text {
+  font-size: 14px;
+  color: #323232;
+}
+
+.google-btn .google-logo,
+.facebook-btn .facebook-logo {
+  margin-right: 10px;
+}

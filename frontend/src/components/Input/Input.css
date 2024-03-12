@@ -1,0 +1,53 @@
+.input-box {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.input-box label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-box input,
+.input-box textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.input-box input:focus,
+.input-box textarea:focus {
+  border-color: #007bff; /* Customize the focus border color as needed */
+  outline: none;
+}
+
+.invalid-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.input-text-block {
+  position: relative;
+}
+
+.inline-btn-box {
+  display: flex;
+  align-items: center;
+}
+
+.input-number {
+  width: calc(100% - 40px); /* Adjust the width for the inline button */
+}
+
+.input-text {
+  width: 100%;
+}
+
+/* Add additional styles for stars component if needed */

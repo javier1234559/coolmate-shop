@@ -5,6 +5,10 @@ create DATABASE coolmatedb;
 ALTER DATABASE coolmatedb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 -- ALTER TABLE product CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
+
+Seed data to database move to backend folder 
+
+
 docker compose
 ```yml
 mysql:

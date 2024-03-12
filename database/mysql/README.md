@@ -14,4 +14,9 @@ MYSQL_USER: user
 MYSQL_PASSWORD: password
 ```
 
+Chạy lệnh sau để tạo lại database
+```
+create DATABASE coolmatedb;
+ALTER DATABASE coolmatedb CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+```
 

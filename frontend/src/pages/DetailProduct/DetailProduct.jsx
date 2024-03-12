@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './DetailProduct.css';
 import { detail_product } from '~/mockdata';
@@ -18,6 +18,10 @@ function DetailProduct() {
   const handleColorTagClick = (tag) => {
     setSelectedColor(tag?.id);
   };
+
+  useEffect(() => {
+    setProduct(detail_product);
+  }, []);
 
   return (
     <div className="container col">

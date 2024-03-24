@@ -37,7 +37,7 @@ function DetailProduct() {
           </div>
         </div>
         <div className="product-details">
-          <h2>{product?.name}</h2>
+          <h2 className='product-title'>{product?.name}</h2>
           <div className="rating">
             {Array.from({ length: Math.floor(product?.rating) }).map((_, index) => (
               <span key={index}>&#9733;</span>
@@ -69,6 +69,7 @@ function DetailProduct() {
         </div>
       </div>
       <div className="product-description" dangerouslySetInnerHTML={{ __html: product?.description }} />
+      <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius fuga obcaecati voluptate, illum labore possimus placeat eum exercitationem, quasi officia adipisci quisquam optio tempora perferendis neque molestiae autem vitae? Unde?</div>
     </div>
   );
 }

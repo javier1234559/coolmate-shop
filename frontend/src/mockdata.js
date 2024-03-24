@@ -81,6 +81,51 @@ export const products = [
   },
 ];
 
+export const reviews = [
+  {
+    id: 1,
+    username: 'John Doe',
+    rating: 4.5,
+    review: 'Great product! I love it!',
+    created_at: '2024-03-10T08:18:17.000Z',
+  },
+  {
+    id: 2,
+    username: 'Jane Doe',
+    rating: 3.5,
+    review: 'Good product! I love it!',
+    created_at: '2024-03-10T08:18:17.000Z',
+  },
+  {
+    id: 3,
+    username: 'John Doe',
+    rating: 4.5,
+    review: 'Great product! I love it!',
+    created_at: '2024-03-10T08:18:17.000Z',
+  },
+  {
+    id: 4,
+    username: 'Jane Doe',
+    rating: 3.5,
+    review: 'Good product! I love it!',
+    created_at: '2024-03-10T08:18:17.000Z',
+  },
+  {
+    id: 5,
+    username: 'John Doe',
+    rating: 4.5,
+    review: 'Great product! I love it!',
+    created_at: '2024-03-10T08:18:17.000Z',
+  },
+  {
+    id: 6,
+    username: 'Jane Doe',
+    rating: 3.5,
+    review: 'Good product! I love it!',
+    created_at: '2024-03-10T08:18:17.000Z',
+  },
+];
+
 
 export const detail_product = {
   "id": 1,
@@ -89,8 +134,12 @@ export const detail_product = {
   "brand": "Coolmate",
   "description": `**Product Description**
 
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-  "rating": 4.5,
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  Lorem ipsum dolor sit, amet consectetur adipisicing elit. 
+  Eius fuga obcaecati voluptate, illum labore possimus placeat eum exercitationem,
+  quasi officia adipisci quisquam optio tempora perferendis neque molestiae autem vitae? Unde?
+  `,
+  "rating": 2.5,
   "slug": "ao-thun-nam-chay-bo-graphic-photic-zone",
   "numReviews": 10,
   "price": 189,
@@ -138,12 +187,12 @@ export const detail_product = {
       "quantity": 100,
       "color": {
         "id": 1,
-        "name": "Blue",
-        "hex_code": "#498ab7"
+        "name": "Green",
+        "hex_code": "#c4e456"
       },
       "size": {
         "id": 1,
-        "name": "S"
+        "name": "L"
       }
     }
   ]

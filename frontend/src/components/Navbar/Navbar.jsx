@@ -15,7 +15,7 @@ const navigations = [
   {
     id: 2,
     name: 'Sản phẩm',
-    link: '/products',  
+    link: '/products',
   },
   {
     id: 3,
@@ -83,7 +83,9 @@ function Navbar() {
           <span></span>
           <span></span>
         </div>
-        <User size={32} style={{ color: 'white' }} />
+        <NavLink to={'/login'}>
+          <User size={32} style={{ color: 'white' }} />
+        </NavLink>
         <div className="nav-secondary">
           <CartButton toggleShowCart={handletoggleShowCart} />
         </div>

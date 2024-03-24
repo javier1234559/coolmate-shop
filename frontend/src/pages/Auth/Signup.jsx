@@ -13,7 +13,7 @@ function SignUp() {
   const { signupFormData, signupChange, signup, isLoading, isSubmitting, formErrors } = useAuth();
 
   const registerLink = () => {
-    navigate('/register');
+    navigate('/login');
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,7 +102,7 @@ function SignUp() {
                 SignUp
               </Button>
               <Button variant="white" onClick={registerLink} className="ml-4">
-                Create an account
+                Already have account
               </Button>
             </div>
             <Link className="forgot-password-link" to={'/forgot-password'}>

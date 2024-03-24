@@ -2,7 +2,14 @@
   display: flex;
   justify-content: space-between;
   margin: 20px;
-  border: #333 solid 1px;
+  /* border: #333 solid 1px; */
+}
+
+@media (max-width: 768px) {
+  .product-detail {
+    flex-direction: column;
+    font-size: 0.8rem;
+  }
 }
 
 .image-preview {
@@ -43,15 +50,30 @@
   overflow: hidden;
 
   img {
+    animation: slide 1s forwards;
     max-width: 100%;
     height: auto;
   }
 }
 
+
+@keyframes slide {
+  0% {
+    transform: translateX(-30%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+
+
 .product-details {
   flex: 1;
   margin-left: 20px;
   padding: 1rem;
+
   h2 {
     font-size: 32px;
     line-height: 1.25em;
@@ -59,29 +81,46 @@
     margin-bottom: 20px;
   }
 
-  .rating {
-    margin-bottom: 10px;
 
-    span {
-      font-size: 20px;
-      color: var(--blue-color);
-    }
-  }
-  .product-title{
+
+  .product-title {
     font-size: 3rem;
     font-weight: 500;
     margin-bottom: 10px;
+  }
+
+  .price {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .color-name {
+    font-weight: normal;
+    font-size: 1.5rem;
+    margin-bottom: 1.0rem;
+
+    span {
+      font-weight: 500;
+    }
   }
 
   .color-tag {
     margin-right: .75rem;
     position: relative;
     display: inline-block;
-    padding: 1.8rem 3rem;
-    margin-bottom: 8px;
-    color: #333;
+    padding: 1.4rem 3rem;
+    margin: 5px 8px;
+    color: #000;
+    background-color: #d9d9d9;
     border-radius: 30px;
     cursor: pointer;
+
+  }
+
+  .color-tag:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+
   }
 
   .color-tag::before {
@@ -95,24 +134,44 @@
     border-radius: 30px;
     z-index: -1;
     pointer-events: none;
+    transition: border-color 0.6s, background-color 0.6s;
   }
 
   .color-tag:hover::before,
   .color-tag.selected::before {
     border-color: #000;
-    background-color: #fff;
+    background-color: #d9d9d9;
+
   }
 
   .size-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+    margin-right: .75rem;
 
     .size-option {
+      padding: 8px;
+      content: '';
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      bottom: -4px;
+      left: -4px;
+      border: 1px solid transparent;
+      border-radius: 30px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .size-option::before {
       padding: 8px;
       border: 1px solid #ddd;
       border-radius: 5px;
       cursor: pointer;
+    }
+
+    .size-option:hover::before,
+    .size-option.selected::before {
+      border-color: #000;
+      background-color: #fff;
     }
   }
 
@@ -131,9 +190,10 @@
     }
   }
 
+
+
   .add-to-cart-button {
     padding: 10px;
-    background-color: #4caf50;
     /* green */
     color: #fff;
     border: none;
@@ -146,9 +206,80 @@
 .product-description {
   flex: 1;
   margin-left: 20px;
+  margin-bottom: 2rem;
+  line-height: 2rem;
 
   h2,
   p {
+
     margin-bottom: 10px;
   }
+}
+
+.quantity-input {
+  margin-top: 2rem;
+  display: inline-flex;
+  align-items: center;
+
+  .quantity-controls {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.6s ease-in-out,
+
+  }
+
+
+  .quantity-controls:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+
+  input[type="number"] {
+    height: 35px;
+    padding: 5px;
+    border: none;
+    background-color: var(--primary-background);
+    border-radius: 5px;
+    outline: none;
+  }
+
+  input[type="number"]:focus {
+    outline: none;
+  }
+
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+
+  button {
+    width: 35px;
+    height: 35px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+  }
+
+  .decrease,
+  .increase {
+    font-weight: bold;
+  }
+
+}
+
+.add-to-cart-btn {
+  flex: 1;
+  margin: 2rem;
+  border-radius: 10px;
+  color: var(--secondary-text);
+  background-color: var(--secondary-background);
+  transition: box-shadow 0.6s ease-in-out, background-color 0.8 ease-in-out, color 0.8 ease-in-out;
+}
+
+.add-to-cart-btn:hover {
+  color: var(--primary-color);
+  background-color: var(--primary-color);
 }

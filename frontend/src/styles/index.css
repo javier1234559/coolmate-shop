@@ -23,7 +23,7 @@
 }
 
 body {
-  /* background-color: var(--primary-background); */
+  background-color: #eeeae3;
 }
 
 a {
@@ -47,4 +47,8 @@ li {
 .col {
   display: flex;
   flex-direction: column;
+}
+.row{
+  display: flex;
+  flex-wrap: wrap;
 }

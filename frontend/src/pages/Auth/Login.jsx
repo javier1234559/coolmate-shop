@@ -13,7 +13,7 @@ function Login() {
   const { loginFormData, loginChange, login, isLoading, isSubmitting, formErrors } = useAuth();
 
   const registerLink = () => {
-    navigate('/register');
+    navigate('/signup');
   };
   const handleSubmit = (e) => {
     e.preventDefault();

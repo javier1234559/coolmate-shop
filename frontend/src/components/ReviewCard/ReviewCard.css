@@ -1,0 +1,31 @@
+.review-card {
+  background-color: #ffffff; /* Background color */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+  padding: 20px;
+  margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+.rating-stars {
+  font-size: 24px; /* Adjust size of stars */
+  margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.product-type {
+  opacity: 0.8; /* Opacity */
+  margin-bottom: 5px; /* Adjust margin as needed */
+}
+
+.user-name {
+  font-weight: bold; /* Bold font */
+  margin-bottom: 5px; /* Adjust margin as needed */
+}
+
+.comment {
+  margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.review-date {
+  font-size: 14px; /* Adjust size */
+  color: #999999; /* Color */
+}

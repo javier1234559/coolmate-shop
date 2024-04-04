@@ -3,9 +3,9 @@ import { useMany } from '@refinedev/core';
 import { usePermissions } from '@refinedev/core';
 import { Table, Space } from 'antd';
 
-export const ProductList = () => {
+export const UserList = () => {
   const { data: permissionsData } = usePermissions();
-  const { tableProps } = useTable({ resource: 'products' });
+  const { tableProps } = useTable({ resource: 'users' });
 
   console.log(tableProps);
   const categoryIds = tableProps?.dataSource?.map((item) => item.category.id) ?? [];
@@ -19,7 +19,7 @@ export const ProductList = () => {
   });
 
   return (
-    <List title="Here's a product manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'medium' }}>
+    <List title="Here's a user manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'medium' }}>
       <Table {...tableProps} rowKey="id">
         <Table.Column
           dataIndex="id"

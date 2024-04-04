@@ -4,8 +4,8 @@ import { Product } from './product.entity';
 
 @Entity()
 export class Order {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User;
@@ -16,7 +16,11 @@ export class Order {
   @Column('nvarchar')
   paymentMethod: string;
 
-  @OneToOne(() => PaymentResult, (paymentResult) => paymentResult.order, { cascade: true })
+  @OneToOne(() => DeliveryDetail, { cascade: true })
+  @JoinColumn()
+  deliveryDetail: DeliveryDetail;
+
+  @OneToOne(() => PaymentResult, { cascade: true })
   @JoinColumn()
   paymentResult: PaymentResult;
 
@@ -80,21 +84,36 @@ export class OrderItem {
 
 @Entity()
 export class PaymentResult {
-  @PrimaryGeneratedColumn('uuid')
+  // @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column('nvarchar')
   status: string;
 
-  @Column('datetime')
-  update_time: string;
+  @Column('nvarchar')
+  payment_type: string;
 
   @Column('varchar')
-  email_address: string;
+  provider: string;
 
-  @OneToOne(() => Order, (order) => order.paymentResult)
-  @JoinColumn()
-  order: Order;
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  modified_at: Date;
+}
+
+@Entity()
+export class DeliveryDetail {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column('nvarchar')
+  status: string;
+
+  @Column('datetime')
+  updateTime: Date;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;

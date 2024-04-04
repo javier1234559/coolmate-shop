@@ -9,6 +9,9 @@ export class User {
   id: number;
 
   @Column('nvarchar')
+  avatar_img: string;
+
+  @Column('nvarchar')
   name: string;
 
   @Column('nvarchar', { unique: true })

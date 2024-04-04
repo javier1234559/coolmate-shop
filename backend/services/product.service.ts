@@ -11,8 +11,9 @@ class ProductService {
 
 
   static getProducts = async (_req: Request, res: Response) => {
-    const page = parseInt(_req.query.page as string) || 1;
-    const pageSize = parseInt(_req.query.pageSize as string) || 10;
+    console.log(_req.query)
+    const page = parseInt(_req.query._start as string) || 1;
+    const pageSize = parseInt(_req.query._end as string) || 10;
     const keyword = _req.query.keyword as string;
     const skip = (page - 1) * pageSize;
 
@@ -26,39 +27,23 @@ class ProductService {
           { category: { name: Like('%' + keyword + '%') } },
         ]
         : undefined,
-        cache: true,
+      // cache: true,
     };
 
     try {
       const [products, total] = await this.productRepository.findAndCount(condition);
-      // const productDTOs = products.map((product: Product) => ({
-      //   id: product.id,
-      //   imageSrc: product.media[0]?.media_url,
-      //   stars: product?.reviews?.length,
-      //   isNew: true,
-      //   colorTags: product.colorSizes[0]?.color,
-      //   productName: product.name,
-      //   price: product.price * 0.2,
-      //   discountedPrice: product.price,
-      // }));
-
-      // const responseDTO = new GetProductsResponseDTO(productDTOs, total);
-
-      return res.status(200).json({
-        message: 'List of products',
-        data: products
-      });
+      res.status(200).json(products);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
 
   };
 
-  static getProductById = async (_req: Request, res: Response) => {
-    const { id } = _req.params;
+  static getProductById = async (req: Request, res: Response) => {
+    const { id } = req.params;
 
     if (!id || isNaN(parseInt(id))) {
-      return res.status(404).json({ message: `Product with path ${id} is not valid` });
+      return res.status(404).json({ message: `Invalid product ID: ${id}` });
     }
 
     const product = await this.productRepository.findOne({
@@ -67,16 +52,34 @@ class ProductService {
     });
 
     if (product) {
-      return res.status(200).json({
-        message: `Product with id = ${id}`,
-        data: product
-      })
+      return res.status(200).json(product);
     } else {
-      return res.status(404).json({
-        message: `Product with id = ${id} is not found`,
-      });
+      return res.status(404).json({ message: `Product with ID ${id} not found` });
+    }
+  }
+
+  static createProduct = async (_req: Request, res: Response) => {
+    const { name, price, description, category, media } = _req.body;
+    const checkUnderfine = [name, price, description, category, media]
+      .every((item) => item !== undefined);
+    if (!checkUnderfine) {
+      return res.status(400).json({ message: "Invalid input" });
     }
 
+    const product = new Product();
+    product.name = name;
+    product.price = price;
+    product.description = description;
+    product.category = category;
+    product.media = media;
+
+    try {
+      await this.productRepository.save(product);
+      return res.status(201).json(product);
+    } catch (error) {
+      console.error('Error creating product', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
   }
 
   static getBestSellerProduct = async (_req: Request, res: Response) => {
@@ -87,7 +90,7 @@ class ProductService {
         .leftJoinAndSelect('product.category', 'category')
         .leftJoinAndSelect('product.media', 'media')
         .leftJoinAndSelect('product.colorSizes', 'colorSizes')
-        .leftJoinAndSelect('colorSizes.color', 'color')  
+        .leftJoinAndSelect('colorSizes.color', 'color')
         .leftJoinAndSelect('colorSizes.size', 'size')
         .addSelect([
           'SUM(orderItem.quantity) AS totalQuantity'
@@ -128,45 +131,60 @@ class ProductService {
     }
   }
 
-  //create new Product
-  // static createProductWithColorSize = async (_req: Request, res: Response) => {
+  static updateProduct = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name, price, description, category, media } = req.body;
 
-  //   const { name, colorName, sizeName, quantity } = _req.body;
-  //   const checkUnderfine = [name, colorName, sizeName, quantity].every((item) => item !== undefined);
-  //   if (!checkUnderfine) {
-  //     return res.status(400).json({ message: "Invalid input" });
-  //   }
+    if (!id || isNaN(parseInt(id))) {
+      return res.status(404).json({ message: `Invalid product ID: ${id}` });
+    }
 
-  //   // Check if color exists, create if not
-  //   let color = await this.colorRepository.findOne({ where: { name: colorName } });
-  //   if (!color) {
-  //     color = new Color();
-  //     color.name = colorName;
-  //   }
+    const product = await this.productRepository.findOne({
+      where: { id: parseInt(id) },
+    });
 
-  //   // Check if size exists, create if not
-  //   let size = await this.sizeRepository.findOne({ where: { name: sizeName } });
-  //   if (!size) {
-  //     size = new Size();
-  //     size.name = sizeName;
-  //   }
+    if (!product) {
+      return res.status(404).json({ message: `Product with ID ${id} not found` });
+    }
 
-  //   // Create a new ProductColorSize
-  //   const productColorSize = new ProductColorSize();
-  //   productColorSize.quantity = quantity;
-  //   productColorSize.color = color;
-  //   productColorSize.size = size;
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.description = description || product.description;
+    product.category = category || product.category;
+    product.media = media || product.media;
 
-  //   // Create a new Product
-  //   const product = new Product();
-  //   product.name = name;
-  //   product.colorSizes = [productColorSize];
+    try {
+      await this.productRepository.save(product);
+      return res.status(200).json(product);
+    } catch (error) {
+      console.error('Error updating product', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
 
-  //   // Save the entities to the database
-  //   await this.productRepository.save(product);
+  static deleteProduct = async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-  //   return product;
-  // }
+    if (!id || isNaN(parseInt(id))) {
+      return res.status(404).json({ message: `Invalid product ID: ${id}` });
+    }
+
+    const product = await this.productRepository.findOne({
+      where: { id: parseInt(id) },
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: `Product with ID ${id} not found` });
+    }
+
+    try {
+      await this.productRepository.remove(product);
+      return res.status(200).json({ message: 'Product deleted' });
+    } catch (error) {
+      console.error('Error deleting product', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
 
 }
 

@@ -7,6 +7,11 @@ import express, { Express } from "express";
 // import cookieParser from "cookie-parser";
 import productController from "./controller/product.controller";
 import collectionController from "./controller/collection.controler";
+import categoryServiceController from "./controller/category.controller";
+import cartServiceController from "./controller/cart.controller";
+import orderServiceController from "./controller/order.controller";
+import userServiceController from "./controller/user.controller";
+
 // import userRoutes from "./routes/userRoutes";
 // import orderRoutes from "./routes/orderRoutes";
 // import uploadRoutes from "./routes/uploadRoutes";
@@ -26,10 +31,6 @@ import collectionController from "./controller/collection.controler";
 const port = config.port;
 connectDB
   .initialize()
-  .then(() => {
-    console.log("Database connected")
-  })
-  .catch((error) => console.log(error))
 
 
 // // 2. Base server config (config json(), config cor() ,..)
@@ -43,10 +44,14 @@ app.use('/api/health',(req,res)=>{
 })
 
 // // // 4  Define router and errorHandler
+app.use("/api/users", userServiceController);
 app.use("/api/products", productController);
 app.use("/api/collections", collectionController);
-// app.use("/api/users", userRoutes);
-// app.use("/api/orders", orderRoutes);
+app.use("/api/categories", categoryServiceController);
+app.use("/api/carts", cartServiceController);
+app.use("/api/orders", orderServiceController);
+
+
 // app.use("/api/upload", uploadRoutes);
 // app.use("/api/config", configRoutes);
 

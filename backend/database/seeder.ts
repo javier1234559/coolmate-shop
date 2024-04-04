@@ -2,94 +2,278 @@ import "reflect-metadata";
 import { Product, ProductColorSize, Size, Color, ProductMedia } from "../entities/product.entity";
 import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
-import { products, categories, colors, sizes, productMedia, collections, productColorSizes } from "./data";
+import { Cart, CartItem } from "../entities/cart.entity";
+import { Order, OrderItem, DeliveryDetail, PaymentResult } from "../entities/order.entity";
+import { User, UserAddress, UserPayment } from "../entities/user.entity";
+import { Review } from "../entities/review.entity";
+import {
+  users,
+  products, userAddresses, categories,
+  paymentResults,
+  deliveredDetails, userPayments,
+  carts, cartItems, reviews,
+  orders, orderItems,
+  colors, sizes, productMedia, collections, productColorSizes
+} from "./data";
 import connectDB from "./data-source";
+import { Repository } from "typeorm";
 
-async function seeder() {
+class DatabaseSeeder {
+  private connection: any;
+  private cartRepository: Repository<Cart>;
+  private cartItemRepository: Repository<CartItem>;
 
-  await connectDB
-    .initialize()
-    .then(() => {
-      console.log("Database connected")
-    })
-    .catch((error) => console.log(error))
+  private categoryRepository: Repository<Category>;
 
-  const productRepository = connectDB.getRepository(Product);
-  const categoryRepository = connectDB.getRepository(Category);
-  const collectionRepository = connectDB.getRepository(Collection);
-  const sizeRepository = connectDB.getRepository(Size);
-  const colorRepository = connectDB.getRepository(Color);
-  const productColorSizeRepository = connectDB.getRepository(ProductColorSize);
-  const productMediaRepository = connectDB.getRepository(ProductMedia);
+  private orderRepository: Repository<Order>;
+  private orderItemRepository: Repository<OrderItem>;
+  private paymentResultRepository: Repository<PaymentResult>;
+  private deliveryDetailRepository: Repository<DeliveryDetail>;
 
-  try {
+  private productRepository: Repository<Product>;
+  private sizeRepository: Repository<Size>;
+  private colorRepository: Repository<Color>;
+  private productColorSizeRepository: Repository<ProductColorSize>;
+  private productMediaRepository: Repository<ProductMedia>;
 
-    const sizesData: Size[] = sizeRepository.create(sizes);
-    await sizeRepository.save(sizesData);
+  private collectionRepository: Repository<Collection>;
 
-    const categoriesData = categoryRepository.create(categories);
-    await categoryRepository.save(categoriesData);
+  private userRepository: Repository<User>;
+  private userAddressRepository: Repository<UserAddress>;
+  private userPaymentRepository: Repository<UserPayment>;
 
-    const colorsData = colorRepository.create(colors);
-    await colorRepository.save(colorsData);
+  private reviewRepository: Repository<Review>;
 
-    const productsData: Product[] = productRepository.create(products);
-    for (const [index, product] of productsData.entries()) {
-      const category = await categoryRepository.findOne({ where: { id: 1 } });
-      const media = await productMediaRepository.save(productMedia[index]);
+  constructor() {
 
-      // Initialize product.media as an empty array if it's undefined
-      product.media = product.media || [];
+  }
 
-      // Push the media object into the array
-      product.media.push(media);
+  async init() {
+    try {
+      this.connection = await connectDB.initialize();
+      console.log("Database connected");
+    } catch (error) {
+      console.error("Error connecting to the database:", error);
+      throw error; // Rethrow the error to stop further execution
+    }
 
+    this.userRepository = this.connection.getRepository(User);
+    this.userAddressRepository = this.connection.getRepository(UserAddress);
+    this.userPaymentRepository = this.connection.getRepository(UserPayment);
+    this.productRepository = this.connection.getRepository(Product);
+    this.categoryRepository = this.connection.getRepository(Category);
+    this.collectionRepository = this.connection.getRepository(Collection);
+    this.sizeRepository = this.connection.getRepository(Size);
+    this.colorRepository = this.connection.getRepository(Color);
+    this.productColorSizeRepository = this.connection.getRepository(ProductColorSize);
+    this.productMediaRepository = this.connection.getRepository(ProductMedia);
+    this.cartRepository = this.connection.getRepository(Cart);
+    this.cartItemRepository = this.connection.getRepository(CartItem);
+    this.orderRepository = this.connection.getRepository(Order);
+    this.orderItemRepository = this.connection.getRepository(OrderItem);
+    this.paymentResultRepository = this.connection.getRepository(PaymentResult);
+    this.deliveryDetailRepository = this.connection.getRepository(DeliveryDetail);
+    this.reviewRepository = this.connection.getRepository(Review);
+  }
+
+
+  async seed() {
+    await this.init();
+
+    try {
+      await this.seedCategories();
+      await this.deliveredDetails();
+      await this.paymentResults();
+      await this.seedColors();
+      await this.seedSizes();
+      await this.seedUsers();
+      await this.seedUserAddresses();
+      await this.seedUserPayments();
+      await this.seedProducts();
+      await this.seedProductColorSizes();
+      await this.seedProductMedia();
+      await this.seedCollections();
+      await this.seedCarts();
+      await this.seedCarttems();
+      await this.seedOrders();
+      await this.seedOrderItems();
+      await this.seedReviews();
+
+      console.log('Seed data inserted successfully');
+    } catch (error) {
+      console.error('Error seeding data:', error);
+    } finally {
+      await this.connection.close();
+    }
+  }
+  private async seedReviews() {
+    for (const review of reviews) {
+      const user = await this.userRepository.findOne({ where: { id: review.user_id } });
+      const product = await this.productRepository.findOne({ where: { id: review.product_id } });
+      if (user && product) {
+        const reviewData = this.reviewRepository.create(review);
+        reviewData.user = user;
+        reviewData.product = product;
+        await this.reviewRepository.save(reviewData);
+      }
+    }
+  }
+  private async seedOrderItems() {
+    for (const orderItem of orderItems) {
+      const order = await this.orderRepository.findOne({ where: { id: orderItem.order_id } });
+      const product = await this.productRepository.findOne({ where: { id: orderItem.product_id } });
+      if (order && product) {
+        const orderItemData = this.orderItemRepository.create(orderItem);
+        orderItemData.order = order;
+        orderItemData.product = product;
+        this.orderItemRepository.save(orderItemData);
+      }
+    }
+  }
+  private async seedOrders() {
+    for (const order of orders) {
+      const user = await this.userRepository.findOne({ where: { id: order.user_id } });
+      const paymentResult = await this.paymentResultRepository.findOne({ where: { id: order.paymentResult_id } });
+      const deliveryDetail = await this.deliveryDetailRepository.findOne({ where: { id: order.deliveryDetail_id } });
+      if (user && paymentResult && deliveryDetail) {
+        const orderData = this.orderRepository.create(order);
+        orderData.user = user;
+        orderData.items = [];
+        orderData.deliveryDetail = deliveryDetail;
+        this.orderRepository.save(orderData);
+      }
+    }
+  }
+  private async seedCarttems() {
+    for (const cartItem of cartItems) {
+      const cart = await this.cartRepository.findOne({ where: { id: cartItem.cart_id } });
+      const product = await this.productRepository.findOne({ where: { id: cartItem.product_id } });
+      if (cart && product) {
+        const cartItemData = this.cartItemRepository.create(cartItem);
+        cartItemData.cart = cart;
+        cartItemData.product = product;
+        this.cartItemRepository.save(cartItemData);
+      }
+    }
+  }
+
+  private async seedCarts() {
+    for (const cart of carts) {
+      const user = await this.userRepository.findOne({ where: { id: cart.user_id } });
+      if (user) {
+        const cartData = this.cartRepository.create(cart);
+        cartData.user = user;
+        cartData.items = [];
+        this.cartRepository.save(cartData);
+      }
+    }
+  }
+
+
+  private async seedCategories() {
+    const categoriesData = this.categoryRepository.create(categories);
+    await this.categoryRepository.save(categoriesData);
+  }
+
+  private async deliveredDetails() {
+    const deliveredDetailsData = this.deliveryDetailRepository.create(deliveredDetails);
+    await this.deliveryDetailRepository.save(deliveredDetailsData);
+  }
+
+  private async paymentResults() {
+    const paymentResultsData = this.paymentResultRepository.create(paymentResults);
+    await this.paymentResultRepository.save(paymentResultsData);
+  }
+
+  private async seedUserAddresses() {
+    for (const userAddress of userAddresses) {
+      const user = await this.userRepository.findOne({ where: { id: userAddress.user_id } });
+      if (user) {
+        const userAddressData = this.userAddressRepository.create(userAddress);
+        userAddressData.user = user;
+        await this.userAddressRepository.save(userAddressData);
+      }
+    }
+
+  }
+
+  private async seedUserPayments() {
+    for (const userPayment of userPayments) {
+      const user = await this.userRepository.findOne({ where: { id: userPayment.user_id } });
+      if (user) {
+        const userPaymentData = this.userPaymentRepository.create(userPayment);
+        userPaymentData.user = user;
+        await this.userPaymentRepository.save(userPaymentData);
+      }
+    }
+  }
+
+  private async seedUsers() {
+    const usersData = this.userRepository.create(users);
+    await this.userRepository.save(usersData);
+  }
+
+  private async seedSizes() {
+    const sizesData = this.sizeRepository.create(sizes);
+    await this.sizeRepository.save(sizesData);
+  }
+
+  private async seedColors() {
+    const colorsData = this.colorRepository.create(colors);
+    await this.colorRepository.save(colorsData);
+  }
+
+  private async seedProducts() {
+    for (const product of products) {
+      const category = await this.categoryRepository.findOne({ where: { id: product.category_id } });
       if (category) {
-        product.category = category;
+        const productData = this.productRepository.create(product);
+        productData.category = category;
+        await this.productRepository.save(productData);
       }
-
-      await productRepository.save(product);
     }
+  }
 
-    const productColorandQuantity = productColorSizeRepository.create(productColorSizes);
-    for (const item of productColorandQuantity) {
-      const sizeId = 1;
-      const colorId = 1;
-      const productId = 1;
-
-      const sizeEntity = await sizeRepository.findOne({ where: { id: sizeId } });
-      const colorEntity = await colorRepository.findOne({ where: { id: colorId } });
-      const productEntity = await productRepository.findOne({ where: { id: productId } });
-
-      if (sizeEntity) {
-        item.size = sizeEntity;
+  private async seedProductColorSizes() {
+    for (const pcs of productColorSizes) {
+      const product = await this.productRepository.findOne({ where: { id: pcs.product_id } });
+      const color = await this.colorRepository.findOne({ where: { id: pcs.color_id } });
+      const size = await this.sizeRepository.findOne({ where: { id: pcs.size_id } });
+      if (product && color && size) {
+        const pcsData = this.productColorSizeRepository.create(pcs);
+        pcsData.product = product;
+        pcsData.color = color;
+        pcsData.size = size;
+        await this.productColorSizeRepository.save(pcsData);
       }
-      if (colorEntity) {
-        item.color = colorEntity;
-      }
-      if (productEntity) {
-        item.product = productEntity;
-      }
-      await productColorSizeRepository.save(item);
     }
+  }
 
-    const productMediaData = productMediaRepository.create(productMedia);
-    await productMediaRepository.save(productMediaData);
+  private async seedProductMedia() {
+    for (const media of productMedia) {
+      const product = await this.productRepository.findOne({ where: { id: media.product_id } });
+      if (product) {
+        const mediaData = this.productMediaRepository.create(media);
+        mediaData.product = product;
+        await this.productMediaRepository.save(mediaData);
+      }
+    }
+  }
 
-
-    // // Insert collections
-    const collectionsData = collectionRepository.create(collections);
+  private async seedCollections() {
+    const collectionsData = this.collectionRepository.create(collections);
     for (const collection of collectionsData) {
-      const products = await productRepository.find();
+      const products = await this.productRepository.find();
       collection.products = products;
-      await collectionRepository.save(collection);
+      await this.collectionRepository.save(collection);
     }
-
-
-    console.log('Seed data inserted successfully');
-  } catch (error) {
-    console.error('Error seeding data:', error);
   }
 }
+
+async function seeder() {
+  const databaseSeeder = new DatabaseSeeder();
+  await databaseSeeder.seed();
+}
+
 
 seeder();

@@ -10,7 +10,7 @@ export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('int')
+  @Column('int', { nullable: true })
   seller_id: number;
 
   @Column('text')
@@ -33,6 +33,9 @@ export class Product {
 
   @Column('float')
   price: number;
+
+  @Column({ type: 'boolean', default: true })
+  is_active: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

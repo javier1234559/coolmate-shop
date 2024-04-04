@@ -6,6 +6,9 @@ export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column('text')
+  icon: string
+
   @Column('nvarchar') 
   name: string;
 

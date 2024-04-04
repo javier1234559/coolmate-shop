@@ -1,24 +1,20 @@
-import { Edit, useForm, useSelect } from "@refinedev/antd";
+import { Create, useForm, useSelect } from "@refinedev/antd";
+
 import { Form, Input, Select } from "antd";
+
 import MDEditor from "@uiw/react-md-editor";
 
-export const ProductEdit = () => {
-  const { formProps, saveButtonProps, queryResult, autoSaveProps } =
-    useForm({
-      warnWhenUnsavedChanges: true,
-      autoSave: {
-        enabled: true,
-      },
-    });
+export const ProductCreate = () => {
+  const { formProps, saveButtonProps } = useForm({
+    warnWhenUnsavedChanges: true,
+  });
 
-  const productData = queryResult?.data?.data;
   // const { selectProps: categorySelectProps } = useSelect({
   //   resource: "categories",
-  //   defaultValue: ProductData?.category.id,
   // });
 
   return (
-    <Edit saveButtonProps={saveButtonProps} autoSaveProps={autoSaveProps}>
+    <Create saveButtonProps={saveButtonProps}>
       <Form {...formProps} layout="vertical">
         <Form.Item
           label="Title"
@@ -80,6 +76,6 @@ export const ProductEdit = () => {
           <MDEditor data-color-mode="light" />
         </Form.Item>
       </Form>
-    </Edit>
+    </Create>
   );
 };

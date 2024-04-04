@@ -7,14 +7,11 @@ export class Review {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.reviews)
+  @ManyToOne(() => User, (user) => user.reviews, { cascade: true })
   user: User;
 
-  @ManyToOne(() => Product, (product) => product.reviews)
+  @ManyToOne(() => Product, (product) => product.reviews, { cascade: true })
   product: Product;
-
-  @Column('nvarchar')
-  name: string;
 
   @Column('text')
   comment: string;

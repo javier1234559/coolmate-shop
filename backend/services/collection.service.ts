@@ -7,8 +7,8 @@ class CollectionService {
   static CollectionRepository = connectDB.getRepository(Collection);
 
   static getCollections = async (_req: Request, res: Response) => {
-    const page = parseInt(_req.query.page as string) || 1;
-    const pageSize = parseInt(_req.query.pageSize as string) || 10;
+    const page = parseInt(_req.query._start as string) || 1;
+    const pageSize = parseInt(_req.query._end as string) || 10;
     const keyword = _req.query.keyword as string;
     const skip = (page - 1) * pageSize;
 
@@ -28,10 +28,7 @@ class CollectionService {
         slug: item.slug
       }));
 
-      return res.status(200).json({
-        message: 'All collections',
-        data: CollectionDTOs,
-      });
+      return res.status(200).json(CollectionDTOs);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }

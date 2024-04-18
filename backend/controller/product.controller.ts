@@ -6,23 +6,29 @@ import { validationDto } from '../middleware/validation.middleware';
 
 const productController = express.Router();
 
-productController
-  .route("/")
-  .get(ProductService.getProducts)
+
+productController.route("/").get(ProductService.getProducts);
+productController.route("/best-seller").get(ProductService.getBestSellerProduct);
+productController.route("/latest").get(ProductService.getLastestProduct);
+productController.route("/:slug").get(ProductService.getProductBySlug);
+productController.route("/:id").get(ProductService.getProductById);
+productController.route("/:slug/reviews").get(ProductService.getReviewsBySlugProduct);
+
 //   .post(protect, admin, ProductService.createProduct);
 // productController
 //   .route("/:id/reviews")
 //   .post(protect, checkObjectId, ProductService.createProductReview);
 // productController.get("/top", ProductService.getTopProducts);
-productController
-  .route("/best-seller")
-  .get(ProductService.getBestSellerProduct);
-productController
-  .route("/latest")
-  .get(ProductService.getLastestProduct);
-productController
-  .route("/:id")
-  .get(ProductService.getProductById)
+// productController
+//   .route("/best-seller")
+//   .get(ProductService.getBestSellerProduct);
+// productController
+//   .route("/latest")
+//   .get(ProductService.getLastestProduct);
+// productController
+
+//   .route("/:id")
+//   .get(ProductService.getProductById)
 //   .put(protect, admin, checkObjectId, ProductService.updateProduct)
 //   .delete(protect, admin, checkObjectId, ProductService.deleteProduct);
 

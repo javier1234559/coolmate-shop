@@ -1,6 +1,7 @@
 import Home from './pages/Home/Home';
 import Login from './pages/Auth/Login';
 import SignUp from './pages/Auth/Signup';
+import Profile from './pages/Profile/Profile';
 import RootLayout from './pages/RootLayout';
 import DetailProduct from './pages/DetailProduct/DetailProduct';
 import { ProductList } from './refine/pages/products/list';
@@ -23,6 +24,7 @@ function App() {
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="/product/:slug" element={<DetailProduct />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
         </Route>

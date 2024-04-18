@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import { Color, Product, ProductColorSize, Size } from "../entities/product.entity";
 import connectDB from "../database/data-source";
 import { FindManyOptions, Like } from "typeorm";
+import { Review } from "../entities/review.entity";
 
 class ProductService {
   static productRepository = connectDB.getRepository(Product);
   static productColorSizeRepository = connectDB.getRepository(ProductColorSize);
   static colorRepository = connectDB.getRepository(Color);
   static sizeRepository = connectDB.getRepository(Size);
+  static reviewRepository = connectDB.getRepository(Review);
 
 
   static getProducts = async (_req: Request, res: Response) => {
@@ -38,6 +40,50 @@ class ProductService {
     }
 
   };
+
+  static getProductBySlug = async (req: Request, res: Response) => {
+    const { slug } = req.params;
+
+    if (!slug) {
+      return res.status(404).json({ message: `Invalid product slug: ${slug}` });
+    }
+
+    const product = await this.productRepository.findOne({
+      where: { slug: slug },
+      cache: true,
+    });
+
+    if (product) {
+      return res.status(200).json(product);
+    } else {
+      return res.status(404).json({ message: `Product with slug ${slug} not found` });
+    }
+  }
+
+  static getReviewsBySlugProduct = async (req: Request, res: Response) => {
+    const { slug } = req.params;
+    console.log(slug);
+    if (!slug) {
+      return res.status(404).json({ message: `Invalid product slug: ${slug}` });
+    }
+
+    const product = await this.productRepository.findOne({
+      where: { slug: slug },
+      cache: true,
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: `Product with slug ${slug} not found` });
+    }
+
+    const reviews = await this.reviewRepository.find({
+      where: { product: product },
+      cache: true,
+    });
+
+    return res.status(200).json(reviews);
+  }
+
 
   static getProductById = async (req: Request, res: Response) => {
     const { id } = req.params;
@@ -100,10 +146,7 @@ class ProductService {
         .getMany();
 
 
-      return res.status(200).json({
-        message: 'Best-selling products',
-        data: bestSellers,
-      });
+      return res.status(200).json(bestSellers);
     } catch (error) {
       console.error('Error fetching best-selling products', error);
       return res.status(500).json({ message: 'Internal Server Error' });

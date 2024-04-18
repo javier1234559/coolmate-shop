@@ -4,7 +4,7 @@ import './ReviewProduct.css';
 import ReviewCard from '~/components/ReviewCard/ReviewCard';
 import RatingStars from '../RatingStars/RatingStars';
 
-function ReviewProduct({ reviews }) {
+function ReviewProduct({ totalRating, reviews }) {
   const [selectedRating, setSelectedRating] = useState(null);
   const [sortByDate, setSortByDate] = useState('recent');
 
@@ -17,8 +17,8 @@ function ReviewProduct({ reviews }) {
     <div className="review-product">
       <div className="review-product-left">
         <div className="big-rating">
-          <h2>{3.4}</h2>
-          <RatingStars value={3.4} />
+          <h2>{totalRating}</h2>
+          <RatingStars value={totalRating} />
         </div>
       </div>
       <div className="review-product-right">
@@ -45,6 +45,7 @@ function ReviewProduct({ reviews }) {
 }
 
 ReviewProduct.propTypes = {
+  totalRating: PropTypes.number.isRequired,
   reviews: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,

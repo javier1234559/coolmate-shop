@@ -2,14 +2,15 @@ import { Request, Response } from "express";
 import connectDB from "../database/data-source";
 import { User } from "../entities/user.entity";
 import { FindManyOptions, Like } from "typeorm";
+import config from "../config/config";
 
 class UserService {
   static UserRepository = connectDB.getRepository(User);
 
-  static getUsers = async (_req: Request, res: Response) => {
-    const page = parseInt(_req.query._start as string) || 1;
-    const pageSize = parseInt(_req.query._end as string) || 10;
-    const keyword = _req.query.keyword as string;
+  static getUsers = async (req: Request, res: Response) => {
+    const page = parseInt(req.query._start as string) || 1;
+    const pageSize = parseInt(req.query._end as string) || 10;
+    const keyword = req.query.keyword as string;
     const skip = (page - 1) * pageSize;
 
     const condition: FindManyOptions<User> = {

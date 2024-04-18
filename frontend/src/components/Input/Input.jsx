@@ -109,7 +109,7 @@ const Input = (props) => {
           />
           {props?.inlineElement}
         </div>
-        <span className="invalid-message">{props?.error && props?.error[0]}</span>
+        <span className="invalid-message">{props?.error}</span>
       </div>
     );
   }
@@ -123,13 +123,13 @@ Input.defaultProps = {
   autoComplete: 'on',
 };
 
-Input.PropTypes = {
+Input.propTypes = {
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   onInputChange: PropTypes.func,
-  error: PropTypes.array,
+  error: PropTypes.string,
   label: PropTypes.string,
   step: PropTypes.number,
   decimals: PropTypes.bool,

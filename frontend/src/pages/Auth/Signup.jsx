@@ -1,23 +1,23 @@
 /* eslint-disable react/prop-types */
-import Skeleton from '~/components/Skeleton/Skeleton';
-import { Link } from 'react-router-dom';
-import SignupProvider from '~/components/SignUpProvider/SignupProvider';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button/Button';
-import { useNavigate } from 'react-router-dom';
 import Input from '~/components/Input/Input';
-import useAuth from '~/hooks/useAuth';
+import SignupProvider from '~/components/SignUpProvider/SignupProvider';
+import Skeleton from '~/components/Skeleton/Skeleton';
+import useRegister from '~/hooks/useRegister';
 import './SignUp.css';
 
 function SignUp() {
   const navigate = useNavigate();
-  const { signupFormData, signupChange, signup, isLoading, isSubmitting, formErrors } = useAuth();
+  const { registerFormData, registerChange, submitregister, isLoading, setIsSubmitting, formErrors } = useRegister();
 
   const registerLink = () => {
     navigate('/login');
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup();
+    setIsSubmitting(true);
+    submitregister();
   };
 
   return (
@@ -32,48 +32,41 @@ function SignUp() {
               <div className="form-group">
                 <Input
                   type={'text'}
+                  error={formErrors['name']}
+                  label={'UserName'}
+                  name={'name'}
+                  placeholder={'Please Enter Your UserName'}
+                  value={registerFormData?.name}
+                  onInputChange={(name, value) => {
+                    registerChange(name, value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <Input
+                  type={'number'}
+                  error={formErrors['phone']}
+                  label={'Phone'}
+                  name={'phone'}
+                  placeholder={'Please enter your number Phone'}
+                  value={registerFormData?.phone}
+                  onInputChange={(name, value) => {
+                    registerChange(name, value);
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <Input
+                  type={'email'}
                   error={formErrors['email']}
                   label={'Email Address'}
                   name={'email'}
                   placeholder={'Please Enter Your Email'}
-                  value={signupFormData?.email}
+                  value={registerFormData?.email}
                   onInputChange={(name, value) => {
-                    signupChange(name, value);
+                    registerChange(name, value);
                   }}
                 />
-                {/* <input type="text" className={formErrors['email'] ? 'error' : ''} id="emailInput" name="email" placeholder="Please Enter Your Email" value={signupFormData.email} onChange={(e) => signupChange(e.target.name, e.target.value)} />
-                {formErrors['email'] && <span className="error-message">{formErrors['email']}</span>} */}
-              </div>
-
-              <div className="form-group">
-                <Input
-                  type={'text'}
-                  error={formErrors['firstname']}
-                  label={'First Name'}
-                  name={'firstname'}
-                  placeholder={'Please Enter Your Firstname'}
-                  value={signupFormData?.firstname}
-                  onInputChange={(name, value) => {
-                    signupChange(name, value);
-                  }}
-                />
-                {/* <input type="password" className={formErrors['password'] ? 'error' : ''} id="passwordInput" name="password" placeholder="Please Enter Your Password" value={signupFormData.password} onChange={(e) => signupChange(e.target.name, e.target.value)} />
-                {formErrors['password'] && <span className="error-message">{formErrors['password']}</span>} */}
-              </div>
-              <div className="form-group">
-                <Input
-                  type={'text'}
-                  error={formErrors['lastname']}
-                  label={'Last Name'}
-                  name={'lastname'}
-                  placeholder={'Please Enter Your Last Name'}
-                  value={signupFormData?.lastname}
-                  onInputChange={(name, value) => {
-                    signupChange(name, value);
-                  }}
-                />
-                {/* <input type="password" className={formErrors['password'] ? 'error' : ''} id="passwordInput" name="password" placeholder="Please Enter Your Password" value={signupFormData.password} onChange={(e) => signupChange(e.target.name, e.target.value)} />
-                {formErrors['password'] && <span className="error-message">{formErrors['password']}</span>} */}
               </div>
               <div className="form-group">
                 <Input
@@ -82,13 +75,11 @@ function SignUp() {
                   label={'Password'}
                   name={'password'}
                   placeholder={'Please Enter Your Password'}
-                  value={signupFormData?.password}
+                  value={registerFormData?.password}
                   onInputChange={(name, value) => {
-                    signupChange(name, value);
+                    registerChange(name, value);
                   }}
                 />
-                {/* <input type="password" className={formErrors['password'] ? 'error' : ''} id="passwordInput" name="password" placeholder="Please Enter Your Password" value={signupFormData.password} onChange={(e) => signupChange(e.target.name, e.target.value)} />
-                {formErrors['password'] && <span className="error-message">{formErrors['password']}</span>} */}
               </div>
             </div>
             <div className="signup-col">
@@ -98,9 +89,7 @@ function SignUp() {
           <hr />
           <div className="button-group">
             <div className="button-container">
-              <Button variant="black" onClick={isSubmitting}>
-                SignUp
-              </Button>
+              <Button variant="black">SignUp</Button>
               <Button variant="white" onClick={registerLink} className="ml-4">
                 Already have account
               </Button>

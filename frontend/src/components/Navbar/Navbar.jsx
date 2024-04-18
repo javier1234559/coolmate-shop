@@ -1,9 +1,10 @@
 import SearchInput from '../SearchInput/SearchInput';
 import { User } from 'phosphor-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CartButton } from '../CartButton/CartButton';
 import logo from '../../assets/svg/logo.svg';
+import { useSelector } from 'react-redux';
 import './Navbar.css';
 
 const navigations = [
@@ -45,6 +46,7 @@ const navigations = [
 ];
 
 function Navbar() {
+  const avatar = useSelector((state) => state?.auth?.avatar_img);
   const [showCart, setShowCart] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
@@ -83,8 +85,14 @@ function Navbar() {
           <span></span>
           <span></span>
         </div>
-        <NavLink to={'/login'}>
-          <User size={32} style={{ color: 'white' }} />
+        <NavLink to={'/profile'}>
+          {avatar ? (
+            // If the user is logged in, show their avatar
+            <img src={avatar} alt="User avatar" className="avatar-image" />
+          ) : (
+            // If the user is not logged in, show the default user icon
+            <User size={32} style={{ color: 'white' }} />
+          )}
         </NavLink>
         <div className="nav-secondary">
           <CartButton toggleShowCart={handletoggleShowCart} />

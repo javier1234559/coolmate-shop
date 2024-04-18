@@ -1,0 +1,63 @@
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+ }
+ 
+ .profile-card {
+  width: 80%;
+  margin: auto;
+  margin-top: 16px;
+ }
+ 
+ .avatar-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; 
+ }
+ 
+ .button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+ }
+ 
+ .custom-button {
+  background-color: #eceb67;
+  color: #000; /* Adjust text color as needed */
+  margin-left: 8px;
+ }
+
+ .custom-button:hover{
+  background-color: #3c3c3c !important;
+  color: #e8e8e8;
+ }
+ 
+ .profile-title {
+  text-align: center;
+  margin-top: 32px;
+ }
+ 
+ .profile-text {
+  white-space: nowrap; /* Ensures text stays on a single line */
+ }
+ 
+ .cart-item-card {
+  text-align: center;
+ }
+ 
+ .item-container {
+  display: flex;
+  align-items: center;
+}
+
+.item-image {
+  border-radius: 20px;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+}

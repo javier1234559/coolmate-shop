@@ -4,7 +4,7 @@ import { Collection } from "../entities/collection.entity";
 import { FindManyOptions, Like } from "typeorm";
 
 class CollectionService {
-  static CollectionRepository = connectDB.getRepository(Collection);
+  static collectionRepository = connectDB.getRepository(Collection);
 
   static getCollections = async (_req: Request, res: Response) => {
     const page = parseInt(_req.query._start as string) || 1;
@@ -17,9 +17,9 @@ class CollectionService {
       skip: skip,
       where: keyword ? [{ title: Like('%' + keyword + '%') }] : undefined,
     };
-    
+
     try {
-      const [Collections, total] = await this.CollectionRepository.findAndCount(condition);
+      const [Collections, total] = await this.collectionRepository.findAndCount(condition);
       const CollectionDTOs = Collections.map((item: Collection) => ({
         id: item.id,
         imageSrc: item.thumbnail_image,
@@ -42,19 +42,16 @@ class CollectionService {
       return res.status(404).json({ message: `Collection with path ${id} is not valid` });
     }
 
-    const Collection = await this.CollectionRepository.findOne({
+    const collection = await this.collectionRepository.findOne({
       where: { id: parseInt(id) },
       cache: true,
     });
 
-    if (Collection) {
-      return res.status(200).json({
-        message: `Collection with id = ${id}`,
-        data: Collection
-      })
+    if (collection) {
+      return res.status(200).json(collection)
     } else {
       return res.status(404).json({
-        message: `Collection with id = ${id} is not found`,
+        message: `collection with id = ${id} is not found`,
       });
     }
 
@@ -62,7 +59,7 @@ class CollectionService {
 
   static getBestSellerCollection = async (_req: Request, res: Response) => {
     try {
-      const bestSellers = await this.CollectionRepository
+      const bestSellers = await this.collectionRepository
         .createQueryBuilder('Collection')
         .leftJoinAndSelect('Collection.orderItems', 'orderItem')
         .select(['Collection.id', 'Collection.name', 'SUM(orderItem.quantity) AS totalQuantity'])
@@ -70,10 +67,7 @@ class CollectionService {
         .orderBy('totalQuantity', 'DESC')
         .getRawMany();
 
-      return res.status(200).json({
-        message: 'Best-selling Collections',
-        data: bestSellers,
-      });
+      return res.status(200).json(bestSellers);
     } catch (error) {
       console.error('Error fetching best-selling Collections', error);
       return res.status(500).json({ message: 'Internal Server Error' });

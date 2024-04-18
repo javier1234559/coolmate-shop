@@ -8,7 +8,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('nvarchar')
+  @Column({ type: 'nvarchar', default: 'https://as1.ftcdn.net/v2/jpg/03/53/11/00/500_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg' })
   avatar_img: string;
 
   @Column('nvarchar')
@@ -17,10 +17,10 @@ export class User {
   @Column('nvarchar', { unique: true })
   email: string;
 
-  @Column('nvarchar')
+  @Column({ type: 'varchar', nullable: true })
   password: string;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', nullable: true })
   phone: string;
 
   @Column('nvarchar')

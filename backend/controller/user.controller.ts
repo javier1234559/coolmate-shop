@@ -2,10 +2,10 @@ import express from 'express';
 import { validationDto } from '../middleware/validation.middleware';
 import userService from '../services/user.service';
 
-const userServiceController = express.Router();
+const userController = express.Router();
 
-userServiceController
+userController
   .route("/")
   .get(userService.getUsers)
 
-export default userServiceController;
+export default userController;

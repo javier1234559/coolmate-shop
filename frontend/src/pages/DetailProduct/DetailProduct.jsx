@@ -1,18 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './DetailProduct.css';
-import { detail_product ,reviews } from '~/mockdata';
 import Button from '~/components/Button/Button';
 import ReviewProduct from '~/components/ReviewProduct/ReviewProduct';
 import RatingStars from '~/components/RatingStars/RatingStars';
+import productApi from '~/services/productApi';
+import Skeleton from '~/components/Skeleton/Skeleton';
 
 function DetailProduct() {
-  // const { slug } = useParams();
-  const [product, setProduct] = useState(detail_product);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [selectedSize, setSelectedSize] = useState(null);
+  const { slug } = useParams();
+  const [product, setProduct] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [isLoading, setisLoading] = useState(true);
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -39,9 +42,43 @@ function DetailProduct() {
     }
   };
 
+  const fetchProductDetail = async () => {
+    try {
+      const response = await productApi.getProductDetailBySlug(slug);
+      const detail_product = response.data;
+      setProduct(detail_product);
+    } catch (error) {
+      console.log('Failed to fetch products: ', error);
+    }
+  };
+
+  const fetchReviewProduct = async () => {
+    try {
+      const response = await productApi.getReviewProduct(slug);
+      const review_product = response.data;
+      console.log(review_product);
+      setReviews(review_product);
+    } catch (error) {
+      console.log('Failed to fetch reviews: ', error);
+    }
+  };
+
   useEffect(() => {
-    setProduct(detail_product);
-  }, []);
+    Promise.all([fetchProductDetail(), fetchReviewProduct()])
+      .then(() => setisLoading(false))
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setisLoading(false);
+      });
+  }, [slug]);
+
+  if (isLoading) {
+    return (
+      <div className="full-screen-skeleton">
+        <Skeleton />
+      </div>
+    );
+  }
 
   return (
     <div className="container col">
@@ -121,7 +158,7 @@ function DetailProduct() {
       </div>
       <div className="product-description" dangerouslySetInnerHTML={{ __html: product?.description }} />
       <div>
-        <ReviewProduct reviews={reviews} />
+        <ReviewProduct totalRating={product?.rating} reviews={reviews} />
       </div>
     </div>
   );

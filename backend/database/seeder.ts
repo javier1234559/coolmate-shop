@@ -81,29 +81,62 @@ class DatabaseSeeder {
     await this.init();
 
     try {
+      console.log('Seeding categories...');
       await this.seedCategories();
+
+      console.log('Delivering details...');
       await this.deliveredDetails();
+
+      console.log('Processing payment results...');
       await this.paymentResults();
+
+      console.log('Seeding colors...');
       await this.seedColors();
+
+      console.log('Seeding sizes...');
       await this.seedSizes();
+
+      console.log('Seeding users...');
       await this.seedUsers();
+
+      console.log('Seeding user addresses...');
       await this.seedUserAddresses();
+
+      console.log('Seeding user payments...');
       await this.seedUserPayments();
+
+      console.log('Seeding products...');
       await this.seedProducts();
+
+      console.log('Seeding product color sizes...');
       await this.seedProductColorSizes();
+
+      console.log('Seeding product media...');
       await this.seedProductMedia();
+
+      console.log('Seeding collections...');
       await this.seedCollections();
+
+      console.log('Seeding carts...');
       await this.seedCarts();
+
+      console.log('Seeding cart items...');
       await this.seedCarttems();
+
+      console.log('Seeding orders...');
       await this.seedOrders();
+
+      console.log('Seeding order items...');
       await this.seedOrderItems();
+
+      console.log('Seeding reviews...');
       await this.seedReviews();
 
       console.log('Seed data inserted successfully');
     } catch (error) {
       console.error('Error seeding data:', error);
     } finally {
-      await this.connection.close();
+      // await this.connection.close();
     }
   }
   private async seedReviews() {

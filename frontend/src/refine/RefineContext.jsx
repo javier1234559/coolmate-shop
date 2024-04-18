@@ -1,6 +1,6 @@
 import { RefineThemes, ThemedLayoutV2, useNotificationProvider } from '@refinedev/antd';
 import '@refinedev/antd/dist/reset.css';
-import { GitHubBanner, Refine } from '@refinedev/core';
+import { Refine } from '@refinedev/core';
 import routerProvider, { DocumentTitleHandler, UnsavedChangesNotifier } from '@refinedev/react-router-v6';
 import { App as AntdApp, ConfigProvider } from 'antd';
 import { dataProvider } from './rest-data-provider';
@@ -13,7 +13,6 @@ export function RefineContext({ children }) {
   return (
     <ConfigProvider theme={RefineThemes.Purple}>
       <AntdApp>
-        <GitHubBanner />
         <Refine
           routerProvider={routerProvider}
           notificationProvider={useNotificationProvider}

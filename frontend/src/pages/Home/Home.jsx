@@ -16,7 +16,6 @@ function Home() {
   const fetchTopCollections = async () => {
     try {
       const response = await collectionApi.getTopCollection();
-      console.log(response);
       const images = response?.data?.map((collection) => ({
         id: collection.id,
         image: collection.imageSrc,
@@ -41,7 +40,7 @@ function Home() {
   const fetchBestSellingProducts = async () => {
     try {
       const response = await productApi.getBestSellerProduct();
-      console.log(response);
+      console.log(response?.data);
       setProducts(response?.data);
     } catch (error) {
       console.log('Failed to fetch products: ', error);

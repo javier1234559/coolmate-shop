@@ -14,6 +14,14 @@ const productApi = {
   getBestSellerProduct() {
     const url = `/products/best-seller`;
     return baseApi.get(url);
+  },
+  getProductDetailBySlug(slug) {
+    const url = `/products/${slug}`;
+    return baseApi.get(url);
+  },
+  getReviewProduct(slug) {
+    const url = `/products/${slug}/reviews`;
+    return baseApi.get(url);
   }
 
 }

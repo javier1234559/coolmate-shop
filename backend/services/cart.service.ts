@@ -6,6 +6,18 @@ import { FindManyOptions, Like } from "typeorm";
 class CartService {
   static CartRepository = connectDB.getRepository(Cart);
 
+  //getCartByUser
+  static getCartByUser = async (_req: Request, res: Response) => {
+    const userId = _req.params.userId;
+    try {
+      const cart = await this.CartRepository.findOne({ where: { userId: userId } });
+      return res.status(200).json(cart);
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  };
+
+
   static getCarts = async (_req: Request, res: Response) => {
     const page = parseInt(_req.query._start as string) || 1;
     const pageSize = parseInt(_req.query._end as string) || 10;

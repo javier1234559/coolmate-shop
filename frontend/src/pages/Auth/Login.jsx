@@ -5,33 +5,35 @@ import SignupProvider from '~/components/SignUpProvider/SignupProvider';
 import Button from '~/components/Button/Button';
 import { useNavigate } from 'react-router-dom';
 import Input from '~/components/Input/Input';
-import useAuth from '~/hooks/useAuth';
+import useLogin from '~/hooks/useLogin';
 import './Login.css';
 
 function Login() {
   const navigate = useNavigate();
-  const { loginFormData, loginChange, login, isLoading, isSubmitting, formErrors } = useAuth();
+  const { loginFormData, loginChange, submitLogin, isLoading, isSubmitting, setIsSubmitting, formErrors } = useLogin();
 
   const registerLink = () => {
     navigate('/signup');
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    login();
+    setIsSubmitting(true);
+    submitLogin();
   };
 
   return (
     <div className="container">
       <div className="login-form">
         {isLoading && <Skeleton />}
-        <h2 className='form-title'>Login</h2>
+        <h2 className="form-title">Login</h2>
         <hr />
         <form onSubmit={handleSubmit} noValidate className="lo ">
           <div className="form-row">
             <div className="form-col">
               <div className="form-group">
                 <Input
-                  type={'text'}
+                  type={'email'}
                   error={formErrors['email']}
                   label={'Email Address'}
                   name={'email'}
@@ -41,8 +43,6 @@ function Login() {
                     loginChange(name, value);
                   }}
                 />
-                {/* <input type="text" className={formErrors['email'] ? 'error' : ''} id="emailInput" name="email" placeholder="Please Enter Your Email" value={loginFormData.email} onChange={(e) => loginChange(e.target.name, e.target.value)} />
-                {formErrors['email'] && <span className="error-message">{formErrors['email']}</span>} */}
               </div>
               <div className="form-group">
                 <Input
@@ -56,8 +56,6 @@ function Login() {
                     loginChange(name, value);
                   }}
                 />
-                {/* <input type="password" className={formErrors['password'] ? 'error' : ''} id="passwordInput" name="password" placeholder="Please Enter Your Password" value={loginFormData.password} onChange={(e) => loginChange(e.target.name, e.target.value)} />
-                {formErrors['password'] && <span className="error-message">{formErrors['password']}</span>} */}
               </div>
             </div>
             <div className="signup-col">
@@ -67,7 +65,7 @@ function Login() {
           <hr />
           <div className="button-group">
             <div className="button-container">
-              <Button variant="black" onClick={isSubmitting}>
+              <Button variant={isSubmitting ? 'white' : 'black'}>
                 Login
               </Button>
               <Button variant="white" onClick={registerLink} className="ml-4">

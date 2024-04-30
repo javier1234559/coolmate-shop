@@ -9,7 +9,7 @@ docker compose up -d
 Connect with mysql workbench
 ```
 MYSQL_ROOT_PASSWORD: Admin@123
-MYSQL_DATABASE: coolmatedb
+MYSQL_DATABASE0: coolmatedb
 MYSQL_USER: user
 MYSQL_PASSWORD: password
 ```

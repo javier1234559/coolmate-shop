@@ -26,7 +26,7 @@ yarn dev
 B2: Chạy database hoặc làm tiếp theo hướng dẫn của file README.md nhớ mở docker desktop
 ```
 cd database/mysql
-docker compose up -d 
+yar
 ```
 
 B3: Chạy backend

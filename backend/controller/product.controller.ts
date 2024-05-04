@@ -10,8 +10,8 @@ const productController = express.Router();
 productController.route("/").get(ProductService.getProducts);
 productController.route("/best-seller").get(ProductService.getBestSellerProduct);
 productController.route("/latest").get(ProductService.getLastestProduct);
-productController.route("/:slug").get(ProductService.getProductBySlug);
 productController.route("/:id").get(ProductService.getProductById);
+productController.route("/slug/:slug").get(ProductService.getProductBySlug);
 productController.route("/:slug/reviews").get(ProductService.getReviewsBySlugProduct);
 
 //   .post(protect, admin, ProductService.createProduct);

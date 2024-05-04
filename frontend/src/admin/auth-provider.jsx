@@ -1,7 +1,5 @@
 // sample data for testing purpose
-export const mockUsers = [
-  { email: 'john@mail.com', password: '123', role: 'admin' },
-];
+export const mockUsers = [{ email: 'john@mail.com', password: '123', role: 'admin' }];
 
 const authProvider = {
   login: async ({ email, password }) => {
@@ -92,12 +90,15 @@ const authProvider = {
   },
 
   // optional methods
-
   // register: async (params: any): AuthActionResponse,
   // forgotPassword: async (params: any): AuthActionResponse,
   // updatePassword: async (params: any): AuthActionResponse,
-  // getPermissions: async (params: any): unknown,
-  // getIdentity: async (params: any): unknown,
+  getPermissions: async (params) => params?.permissions,
+  getIdentity: async () => ({
+    id: 1,
+    name: 'Jane Doe',
+    avatar: 'https://unsplash.com/photos/IWLOvomUmWU/download?force=true&w=640',
+  }),
 };
 
 export default authProvider;

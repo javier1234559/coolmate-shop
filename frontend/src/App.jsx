@@ -21,8 +21,14 @@ import { AuthPage } from '@refinedev/antd';
 import { ThemedLayoutV2 } from '@refinedev/antd';
 import { TShirt } from 'phosphor-react';
 import { DashboardPage } from './admin/pages/dashboard';
+import { mockUsers } from './admin/auth-provider';
+import Header from './admin/components/Header';
+
+import { useState } from 'react';
 
 function App() {
+  const [currentTheme, setCurrentTheme] = useState('dark');
+
   return (
     <Router>
       <Routes>
@@ -35,12 +41,12 @@ function App() {
         </Route>
 
         {/* Refine routes */}
-        <Route path="/refine" element={<RefineContext />}>
+        <Route path="/refine" element={<RefineContext currentTheme={currentTheme}  />}>
           {/* Admin Private Route */}
           <Route
             element={
               <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/refine/login" />}>
-                <ThemedLayoutV2 Title={({ collapsed }) => <ThemedTitleV2 collapsed={collapsed} icon={collapsed ? <TShirt size={24} /> : <TShirt size={24} />} text="Coolmate Dashboard" />} Sider={(props) => <ThemedSiderV2 {...props} fixed />}>
+                <ThemedLayoutV2 Header={() => <Header theme={currentTheme} setTheme={setCurrentTheme} />} Title={({ collapsed }) => <ThemedTitleV2 collapsed={collapsed} icon={collapsed ? <TShirt size={22} /> : <TShirt size={22} />} text=" COOLMATE DASHBOARD" />} Sider={(props) => <ThemedSiderV2 {...props} fixed />}>
                   <Outlet />
                 </ThemedLayoutV2>
               </Authenticated>
@@ -65,7 +71,7 @@ function App() {
               <Route index element={<CartList />} />
             </Route>
           </Route>
-          
+
           {/* Public Auth routes */}
           <Route
             element={
@@ -73,7 +79,17 @@ function App() {
                 <NavigateToResource />
               </Authenticated>
             }>
-            <Route path="login" element={<AuthPage type="login" />} />
+            <Route
+              path="login"
+              element={
+                <AuthPage
+                  type="login"
+                  formProps={{
+                    initialValues: { ...mockUsers[0] },
+                  }}
+                />
+              }
+            />
             <Route path="register" element={<AuthPage type="register" />} />
             <Route path="forgot-password" element={<AuthPage type="forgotPassword" />} />
           </Route>

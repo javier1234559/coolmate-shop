@@ -19,27 +19,22 @@ export const ProductList = () => {
   });
 
   return (
-    <List
-     title="Here's a product manager" 
-    breadcrumb={<Breadcrumb showHome={true} />} 
-    canCreate={permissionsData?.includes('admin')} 
-    createButtonProps={{ size: 'medium' }}
-    >
-      <Table {...tableProps} rowKey="id">
+    <List title="Here's a product manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'large' }}>
+      <Table {...tableProps} scroll={{ x: 'max-content' }} rowKey="id">
         <Table.Column
           dataIndex="id"
-          title="#Id"
+          title="ID#"
           render={(value) => {
             if (isLoading) {
               return <TextField value="Loading..." />;
             }
 
-            return <TextField strong value={`#${value}`} />;
+            return <TextField value={`#${value}`} />;
           }}
         />
-        <Table.Column title="Image" dataIndex="media" render={(_, record) => <ImageField value={record?.media[0]?.media_url} title={'Image content'} width={50} />} />
-        <Table.Column dataIndex="name" title="Title" />
-        <Table.Column dataIndex="description" title="Description" />
+        <Table.Column dataIndex="media" title="Image" render={(_, record) => <ImageField value={record?.media[0]?.media_url} title={'Image content'} width={50} style={{ borderRadius: '1rem' }} />} />
+        <Table.Column dataIndex="name" title="Title" width={200} />
+        <Table.Column dataIndex="description" title="Description" width={300} />
         <Table.Column
           dataIndex="price"
           title="Price"
@@ -68,6 +63,7 @@ export const ProductList = () => {
         <Table.Column
           title="Actions"
           dataIndex="actions"
+          fixed="right"
           render={(_, record) => (
             <Space>
               <EditButton hideText size="medium" recordItemId={record.id} />

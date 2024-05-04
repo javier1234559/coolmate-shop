@@ -33,7 +33,6 @@ export const CategoryList = () => {
           dataIndex="actions"
           render={(_, record) => (
             <Space>
-              <EditButton hideText size="medium" recordItemId={record.id} />
               <ShowButton hideText size="medium" recordItemId={record.id} />
             </Space>
           )}

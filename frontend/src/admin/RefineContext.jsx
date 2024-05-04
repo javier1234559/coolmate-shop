@@ -2,7 +2,7 @@ import { RefineThemes, useNotificationProvider } from '@refinedev/antd';
 import '@refinedev/antd/dist/reset.css';
 import { Refine } from '@refinedev/core';
 import routerProvider, { DocumentTitleHandler, UnsavedChangesNotifier } from '@refinedev/react-router-v6';
-import { App as AntdApp, ConfigProvider } from 'antd';
+import { App as AntdApp, ConfigProvider, theme } from 'antd';
 import { dataProvider } from './rest-data-provider';
 import { TShirt, User, Checks, ShoppingCartSimple, Tag } from 'phosphor-react';
 import authProvider from './auth-provider';
@@ -12,9 +12,22 @@ import { Outlet } from 'react-router-dom';
 // const API_URL = 'https://api.fake-rest.refine.dev';
 const API_URL = 'http://localhost:8080/api';
 
-export function RefineContext() {
+export function RefineContext(props) {
   return (
-    <ConfigProvider theme={RefineThemes.Yellow}>
+    <ConfigProvider
+      theme={{
+        ...RefineThemes.Blue,
+        algorithm: props.currentTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
+        components: {
+          Button: {
+            controlHeight: 40,
+            borderRadius: 10,
+          },
+        },
+        token: {
+          colorPrimary: '#005163',
+        },
+      }}>
       <AntdApp>
         <Refine
           authProvider={authProvider}
@@ -30,7 +43,7 @@ export function RefineContext() {
               edit: 'refine/users/edit/:id',
               meta: {
                 canDelete: true,
-                icon: <User size={24} />,
+                icon: <User size={16} />,
               },
             },
             {
@@ -41,7 +54,7 @@ export function RefineContext() {
               edit: 'refine/products/edit/:id',
               meta: {
                 canDelete: true,
-                icon: <TShirt size={24} />,
+                icon: <TShirt size={16} />,
               },
             },
             {
@@ -52,7 +65,7 @@ export function RefineContext() {
               edit: 'refine/categories/edit/:id',
               meta: {
                 canDelete: true,
-                icon: <Tag size={24} />,
+                icon: <Tag size={16} />,
               },
             },
             {
@@ -61,7 +74,7 @@ export function RefineContext() {
               show: 'refine/carts/show/:id',
               meta: {
                 canDelete: true,
-                icon: <ShoppingCartSimple size={24} />,
+                icon: <ShoppingCartSimple size={16} />,
               },
             },
             {
@@ -71,7 +84,7 @@ export function RefineContext() {
               edit: 'refine/orders/edit/:id',
               meta: {
                 canDelete: true,
-                icon: <Checks size={24} />,
+                icon: <Checks size={16} />,
               },
             },
           ]}

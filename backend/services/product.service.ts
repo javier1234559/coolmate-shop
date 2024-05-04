@@ -88,15 +88,19 @@ class ProductService {
   static getProductById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
+    console.log(id);
+
     if (!id || isNaN(parseInt(id))) {
       return res.status(404).json({ message: `Invalid product ID: ${id}` });
     }
 
+    console.log(parseInt(id));
     const product = await this.productRepository.findOne({
       where: { id: parseInt(id) },
       cache: true,
     });
-
+    
+    console.log("Logging product: ", product);
     if (product) {
       return res.status(200).json(product);
     } else {

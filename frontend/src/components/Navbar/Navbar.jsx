@@ -1,11 +1,11 @@
 import SearchInput from '../SearchInput/SearchInput';
 import { User } from 'phosphor-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CartButton } from '../CartButton/CartButton';
-import logo from '../../assets/svg/logo.svg';
 import { useSelector } from 'react-redux';
 import './Navbar.css';
+import Logo from '../Logo/Logo';
 
 const navigations = [
   {
@@ -67,7 +67,7 @@ function Navbar() {
       <nav className={`nav container ${isNavOpen ? 'nav-open' : ''}`}>
         <span className="brand-name">
           <NavLink to="/">
-            <img src={logo} alt="Logo" />
+            <Logo />
           </NavLink>
         </span>
         <ul className="nav-link_container">

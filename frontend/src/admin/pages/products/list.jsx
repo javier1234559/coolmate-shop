@@ -19,7 +19,12 @@ export const ProductList = () => {
   });
 
   return (
-    <List title="Here's a product manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'medium' }}>
+    <List
+     title="Here's a product manager" 
+    breadcrumb={<Breadcrumb showHome={true} />} 
+    canCreate={permissionsData?.includes('admin')} 
+    createButtonProps={{ size: 'medium' }}
+    >
       <Table {...tableProps} rowKey="id">
         <Table.Column
           dataIndex="id"

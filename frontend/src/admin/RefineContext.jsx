@@ -1,19 +1,23 @@
-import { RefineThemes, ThemedLayoutV2, useNotificationProvider } from '@refinedev/antd';
+import { RefineThemes, useNotificationProvider } from '@refinedev/antd';
 import '@refinedev/antd/dist/reset.css';
 import { Refine } from '@refinedev/core';
 import routerProvider, { DocumentTitleHandler, UnsavedChangesNotifier } from '@refinedev/react-router-v6';
 import { App as AntdApp, ConfigProvider } from 'antd';
 import { dataProvider } from './rest-data-provider';
+import { TShirt, User, Checks, ShoppingCartSimple, Tag } from 'phosphor-react';
+import authProvider from './auth-provider';
+import { Outlet } from 'react-router-dom';
 
 //example from: https://github.com/refinedev/refine/blob/master/examples/base-antd/src/App.tsx
 // const API_URL = 'https://api.fake-rest.refine.dev';
 const API_URL = 'http://localhost:8080/api';
 
-export function RefineContext({ children }) {
+export function RefineContext() {
   return (
-    <ConfigProvider theme={RefineThemes.Purple}>
+    <ConfigProvider theme={RefineThemes.Yellow}>
       <AntdApp>
         <Refine
+          authProvider={authProvider}
           routerProvider={routerProvider}
           notificationProvider={useNotificationProvider}
           dataProvider={dataProvider(API_URL)}
@@ -26,6 +30,7 @@ export function RefineContext({ children }) {
               edit: 'refine/users/edit/:id',
               meta: {
                 canDelete: true,
+                icon: <User size={24} />,
               },
             },
             {
@@ -36,6 +41,7 @@ export function RefineContext({ children }) {
               edit: 'refine/products/edit/:id',
               meta: {
                 canDelete: true,
+                icon: <TShirt size={24} />,
               },
             },
             {
@@ -46,6 +52,7 @@ export function RefineContext({ children }) {
               edit: 'refine/categories/edit/:id',
               meta: {
                 canDelete: true,
+                icon: <Tag size={24} />,
               },
             },
             {
@@ -54,6 +61,7 @@ export function RefineContext({ children }) {
               show: 'refine/carts/show/:id',
               meta: {
                 canDelete: true,
+                icon: <ShoppingCartSimple size={24} />,
               },
             },
             {
@@ -63,11 +71,12 @@ export function RefineContext({ children }) {
               edit: 'refine/orders/edit/:id',
               meta: {
                 canDelete: true,
+                icon: <Checks size={24} />,
               },
             },
           ]}
           options={{ syncWithLocation: true, warnWhenUnsavedChanges: true }}>
-          <ThemedLayoutV2>{children}</ThemedLayoutV2>
+          <Outlet />
           <UnsavedChangesNotifier />
           <DocumentTitleHandler />
         </Refine>

@@ -9,7 +9,9 @@ import productController from "./controller/product.controller";
 import cartController from "./controller/cart.controller";
 import orderController from "./controller/order.controller";
 import collectionController from "./controller/collection.controler";
+import uploadController from "./controller/upload.controller";
 import connectDB from "./database/data-source";
+import logger from "./utils/logger";
 // import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 // // -------------------------------------------
@@ -36,6 +38,7 @@ app.use(cors());// Enable CORS middleware
 
 // // // 3. Define middleware (authen(), validate() ,...)
 app.use('/api/health',(req,res)=>{
+    logger.info('Health check');
     res.send('It work 123!!');
 })
 
@@ -47,8 +50,7 @@ app.use("/api/collections", collectionController);
 app.use("/api/categories", categoryController);
 app.use("/api/carts", cartController);
 app.use("/api/orders", orderController);
-
-// app.use("/api/upload", uploadRoutes);
+app.use("/api/upload", uploadController);
 // app.use("/api/config", configRoutes);
 
 // if (process.env.NODE_ENV === "production") {
@@ -64,7 +66,7 @@ app.use("/api/orders", orderController);
 
 // // 5. Start server
 app.listen(PORT, () =>
-  console.log(`Server running in ${MODE} mode on port ${PORT}`)
+  logger.info(`Server running in ${MODE} mode on port ${PORT}`)
 );
 
 // Listen for process termination signals

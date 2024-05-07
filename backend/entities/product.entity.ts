@@ -22,13 +22,13 @@ export class Product {
   @Column('text')
   description: string;
 
-  @Column('float')
+  @Column({ type: 'float', default: 5 })
   rating: number;
 
   @Column('varchar', { length: 255, unique: true })
   slug: string;
 
-  @Column('int')
+  @Column({ type: 'int', default: 0 })
   numReviews: number;
 
   @Column('float')
@@ -43,7 +43,7 @@ export class Product {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   modified_at: Date;
 
-  @ManyToOne(() => Category, (category) => category.products)
+  @ManyToOne(() => Category, (category) => category.products, { cascade: true })
   category: Category;
 
   @ManyToMany(() => Collection, (collection) => collection.products, { nullable: true })
@@ -52,7 +52,7 @@ export class Product {
   @OneToMany(() => ProductMedia, (media) => media.product, { cascade: true, eager: true })
   media: ProductMedia[];
 
-  @OneToMany(() => ProductColorSize, (pcs) => pcs.product, { nullable: true, eager: true })
+  @OneToMany(() => ProductColorSize, (pcs) => pcs.product, { cascade: true, nullable: true, eager: true })
   colorSizes: ProductColorSize[];
 
   @OneToOne(() => CartItem, (cartItem) => cartItem.product, { nullable: true })
@@ -122,7 +122,7 @@ export class ProductColorSize {
   @Column('int')
   quantity: number;
 
-  @ManyToOne(() => Product, (product) => product.colorSizes, { cascade: true })
+  @ManyToOne(() => Product, (product) => product.colorSizes)
   product: Product;
 
   @ManyToOne(() => Color, (color) => color.colorSizes, { cascade: true, eager: true })

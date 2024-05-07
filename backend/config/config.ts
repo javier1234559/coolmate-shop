@@ -18,4 +18,9 @@ export default {
   jwtSecret: process.env.JWT_SECRET || 'secret',
   refreshSecrect: process.env.JWT_REFRESH_SECRET || 'refresh_secret',
   googleClientID: process.env.GOOGLE_CLIENT_ID || 'YOUR_CLIENT_ID',
+  cloudinary: {
+    cloud_name: process.env.CLOUDYNARY_NAME || 'YOUR_CLOUD',
+    api_key: process.env.CLOUDYNARY_API_KEY,
+    api_secret: process.env.CLOUDYNARY_API_SECRET,
+  }
 };

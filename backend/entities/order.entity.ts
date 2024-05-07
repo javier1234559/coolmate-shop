@@ -2,6 +2,49 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDat
 import { User } from './user.entity';
 import { Product } from './product.entity';
 
+
+@Entity()
+export class PaymentResult {
+  // @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
+  id: string;
+
+  @Column('nvarchar')
+  status: string;
+
+  @Column('nvarchar')
+  payment_type: string;
+
+  @Column('varchar')
+  provider: string;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  modified_at: Date;
+}
+
+@Entity()
+export class DeliveryDetail {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column('nvarchar')
+  status: string;
+
+  @Column('datetime')
+  updateTime: Date;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+  created_at: Date;
+
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
+  modified_at: Date;
+}
+
+
+
 @Entity()
 export class Order {
   @PrimaryGeneratedColumn()
@@ -74,46 +117,6 @@ export class OrderItem {
 
   @OneToMany(() => Product, (product) => product.orderItems, { eager: true })
   product: Product;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
-  created_at: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
-  modified_at: Date;
-}
-
-@Entity()
-export class PaymentResult {
-  // @PrimaryGeneratedColumn('uuid')
-  @PrimaryGeneratedColumn()
-  id: string;
-
-  @Column('nvarchar')
-  status: string;
-
-  @Column('nvarchar')
-  payment_type: string;
-
-  @Column('varchar')
-  provider: string;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
-  created_at: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)', onUpdate: 'CURRENT_TIMESTAMP(6)' })
-  modified_at: Date;
-}
-
-@Entity()
-export class DeliveryDetail {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column('nvarchar')
-  status: string;
-
-  @Column('datetime')
-  updateTime: Date;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;

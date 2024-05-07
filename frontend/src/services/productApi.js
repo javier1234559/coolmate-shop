@@ -16,7 +16,7 @@ const productApi = {
     return baseApi.get(url);
   },
   getProductDetailBySlug(slug) {
-    const url = `/products/${slug}`;
+    const url = `/products/slug/${slug}`;
     return baseApi.get(url);
   },
   getReviewProduct(slug) {

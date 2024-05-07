@@ -1,20 +1,11 @@
-class ProductDTO {
-  id: string;
-  imageSrc: string;
-  stars: number;
-  isNew: boolean;
-  colorTags: { id: number; hexcolor: string; colorName: string }[];
-  productName: string;
-  price: string;
-  discountedPrice: string;
+class CreateProductDTO {
+    name: string;
+    brand: string;
+    price: number;
+    description: string;
+    slug: string;
+    is_active : boolean;
+    image: string;
+    
 }
 
-class GetProductsResponseDTO {
-  products: ProductDTO[];
-  total: number;
-
-  constructor(products: ProductDTO[], total: number) {
-    this.products = products;
-    this.total = total;
-  }
-}

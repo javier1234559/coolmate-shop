@@ -7,7 +7,10 @@ import { validationDto } from '../middleware/validation.middleware';
 const productController = express.Router();
 
 
-productController.route("/").get(ProductService.getProducts);
+productController.route("/").get(ProductService.getProducts)
+                            .post(ProductService.createProduct);
+productController.route("/:id").put(ProductService.updateProduct)
+                                .delete(ProductService.deleteProduct);
 productController.route("/best-seller").get(ProductService.getBestSellerProduct);
 productController.route("/latest").get(ProductService.getLastestProduct);
 productController.route("/:id").get(ProductService.getProductById);

@@ -5,6 +5,7 @@ import connectDB from '../database/data-source';
 import { User } from '../entities/user.entity';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import logger from '../utils/logger';
 
 class authService {
   static UserRepository = connectDB.getRepository(User);
@@ -14,10 +15,10 @@ class authService {
       {
         id: user.id,
         email: user.email,
-        isAdmin: user.role === 'admin' ? true : false,
+        role: user.role,
       },
       config.jwtSecret,
-      { expiresIn: "30s" }
+      { expiresIn: "1d" }
     );
   }
 
@@ -26,7 +27,7 @@ class authService {
       {
         id: user.id,
         email: user.email,
-        isAdmin: user.role === 'admin' ? true : false,
+        role: user.role,
       },
       config.jwtSecret,
       { expiresIn: "365d" }
@@ -66,8 +67,10 @@ class authService {
 
       //return user except password
       const { password, ...userWithoutPassword } = user;
+      logger.info(`User ${user.email} logged in`);
+      logger.debug(`userWithoutPassword: ${JSON.stringify(userWithoutPassword)}`);
 
-      res.status(200).send({ ...userWithoutPassword, accessToken, refreshToken });
+      res.status(200).send({ ...userWithoutPassword, accessToken });
     }
   }
 
@@ -132,6 +135,7 @@ class authService {
           name,
           email,
           avatar_img: picture,
+          is_google: true,
           role: 'user',
         });
         user = await this.UserRepository.save(newUser);
@@ -150,7 +154,11 @@ class authService {
 
       //return user except password
       const { password, ...userWithoutPassword } = user;
-      res.status(200).send({ ...userWithoutPassword, accessToken, refreshToken });
+
+      logger.info(`User ${user.email} logged in`);
+      logger.debug(`accessToken: ${JSON.stringify(accessToken)}`);
+
+      res.status(200).send({ ...userWithoutPassword, accessToken });
     } catch (error) {
       console.error('Error fetching user information', error);
       res.status(500).send('Error fetching user information');

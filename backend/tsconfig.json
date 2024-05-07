@@ -16,7 +16,8 @@
     "esm": true
   },
   "include": [
-    "./**/*"
+    "./**/*",
+    "custom.d.ts"
   ],
   "exclude": [
     "node_modules",

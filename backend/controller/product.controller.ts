@@ -1,16 +1,26 @@
 import express from 'express';
 import ProductService from '../services/product.service';
-import { validationDto } from '../middleware/validation.middleware';
-// import { protect, admin } from "../middleware/authMiddleware.js";
-// import checkObjectId from "../middleware/checkObjectId.js";
+import authMiddleware from "../middleware/auth.middleware";
 
 const productController = express.Router();
 
-
 productController.route("/").get(ProductService.getProducts)
-                            .post(ProductService.createProduct);
-productController.route("/:id").put(ProductService.updateProduct)
-                                .delete(ProductService.deleteProduct);
+  .post(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    ProductService.createProduct
+  );
+productController.route("/:id")
+  .put(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    ProductService.updateProduct
+  )
+  .delete(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    ProductService.deleteProduct
+  );
 productController.route("/best-seller").get(ProductService.getBestSellerProduct);
 productController.route("/latest").get(ProductService.getLastestProduct);
 productController.route("/:id").get(ProductService.getProductById);

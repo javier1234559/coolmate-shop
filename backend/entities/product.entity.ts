@@ -83,7 +83,7 @@ export class ProductMedia {
   modified_at: Date;
 
   // Define many-to-one relationship with Product
-  @ManyToOne(() => Product, (product) => product.media)
+  @ManyToOne(() => Product, (product) => product.media, { onDelete: 'CASCADE' })
   product: Product;
 }
 
@@ -122,7 +122,7 @@ export class ProductColorSize {
   @Column('int')
   quantity: number;
 
-  @ManyToOne(() => Product, (product) => product.colorSizes)
+  @ManyToOne(() => Product, (product) => product.colorSizes, { onDelete: 'CASCADE' })
   product: Product;
 
   @ManyToOne(() => Color, (color) => color.colorSizes, { cascade: true, eager: true })

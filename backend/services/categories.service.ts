@@ -4,7 +4,7 @@ import { FindManyOptions, Like } from "typeorm";
 import { Category } from "../entities/category.entity";
 
 class CategoryService {
-  static CategoryRepository = connectDB.getRepository(Category);
+  static categoryRepository = connectDB.getRepository(Category);
 
   static getCategorys = async (_req: Request, res: Response) => {
     const page = parseInt(_req.query._start as string) || 1;
@@ -20,7 +20,7 @@ class CategoryService {
     };
 
     try {
-      const [categories, total] = await this.CategoryRepository.findAndCount(condition);
+      const [categories, total] = await this.categoryRepository.findAndCount(condition);
       return res.status(200).json(categories);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
@@ -35,7 +35,7 @@ class CategoryService {
       return res.status(404).json({ message: `Category with id ${id} is not valid` });
     }
 
-    const category = await this.CategoryRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { id: parseInt(id) },
       cache: true,
     });
@@ -53,18 +53,19 @@ class CategoryService {
   }
 
   static createCategory = async (_req: Request, res: Response) => {
-    const { name, description } = _req.body;
+    const { icon, name, description } = _req.body;
 
     if (!name) {
       return res.status(400).json({ message: 'Category name is required' });
     }
 
     const newCategory = new Category();
+    newCategory.icon = icon;
     newCategory.name = name;
     newCategory.description = description;
 
     try {
-      await this.CategoryRepository.save(newCategory);
+      await this.categoryRepository.save(newCategory);
       return res.status(201).json({
         message: 'Category created successfully',
         data: newCategory
@@ -76,13 +77,13 @@ class CategoryService {
 
   static updateCategory = async (_req: Request, res: Response) => {
     const { id } = _req.params;
-    const { name, description } = _req.body;
+    const { name, description, icon } = _req.body;
 
     if (!id || isNaN(parseInt(id))) {
       return res.status(404).json({ message: `Category with id ${id} is not valid` });
     }
 
-    const category = await this.CategoryRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { id: parseInt(id) },
     });
 
@@ -92,11 +93,12 @@ class CategoryService {
       });
     }
 
+    category.icon = icon || category.icon;
     category.name = name || category.name;
     category.description = description || category.description;
 
     try {
-      await this.CategoryRepository.save(category);
+      await this.categoryRepository.save(category);
       return res.status(200).json({
         message: `Category with id = ${id} is updated`,
         data: category
@@ -113,7 +115,7 @@ class CategoryService {
       return res.status(404).json({ message: `Category with id ${id} is not valid` });
     }
 
-    const category = await this.CategoryRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { id: parseInt(id) },
     });
 
@@ -124,13 +126,12 @@ class CategoryService {
     }
 
     try {
-
       const hasRelations = await this.checkIfCategoryHasRelations(parseInt(id));
       if (hasRelations) {
-        return res.status(400).json({ message: `Category with ID ${id} has relations with products` });
+        return res.status(400).json({ message: `Category with ID ${id} has relations with products. Pls change all product with this category first` });
       }
 
-      await this.CategoryRepository.remove(category);
+      await this.categoryRepository.remove(category);
       return res.status(200).json({
         message: `Category with id = ${id} is deleted`,
       });
@@ -140,7 +141,7 @@ class CategoryService {
   }
 
   private static checkIfCategoryHasRelations = async (categoryId: number): Promise<boolean> => {
-    const category = await this.CategoryRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
       relations: ['products'],
     });

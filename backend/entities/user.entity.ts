@@ -26,6 +26,9 @@ export class User {
   @Column('nvarchar')
   role: string;
 
+  @Column('boolean', { default: false })
+  is_google: boolean;
+
   @OneToMany(() => UserAddress, (address) => address.user, { cascade: true, nullable: true })
   addresses: UserAddress[];
 

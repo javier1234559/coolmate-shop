@@ -1,11 +1,32 @@
 import express from 'express';
-import { validationDto } from '../middleware/validation.middleware';
 import userService from '../services/user.service';
+import authMiddleware from "../middleware/auth.middleware";
 
 const userController = express.Router();
 
 userController
   .route("/")
-  .get(userService.getUsers)
+  .get(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    userService.getUsers)
+  .post(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    userService.createUser);
+userController.route("/:id")
+  .get(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    userService.getUserById
+  )
+  .put(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    userService.updateUser)
+  .delete(
+    authMiddleware.verifyToken,
+    authMiddleware.verifyTokenAndAdminRole,
+    userService.deleteUser);
 
 export default userController;

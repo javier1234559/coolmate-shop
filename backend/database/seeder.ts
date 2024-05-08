@@ -17,6 +17,7 @@ import {
 } from "./data";
 import connectDB from "./data-source";
 import { Repository } from "typeorm";
+import bcrypt from 'bcrypt';
 
 class DatabaseSeeder {
   private connection: any;
@@ -44,9 +45,8 @@ class DatabaseSeeder {
 
   private reviewRepository: Repository<Review>;
 
-  constructor() {
+  constructor() { }
 
-  }
 
   async init() {
     try {
@@ -242,7 +242,12 @@ class DatabaseSeeder {
   }
 
   private async seedUsers() {
-    const usersData = this.userRepository.create(users);
+    const hashUser = users.map(user => {
+      const hashedPassword = bcrypt.hashSync(user.password, 10);
+      return { ...user, password: hashedPassword };
+    });
+
+    const usersData = this.userRepository.create(hashUser);
     await this.userRepository.save(usersData);
   }
 

@@ -27,6 +27,11 @@ const authApi = {
     // Assuming userData is an object containing user registration information
     return baseApi.post('auth/register', payload);
   },
+
+  async getIdentity() {
+    return baseApi.get('auth/me');
+  }
+  
 }
 
 export default authApi;

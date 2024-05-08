@@ -1,21 +1,21 @@
+import authApi from '../services/authApi';
+
 // sample data for testing purpose
-export const mockUsers = [{ email: 'john@mail.com', password: '123', role: 'admin' }];
+export const mockUsers = [{ email: 'admin@gmail.com', password: 'Admin@123', role: 'admin' }];
 
 const authProvider = {
   login: async ({ email, password }) => {
     /**
      * Here we actually send a request to the back end here.
      * But here we use find method since we are stored mockusers inside an array*/
-    const user = mockUsers.find((item) => item.email === email && item.password === password);
+    // const user = mockUsers.find((item) => item.email === email && item.password === password);
+
+    const response = await authApi.signIn({ email, password });
+    const user = response.data;
 
     // store the user data in local storage
     if (user) {
       localStorage.setItem('auth', JSON.stringify(user));
-      /**
-       * If process has completed we need to set success as true
-       * Also you need to provide an url to be redirected after successful login
-       * Here we use '/blog-posts'
-       */
       return {
         success: true,
         redirectTo: '/refine',
@@ -64,12 +64,9 @@ const authProvider = {
     };
   },
   logout: async () => {
-    // remove the uer from local storage
+    authApi.logout();
     localStorage.removeItem('auth');
-    /**
-     * After logout, success variable need t set as true
-     * In here, we redirect user to the login page after logging out
-     */
+
     return {
       success: true,
       redirectTo: '/login',
@@ -94,11 +91,17 @@ const authProvider = {
   // forgotPassword: async (params: any): AuthActionResponse,
   // updatePassword: async (params: any): AuthActionResponse,
   getPermissions: async (params) => params?.permissions,
-  getIdentity: async () => ({
-    id: 1,
-    name: 'Jane Doe',
-    avatar: 'https://unsplash.com/photos/IWLOvomUmWU/download?force=true&w=640',
-  }),
+  getIdentity: async () => {
+    let user = localStorage.getItem('auth');
+    user = user ? JSON.parse(user) : null;
+    console.log(user);
+
+    return {
+      id: user.id,
+      name: user.name,
+      avatar: user.avatar_img,
+    };
+  },
 };
 
 export default authProvider;

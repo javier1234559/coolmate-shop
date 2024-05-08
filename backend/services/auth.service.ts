@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken';
 import logger from '../utils/logger';
 
 class authService {
-  static UserRepository = connectDB.getRepository(User);
+  static userRepository = connectDB.getRepository(User);
 
   static generateAccessToken = (user: User) => {
     return jwt.sign(
@@ -43,7 +43,7 @@ class authService {
     }
 
     // Check if user exists
-    const user = await this.UserRepository.findOne({ where: { email } });
+    const user = await this.userRepository.findOne({ where: { email } });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
@@ -85,7 +85,7 @@ class authService {
       }
 
       // Check if email is already in use
-      const existingUser = await this.UserRepository.findOne({ where: { email } });
+      const existingUser = await this.userRepository.findOne({ where: { email } });
       if (existingUser) {
         return res.status(400).json({ message: 'Email already in use' });
       }
@@ -94,7 +94,7 @@ class authService {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create a new user instance
-      const newUser = this.UserRepository.create({
+      const newUser = this.userRepository.create({
         name,
         email,
         password: hashedPassword,
@@ -103,7 +103,7 @@ class authService {
       });
 
       // Save the new user
-      await this.UserRepository.save(newUser);
+      await this.userRepository.save(newUser);
       return res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       return res.status(500).json({ message: 'Error registering user', error });
@@ -128,17 +128,17 @@ class authService {
       console.log(payload)
 
       // Check if user exists
-      let user = await this.UserRepository.findOne({ where: { email } });
+      let user = await this.userRepository.findOne({ where: { email } });
       if (!user) {
         //if not exist create new user 
-        const newUser = this.UserRepository.create({
+        const newUser = this.userRepository.create({
           name,
           email,
           avatar_img: picture,
           is_google: true,
           role: 'user',
         });
-        user = await this.UserRepository.save(newUser);
+        user = await this.userRepository.save(newUser);
       }
 
       // return token to login
@@ -168,6 +168,19 @@ class authService {
   static logout = async (req: Request, res: Response) => {
     res.clearCookie('refreshToken');
     res.status(200).send('Logged out successfully');
+  }
+
+  static getIdentity = async (req: Request, res: Response) => {
+    const me = req.user;
+    // Get user from database
+    let user = await this.userRepository.findOne({ where: { email: me.email } });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    //return user except password
+    const { password, ...userWithoutPassword } = user;
+    return res.status(200).json(userWithoutPassword);
   }
 
 }

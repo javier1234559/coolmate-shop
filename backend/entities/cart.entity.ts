@@ -32,7 +32,7 @@ export class CartItem {
   cart: Cart;
 
   @ManyToOne(() => Product, (product) => product.cartItems, { eager: true })
-  product: Product;
+  product: Product; // In this line , it should not to be use the product entity , instead create new entity for cart item
 
   @Column('nvarchar')
   image: string;

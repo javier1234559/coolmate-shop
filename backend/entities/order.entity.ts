@@ -55,6 +55,9 @@ export class Order {
 
   @Column('nvarchar')
   shippingAddress: string;
+  
+  @Column('nvarchar')
+  noteFromCustomer: string;
 
   @Column('nvarchar')
   paymentMethod: string;
@@ -72,9 +75,6 @@ export class Order {
 
   @Column('double')
   itemsPrice: number;
-
-  @Column('double')
-  taxPrice: number;
 
   @Column('double')
   shippingPrice: number;

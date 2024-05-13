@@ -6,6 +6,9 @@ import { CartButton } from '../CartButton/CartButton';
 import { useSelector } from 'react-redux';
 import './Navbar.css';
 import Logo from '../Logo/Logo';
+import { useDispatch } from 'react-redux';
+import { toggleCart } from '~/redux/cartSlice';
+import SlidingCart from '../SlidingCart/SlidingCart';
 
 const navigations = [
   {
@@ -46,8 +49,9 @@ const navigations = [
 ];
 
 function Navbar() {
+  const dispath = useDispatch();
   const avatar = useSelector((state) => state?.auth?.avatar_img);
-  const [showCart, setShowCart] = useState(false);
+  const showCart = useSelector((state) => state?.cart?.isShow);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   function handleOpenNavigation() {
@@ -55,7 +59,7 @@ function Navbar() {
   }
 
   function handletoggleShowCart() {
-    setShowCart(!showCart);
+    dispath(toggleCart());
   }
 
   const navLinkClass = ({ isActive }) => {
@@ -99,8 +103,8 @@ function Navbar() {
         </div>
         <div className="nav-overlay"></div>
       </nav>
-      {/* <SlidingCart toggleShowCart={handletoggleShowCart} /> */}
-      <div className="cart-slide_overlay"></div>;
+      <SlidingCart toggleShowCart={handletoggleShowCart} />
+      <div className="cart-slide_overlay" onClick={handletoggleShowCart}></div>;
     </header>
   );
 }

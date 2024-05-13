@@ -230,12 +230,12 @@ export const orders = [
   {
     user_id: 1,
     shippingAddress: "123 Main St",
+    noteFromCustomer: "Dont deliver after 2pm",
     paymentMethod: "Credit Card",
     deliveryDetail_id: 1,
     paymentResult_id: "1",
     item_ids: [],
     itemsPrice: 200,
-    taxPrice: 20,
     shippingPrice: 10,
     totalPrice: 230,
     isPaid: true,
@@ -248,7 +248,7 @@ export const orders = [
 export const orderItems = [
   {
     order_id: 1,
-    image: "product1.jpg",
+    image: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg",
     quantity: 2,
     product_id: 1,
     created_at: new Date(),

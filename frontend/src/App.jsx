@@ -23,8 +23,8 @@ import { TShirt } from 'phosphor-react';
 import { DashboardPage } from './admin/pages/dashboard';
 import { mockUsers } from './admin/auth-provider';
 import Header from './admin/components/Header';
-
 import { useState } from 'react';
+import Order from './pages/Order/Order';
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
@@ -38,10 +38,11 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/order" element={<Order />} />
         </Route>
 
         {/* Refine routes */}
-        <Route path="/refine" element={<RefineContext currentTheme={currentTheme}  />}>
+        <Route path="/refine" element={<RefineContext currentTheme={currentTheme} />}>
           {/* Admin Private Route */}
           <Route
             element={
@@ -75,7 +76,7 @@ function App() {
           {/* Public Auth routes */}
           <Route
             element={
-              <Authenticated fallback={<Outlet />}>
+              <Authenticated v3LegacyAuthProviderCompatible={true} key="someKey" fallback={<Outlet />}>
                 <NavigateToResource />
               </Authenticated>
             }>

@@ -9,7 +9,7 @@ function RootLayout() {
     <>
       <ScrollToTop />
       <Navbar />
-      <div style={{ width: '100%', minHeight: '50vh' }}>
+      <div style={{ width: '100%', minHeight: '80vh' }}>
         <Outlet />
       </div>
       <Toaster />

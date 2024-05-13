@@ -61,7 +61,7 @@ li {
   bottom: 0;
   left: 0;
   background-color: rgba(0, 0, 0,0.2);
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
   display: flex;
   justify-content: center;
   align-items: center;

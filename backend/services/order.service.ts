@@ -95,7 +95,6 @@ class OrderService {
     order.shippingAddress = shippingAddress;
     order.paymentMethod = paymentMethod;
     order.totalPrice = itemsPrice;
-    order.taxPrice = taxPrice;
     order.shippingPrice = shippingPrice;
     order.totalPrice = totalPrice;
 

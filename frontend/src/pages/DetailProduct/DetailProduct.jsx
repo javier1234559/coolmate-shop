@@ -6,28 +6,30 @@ import ReviewProduct from '~/components/ReviewProduct/ReviewProduct';
 import RatingStars from '~/components/RatingStars/RatingStars';
 import productApi from '~/services/productApi';
 import Skeleton from '~/components/Skeleton/Skeleton';
+import { useDispatch } from 'react-redux';
+import { addToCart, toggleCart } from '~/redux/cartSlice';
 
 function DetailProduct() {
   const { slug } = useParams();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [isLoading, setisLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
   };
 
-  const handleColorTagClick = (tag) => {
-    setSelectedColor(tag?.id);
+  const handleColorTagClick = (name) => {
+    setSelectedColor(name);
   };
 
-  const handleSizeTagClick = (tag) => {
-    console.log(tag?.name);
-    setSelectedSize(tag?.name);
+  const handleSizeTagClick = (name) => {
+    setSelectedSize(name);
   };
 
   const decreaseQuantity = () => {
@@ -63,6 +65,20 @@ function DetailProduct() {
     }
   };
 
+  const saveProductToCart = () => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        product: product,
+        image: product?.media[0]?.media_url,
+        color: selectedColor,
+        size: selectedSize,
+        quantity: quantity,
+      })
+    );
+    dispatch(toggleCart());
+  };
+
   useEffect(() => {
     Promise.all([fetchProductDetail(), fetchReviewProduct()])
       .then(() => setisLoading(false))
@@ -71,6 +87,18 @@ function DetailProduct() {
         setisLoading(false);
       });
   }, [slug]);
+
+  useEffect(() => {
+    if (product?.images && product.images.length > 0) {
+      setSelectedImage(product.images[0]);
+    }
+    if (product?.colorSizes && product.colorSizes.length > 0 && product.colorSizes[0].color) {
+      setSelectedColor(product.colorSizes[0].color.name);
+    }
+    if (product?.colorSizes && product.colorSizes.length > 0 && product.colorSizes[0].size) {
+      setSelectedSize(product.colorSizes[0].size.name);
+    }
+  }, [product]);
 
   if (isLoading) {
     return (
@@ -118,21 +146,21 @@ function DetailProduct() {
           </div>
           <div className="color-tags">
             <h2 className="color-name">
-              Màu sắc : <span>{product?.colorSizes[0]?.color?.name}</span>
+              Màu sắc : <span>{selectedColor}</span>
             </h2>
             <div>
               {product?.colorSizes?.map((tag) => (
-                <span key={tag?.id} style={{ backgroundColor: tag?.color?.hex_code }} className={`color-tag ${selectedColor === tag?.id ? 'selected' : ''}`} onClick={() => handleColorTagClick(tag)}></span>
+                <span key={tag?.id} style={{ backgroundColor: tag?.color?.hex_code }} className={`color-tag ${selectedColor === tag?.id ? 'selected' : ''}`} onClick={() => handleColorTagClick(tag?.color.name)}></span>
               ))}
             </div>
           </div>
           <div className="color-tags">
             <h2 className="color-name">
-              Kích thước : <span>{product?.colorSizes[0]?.size?.name}</span>
+              Kích thước : <span>{selectedSize}</span>
             </h2>
             <div>
               {product?.colorSizes?.map((tag, index) => (
-                <div key={index} className={`color-tag ${selectedSize === tag?.size?.name ? 'selected' : ''}`} onClick={() => handleSizeTagClick(tag?.size)}>
+                <div key={index} className={`color-tag ${selectedSize === tag?.size?.name ? 'selected' : ''}`} onClick={() => handleSizeTagClick(tag?.size?.name)}>
                   {tag?.size?.name}
                 </div>
               ))}
@@ -150,7 +178,7 @@ function DetailProduct() {
                 </button>
               </div>
             </div>
-            <Button className="add-to-cart-btn" variant="black">
+            <Button className="add-to-cart-btn" variant="black" onClick={saveProductToCart}>
               Add to Cart
             </Button>
           </div>

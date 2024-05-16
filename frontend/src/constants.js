@@ -11,8 +11,12 @@ export const PAYMENT_METHODS = {
     type: 'COD',
     name: 'COD - Thanh toán khi nhận hàng',
   },
+  ZALOPAY: {
+    type: 'ZALOPAY',
+    name: 'ZaloPay - Thanh toán qua ZaloPay',
+  },
   MOMO: {
     type: 'MOMO',
-    name: 'Momo - Thanh toán qua Momo',
+    name: 'MoMo - Thanh toán qua MoMo',
   },
 }

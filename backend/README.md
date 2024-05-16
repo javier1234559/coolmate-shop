@@ -20,3 +20,8 @@ mysql:
     MYSQL_USER: your_user
     MYSQL_PASSWORD: your_password
 ```
+
+## Setup ngrok 
+```bash
+ngrok http --domain=emerging-lark-amazingly.ngrok-free.app 8080
+```

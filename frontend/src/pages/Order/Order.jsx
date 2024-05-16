@@ -8,6 +8,9 @@ import toast from 'react-hot-toast';
 import { calcProvisional, calculateTotal } from '~/utils/utils';
 import { PAYMENT_METHODS } from '~/constants';
 import { useNavigate } from 'react-router-dom';
+import orderApi from '~/services/orderApi';
+// import dateFormat from "dateformat";
+import moment from 'moment';
 
 const Order = () => {
   const dispatch = useDispatch();
@@ -23,7 +26,7 @@ const Order = () => {
   const [paymentMethod, setPaymentMethod] = useState(PAYMENT_METHODS.COD.type);
   const [voucherCode, setVoucherCode] = useState('VOUCHER10');
   const [voucherDiscount, setVoucherDiscount] = useState(0);
-  const [totalPrice, setTotalPrice] = useState('0.00');
+  const [totalPrice, setTotalPrice] = useState(0.0);
 
   useEffect(() => {
     setTotalPrice(calculateTotal(listItem, voucherDiscount));
@@ -47,10 +50,43 @@ const Order = () => {
     }
 
     if (paymentMethod === PAYMENT_METHODS.MOMO.type) {
-      // Call API to handle MOMO payment
-      console.log('Redirect to MOMO payment gateway');
-      toast.success('Redirect to MOMO payment gateway');
-      // Redirect to MOMO payment gateway ...
+      //Build MoMo order object
+      const momoOrder = {
+        amount: totalPrice * 10000, // change to VND
+      };
+
+      // Call API to get MoMo payment URL
+      const response = await orderApi.createMoMoPaymentUrl(momoOrder);
+      console.log(response);
+      const redirectUrl = response.data.payUrl;
+      const orderId = response.data.orderId;
+      console.log(orderId); //later use this orderId to check order status but first need to store it in redux
+
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        toast.error('Redirect URL not received from server');
+      }
+    }
+
+    if (paymentMethod === PAYMENT_METHODS.ZALOPAY.type) {
+      //Build ZaloPay order object
+      const zaloOrder = {
+        amount: totalPrice * 10000, // change to VND
+      };
+
+      // Call API to get ZaloPay payment URL
+      const response = await orderApi.createZaloPayPaymentUrl(zaloOrder);
+      console.log(response.data);
+      const redirectUrl = response.data.order_url;
+      const orderId = response.data.orderId;
+      console.log(orderId); //later use this orderId to check order status but first need to store it in redux
+
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        toast.error('Redirect URL not received from server');
+      }
     }
   };
 
@@ -83,22 +119,21 @@ const Order = () => {
 
     const formDataWithPaymentMethod = { ...formData, paymentMethod, listItem };
 
-    
     //Handle payment method
     await handlePaymentSubmited(paymentMethod);
-    
+
     console.log('Submitted data:', formDataWithPaymentMethod);
-    
+
     // Call API to submit data
 
     //show toast success
     toast.success('Order successfully!');
 
     //delete all items in cart
-    dispatch(clearCart());
+    // dispatch(clearCart());
 
     //navigate to history order user
-    navigate('/profile');
+    // navigate('/profile');
   };
 
   const handleVoucherCodeChange = (event) => {
@@ -185,6 +220,9 @@ const Order = () => {
             <div className="payment-options">
               <input type="radio" id="cod" name="paymentMethod" value={PAYMENT_METHODS.COD.type} checked={paymentMethod === PAYMENT_METHODS.COD.type} onChange={handlePaymentMethodChange} />
               <label htmlFor="cod">{PAYMENT_METHODS.COD.name}</label>
+              <br />
+              <input type="radio" id="zalopay" name="paymentMethod" value={PAYMENT_METHODS.ZALOPAY.type} checked={paymentMethod === PAYMENT_METHODS.ZALOPAY.type} onChange={handlePaymentMethodChange} />
+              <label htmlFor="zalopay">{PAYMENT_METHODS.ZALOPAY.name}</label>
               <br />
               <input type="radio" id="momo" name="paymentMethod" value={PAYMENT_METHODS.MOMO.type} checked={paymentMethod === PAYMENT_METHODS.MOMO.type} onChange={handlePaymentMethodChange} />
               <label htmlFor="momo">{PAYMENT_METHODS.MOMO.name}</label>

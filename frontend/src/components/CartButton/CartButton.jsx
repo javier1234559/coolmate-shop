@@ -1,18 +1,18 @@
-import { ShoppingCart } from "phosphor-react";
+import { ShoppingCart } from 'phosphor-react';
 import PropTypes from 'prop-types';
-import "./CartButton.css";
+import './CartButton.css';
+import { useSelector } from 'react-redux';
 
 export function CartButton({ toggleShowCart }) {
-  // const cart = useCart();
-  const cart = [];
+  const cartItems = useSelector((state) => state.cart?.items) || [];
 
-  const totalCartQty = cart.reduce((totalQty, current) => {
-    return totalQty + current.qty;
+  const totalCartQty = cartItems.reduce((totalQty, current) => {
+    return totalQty + current.quantity;
   }, 0);
 
   return (
     <span onClick={toggleShowCart} className="cart-icon">
-      <ShoppingCart size={30}/>
+      <ShoppingCart size={30} />
       <div className="cart-counter">{totalCartQty}</div>
     </span>
   );

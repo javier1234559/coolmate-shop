@@ -1,9 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Category } from './category.entity';
 import { Collection } from './collection.entity';
-import { CartItem } from './cart.entity';
 import { Review } from './review.entity';
-import { OrderItem } from './order.entity';
 
 @Entity()
 export class Product {
@@ -54,12 +52,6 @@ export class Product {
 
   @OneToMany(() => ProductColorSize, (pcs) => pcs.product, { cascade: true, nullable: true, eager: true })
   colorSizes: ProductColorSize[];
-
-  @OneToOne(() => CartItem, (cartItem) => cartItem.product, { nullable: true })
-  cartItems: CartItem[];
-
-  @OneToOne(() => CartItem, (cartItem) => cartItem.product, { nullable: true })
-  orderItems: OrderItem[];
 
   @OneToMany(() => Review, (review) => review.product, { nullable: true })
   reviews: Review[]

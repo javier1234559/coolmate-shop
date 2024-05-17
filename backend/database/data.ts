@@ -145,7 +145,7 @@ export const productColorSizes = [
   {
     quantity: 100,
     product_id: 1,
-    color_id: 1,
+    color_id: 2,
     size_id: 1,
   },
   {
@@ -157,12 +157,12 @@ export const productColorSizes = [
   {
     quantity: 100,
     product_id: 1,
-    color_id: 1,
+    color_id: 3,
     size_id: 3,
   },
   {
     quantity: 100,
-    product_id: 1,
+    product_id: 4,
     color_id: 1,
     size_id: 4,
   }
@@ -170,7 +170,7 @@ export const productColorSizes = [
   {
     quantity: 100,
     product_id: 2,
-    color_id: 1,
+    color_id: 2,
     size_id: 1,
   },
   {
@@ -268,5 +268,18 @@ export const reviews = [
     product_id: 2,
     rating: 3.5,
     comment: "Great product",
+  }
+]
+
+export const discounts = [
+  {
+    discountValue: 10,
+    discountCode: "VOUCHER10",
+    quantity: 2
+  },
+  {
+    discountValue: 20,
+    discountCode: "VOUCHER20",
+    quantity: 5
   }
 ]

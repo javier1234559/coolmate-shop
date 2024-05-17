@@ -25,6 +25,7 @@ import { mockUsers } from './admin/auth-provider';
 import Header from './admin/components/Header';
 import { useState } from 'react';
 import Order from './pages/Order/Order';
+import Thanks from './pages/Thanks/Thanks';
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
@@ -39,6 +40,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/thanks" element={<Thanks />} />
         </Route>
 
         {/* Refine routes */}

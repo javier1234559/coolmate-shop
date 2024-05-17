@@ -4,9 +4,10 @@ import config from "../config/config";
 import { Product, ProductColorSize, Size, Color, ProductMedia } from "../entities/product.entity";
 import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
-import { Order, OrderItem, PaymentResult, DeliveryDetail } from "../entities/order.entity";
+import { Order, OrderItem } from "../entities/order.entity";
 import { Review } from "../entities/review.entity";
 import { User, UserAddress, UserPayment } from "../entities/user.entity";
+import { Discount } from "../entities/discount.entity"
 import { Cart, CartItem } from "../entities/cart.entity";
 
 const connectDB = new DataSource({
@@ -20,6 +21,7 @@ const connectDB = new DataSource({
   logging: true,
   entities: [
     User,
+    Discount,
     Cart,
     CartItem,
     Order,
@@ -27,7 +29,6 @@ const connectDB = new DataSource({
     Review,
     UserAddress,
     UserPayment,
-    PaymentResult,
     OrderItem,
     Product,
     ProductColorSize,
@@ -36,7 +37,6 @@ const connectDB = new DataSource({
     ProductMedia,
     Category,
     Collection,
-    DeliveryDetail
   ],
   subscribers: [],
   migrations: [],

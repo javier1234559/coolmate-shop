@@ -3,11 +3,11 @@ import { Product, ProductColorSize, Size, Color, ProductMedia } from "../entitie
 import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
 import { Cart, CartItem } from "../entities/cart.entity";
-import { Order, OrderItem, DeliveryDetail, PaymentResult } from "../entities/order.entity";
+import { Order, OrderItem } from "../entities/order.entity";
 import { User, UserAddress, UserPayment } from "../entities/user.entity";
 import { Review } from "../entities/review.entity";
 import {
-  users,
+  users, discounts,
   products, userAddresses, categories,
   paymentResults,
   deliveredDetails, userPayments,
@@ -18,6 +18,7 @@ import {
 import connectDB from "./data-source";
 import { Repository } from "typeorm";
 import bcrypt from 'bcrypt';
+import { Discount } from "../entities/discount.entity";
 
 class DatabaseSeeder {
   private connection: any;
@@ -28,8 +29,7 @@ class DatabaseSeeder {
 
   private orderRepository: Repository<Order>;
   private orderItemRepository: Repository<OrderItem>;
-  private paymentResultRepository: Repository<PaymentResult>;
-  private deliveryDetailRepository: Repository<DeliveryDetail>;
+
 
   private productRepository: Repository<Product>;
   private sizeRepository: Repository<Size>;
@@ -44,6 +44,7 @@ class DatabaseSeeder {
   private userPaymentRepository: Repository<UserPayment>;
 
   private reviewRepository: Repository<Review>;
+  private discountRepository: Repository<Discount>;
 
   constructor() { }
 
@@ -71,9 +72,8 @@ class DatabaseSeeder {
     this.cartItemRepository = this.connection.getRepository(CartItem);
     this.orderRepository = this.connection.getRepository(Order);
     this.orderItemRepository = this.connection.getRepository(OrderItem);
-    this.paymentResultRepository = this.connection.getRepository(PaymentResult);
-    this.deliveryDetailRepository = this.connection.getRepository(DeliveryDetail);
     this.reviewRepository = this.connection.getRepository(Review);
+    this.discountRepository = this.connection.getRepository(Discount);
   }
 
 
@@ -84,11 +84,14 @@ class DatabaseSeeder {
       console.log('Seeding categories...');
       await this.seedCategories();
 
-      console.log('Delivering details...');
-      await this.deliveredDetails();
+      // console.log('Delivering details...');
+      // await this.deliveredDetails();
 
-      console.log('Processing payment results...');
-      await this.paymentResults();
+      // console.log('Processing payment results...');
+      // await this.paymentResults();
+
+      console.log('Seeding discount...');
+      await this.seedDiscounts();
 
       console.log('Seeding colors...');
       await this.seedColors();
@@ -120,14 +123,14 @@ class DatabaseSeeder {
       console.log('Seeding carts...');
       await this.seedCarts();
 
-      console.log('Seeding cart items...');
-      await this.seedCarttems();
+      // console.log('Seeding cart items...');
+      // await this.seedCarttems();
 
-      console.log('Seeding orders...');
-      await this.seedOrders();
+      // console.log('Seeding orders...');
+      // await this.seedOrders();
 
-      console.log('Seeding order items...');
-      await this.seedOrderItems();
+      // console.log('Seeding order items...');
+      // await this.seedOrderItems();
 
       console.log('Seeding reviews...');
       await this.seedReviews();
@@ -136,9 +139,14 @@ class DatabaseSeeder {
     } catch (error) {
       console.error('Error seeding data:', error);
     } finally {
-      // await this.connection.close();
+      await this.connection.close();
     }
   }
+  seedDiscounts() {
+    const discountsData = this.discountRepository.create(discounts);
+    this.discountRepository.save(discountsData);
+  }
+
   private async seedReviews() {
     for (const review of reviews) {
       const user = await this.userRepository.findOne({ where: { id: review.user_id } });
@@ -158,25 +166,23 @@ class DatabaseSeeder {
       if (order && product) {
         const orderItemData = this.orderItemRepository.create(orderItem);
         orderItemData.order = order;
-        orderItemData.product = product;
         this.orderItemRepository.save(orderItemData);
       }
     }
   }
+
   private async seedOrders() {
     for (const order of orders) {
       const user = await this.userRepository.findOne({ where: { id: order.user_id } });
-      const paymentResult = await this.paymentResultRepository.findOne({ where: { id: order.paymentResult_id } });
-      const deliveryDetail = await this.deliveryDetailRepository.findOne({ where: { id: order.deliveryDetail_id } });
-      if (user && paymentResult && deliveryDetail) {
+      if (user) {
         const orderData = this.orderRepository.create(order);
         orderData.user = user;
         orderData.items = [];
-        orderData.deliveryDetail = deliveryDetail;
         this.orderRepository.save(orderData);
       }
     }
   }
+  
   private async seedCarttems() {
     for (const cartItem of cartItems) {
       const cart = await this.cartRepository.findOne({ where: { id: cartItem.cart_id } });
@@ -206,16 +212,6 @@ class DatabaseSeeder {
   private async seedCategories() {
     const categoriesData = this.categoryRepository.create(categories);
     await this.categoryRepository.save(categoriesData);
-  }
-
-  private async deliveredDetails() {
-    const deliveredDetailsData = this.deliveryDetailRepository.create(deliveredDetails);
-    await this.deliveryDetailRepository.save(deliveredDetailsData);
-  }
-
-  private async paymentResults() {
-    const paymentResultsData = this.paymentResultRepository.create(paymentResults);
-    await this.paymentResultRepository.save(paymentResultsData);
   }
 
   private async seedUserAddresses() {

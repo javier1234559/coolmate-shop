@@ -2,20 +2,23 @@ import axios from "axios";
 import CryptoJS from "crypto-js";
 import { Request, Response } from "express";
 import moment from "moment";
-import { FindManyOptions } from "typeorm";
+import { FindManyOptions, MoreThan } from "typeorm";
 import config from "../config/config";
 import connectDB from "../database/data-source";
-import { Order } from "../entities/order.entity";
-import { Product } from "../entities/product.entity";
-import { calcPrices } from "../utils/calcPrice";
+import { Order, OrderItem, OrderStatus, PaymentStatus } from "../entities/order.entity";
+import { Product, ProductColorSize } from "../entities/product.entity";
+import { calculateTotal } from "../utils/calcPrice";
 import qs from "qs";
 // import { sortObject } from "../utils/sortObject";
 import crypto from "crypto";
+import { Discount } from "../entities/discount.entity";
 
 
 class OrderService {
   static orderRepository = connectDB.getRepository(Order);
   static productRepository = connectDB.getRepository(Product);
+  static discountRepository = connectDB.getRepository(Discount);
+  static productColorSizeRepository = connectDB.getRepository(ProductColorSize);
 
   static getMyOrders = async (req: Request, res: Response) => {
     const userId = req.user.id;
@@ -77,42 +80,108 @@ class OrderService {
   }
 
   static addOrderItems = async (req: Request, res: Response) => {
-    const { orderItems, shippingAddress, paymentMethod } = req.body;
+    const { orderItems, shippingInfo, paymentMethod } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       return res.status(400).json({ message: 'No order items' });
     }
 
-    // map over the order items in database to use the price in datase
-    const listOfOrderItemsInDB = orderItems.map(async (item: any) => {
-      const productInDB = await this.productRepository.findOne({ where: { id: parseInt(item.product.id) } });
-      if (!productInDB) return res.status(404).json({ message: `Product with id ${item.product.id} not found` });
-      return {
-        ...item,
-        price: productInDB!.price,
-        quantity: item.quantity
-      }
-    });
-
-    // calculate prices
-    const { itemsPrice, taxPrice, shippingPrice, totalPrice } = calcPrices(listOfOrderItemsInDB);
-
     const order = new Order();
-    order.items = listOfOrderItemsInDB;
-    order.user = req.user;
-    order.shippingAddress = shippingAddress;
+    order.name = shippingInfo.name;
+    order.phone = shippingInfo.phone;
+    order.email = shippingInfo.email;
+    order.shippingAddress = shippingInfo.address;
+    order.noteFromCustomer = shippingInfo.note;
     order.paymentMethod = paymentMethod;
-    order.totalPrice = itemsPrice;
-    order.shippingPrice = shippingPrice;
-    order.totalPrice = totalPrice;
+    if (req.user) {
+      order.user = req.user;
+    }
+
+    // map over the order items in database to use the price in datase
+    order.items = await this.getOrderItemsFromDB(orderItems);
+
+    // handle discount code and calcute total price
+    const discountCodeInput = req.body.voucherCode;
+    const discountValue = await this.getDiscountValue(discountCodeInput);
+    order.totalPrice = calculateTotal(order.items, discountValue);
 
     try {
+      await this.handleReduceProductQuantity(order.items);
       const createdOrder = await this.orderRepository.save(order);
-      return res.status(201).json(createdOrder);
+      const buildResponse = {
+        orderId: createdOrder.id,
+        status: createdOrder.status,
+        paymentMethod: createdOrder.paymentMethod,
+      }
+      return res.status(201).json(buildResponse);
     } catch (error: any) {
+      console.log(error.message);
       return res.status(500).json({ message: error.message });
     }
 
+  }
+
+  static handleReduceProductQuantity = async (orderItems: OrderItem[]) => { // handle reduce quantity of product in stock
+    for (let i = 0; i < orderItems.length; i++) {
+      const item = orderItems[i];
+      const productInDB = await this.productRepository.findOne({
+        where: {
+          slug: item.product_slug,
+        },
+      });
+      if (productInDB) {
+        console.log(item);
+        console.log(productInDB.colorSizes);
+        const colorSizeToUpdate = productInDB.colorSizes.find(cs =>
+          cs.color.name === item.color && cs.size.name === item.size
+        );
+        console.log(colorSizeToUpdate);
+        if (colorSizeToUpdate) {
+          colorSizeToUpdate.quantity -= item.quantity;
+          await this.productColorSizeRepository.save(colorSizeToUpdate);
+        }
+      }
+    }
+
+  }
+
+  static getDiscountValue = async (discountCodeInput: string) => {
+    let discountValue: number = 0;
+    if (discountCodeInput) {
+      const discountCodeInDB = await this.discountRepository.findOne({ where: { discountCode: discountCodeInput, quantity: MoreThan(0) } });
+      if (discountCodeInDB) {
+        discountCodeInDB.quantity -= 1;
+        await this.discountRepository.save(discountCodeInDB);
+        discountValue = discountCodeInDB.discountValue;
+      }
+    }
+    return discountValue;
+  }
+
+  static getOrderItemsFromDB = async (orderItems: any): Promise<OrderItem[]> => {
+    const items: OrderItem[] = [];
+
+    for (let i = 0; i < orderItems.length; i++) {
+      const item = orderItems[i];
+      const productInDB = await this.productRepository.findOne({ where: { id: parseInt(item.product.id) } });
+
+      if (!productInDB) {
+        continue;
+      }
+
+      const orderItem = new OrderItem();
+      orderItem.name = productInDB.name;
+      orderItem.product_slug = productInDB.slug;
+      orderItem.size = item.size;
+      orderItem.color = item.color;
+      orderItem.image = item.image;
+      orderItem.quantity = item.quantity;
+      orderItem.price = productInDB.price;
+      orderItem.totalPrice = productInDB.price * item.quantity;
+      items.push(orderItem);
+    }
+
+    return items;
   }
 
   static updateOrderToPaid = async (req: Request, res: Response) => {
@@ -244,17 +313,26 @@ class OrderService {
 
     // Payload from client
     let amount = Number.parseInt(req.body.amount);
-    console.log('amount: ', amount);
-
-    const embed_data = {
-      redirecturl: config.zalopay.returnUrl,
-    };
+    let order_id = req.body.orderId;
+    let paymentMethod = req.body.paymentMethod;
 
     const items = [{}];
     const transID = Math.floor(Math.random() * 1000000);
+    const app_trans_id = `${moment().format('YYMMDD')}_${transID}`; // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+    const embed_data = {
+      redirecturl: `${config.zalopay.returnUrl}?orderId=${app_trans_id}&paymentMethod=${paymentMethod}&orderIdpayment=${app_trans_id}`,
+    };
+
+    //update order status to pending
+    const createdOrder = await this.orderRepository.findOne({ where: { id: parseInt(order_id) } });
+    if (createdOrder) {
+      createdOrder.id_payment = app_trans_id;
+      await this.orderRepository.save(createdOrder);
+    }
+
     const order = {
       app_id: config.zalopay.appid,
-      app_trans_id: `${moment().format('YYMMDD')}_${transID}`, // translation missing: vi.docs.shared.sample_code.comments.app_trans_id
+      app_trans_id: app_trans_id,
       app_user: "user123",
       app_time: Date.now(), // miliseconds
       item: JSON.stringify(items),
@@ -262,7 +340,7 @@ class OrderService {
       amount: amount,
       //khi thanh toán xong, zalopay server sẽ POST đến url này để thông báo cho server của mình
       //Chú ý: cần dùng ngrok để public url thì Zalopay Server mới call đến được
-      callback_url: `${config.ngrok_URL}/api/orders/zalo/callback`,
+      callback_url: `${config.ngrok_URL}/api/orders/zalopay/callback`,
       description: `Coolmate - Payment for the order #${transID}`,
       bank_code: '',
     };
@@ -273,7 +351,6 @@ class OrderService {
 
     try {
       const result = await axios.post(config.zalopay.endpoint, null, { params: order });
-      console.log(result.data);
       return res.status(200).json(result.data);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
@@ -290,8 +367,8 @@ class OrderService {
       return_code: 1,
       return_message: 'success',
     };
-    console.log(req.body);
 
+    console.log('callback called: ' + req.body.data + ' ' + req.body.mac); ;
     try {
       let dataStr = req.body.data;
       let reqMac = req.body.mac;
@@ -312,6 +389,16 @@ class OrderService {
           dataJson['app_trans_id'],
         );
         // merchant cập nhật trạng thái cho đơn hàng ở đây
+        //update order status to pending
+        console.log('update order status to pending id : ' + dataJson['app_trans_id'])
+        const createdOrder = await this.orderRepository.findOne({ where: { id_payment: dataJson['app_trans_id'] } });
+        if (createdOrder) {
+          console.log('update order status');
+          createdOrder.paymentStatus = PaymentStatus.PAID;
+          createdOrder.isPaid = true;
+          createdOrder.paidAt = new Date();
+          await this.orderRepository.save(createdOrder);
+        }
 
         result.return_code = 1;
         result.return_message = 'success';
@@ -374,22 +461,31 @@ class OrderService {
 
     // Payload from client
     let amount = Number.parseInt(req.body.amount);
-    console.log('amount: ', amount);  
-    
+    let order_id = req.body.orderId;
+    let paymentMethod = req.body.paymentMethod;
+    console.log('amount: ', amount);
+
     //Momo configuration
     let accessKey = config.momo.accessKey;
     let secretKey = config.momo.secretKey;
     let partnerCode = config.momo.partnerCode;
-    let redirectUrl = config.momo.redirectUrl;
     let ipnUrl = `${config.ngrok_URL}/api/orders/momo/callback`;
-    let orderId = partnerCode + new Date().getTime();
-    let orderInfo = `Coolmate - Payment for the order ${orderId} with MoMo`;
-    let requestId = orderId;
+    let app_trans_id = partnerCode + new Date().getTime();
+    let redirectUrl = `${config.momo.redirectUrl}?orderId=${app_trans_id}&paymentMethod=${paymentMethod}&orderIdpayment=${app_trans_id}`;
+    let orderInfo = `Coolmate - Payment for the order ${app_trans_id} with MoMo`;
+    let requestId = app_trans_id;
     let requestType = 'payWithMethod';
     let extraData = '';
     let orderGroupId = '';
     let autoCapture = true;
     let lang = 'vi';
+
+    //update order status to pending
+    const createdOrder = await this.orderRepository.findOne({ where: { id: parseInt(order_id) } });
+    if (createdOrder) {
+      createdOrder.id_payment = app_trans_id;
+      await this.orderRepository.save(createdOrder);
+    }
 
 
     //before sign HMAC SHA256 with format
@@ -404,7 +500,7 @@ class OrderService {
       '&ipnUrl=' +
       ipnUrl +
       '&orderId=' +
-      orderId +
+      app_trans_id +
       '&orderInfo=' +
       orderInfo +
       '&partnerCode=' +
@@ -429,7 +525,7 @@ class OrderService {
       storeId: 'MomoTestStore',
       requestId: requestId,
       amount: amount,
-      orderId: orderId,
+      orderId: app_trans_id,
       orderInfo: orderInfo,
       redirectUrl: redirectUrl,
       ipnUrl: ipnUrl,
@@ -482,7 +578,7 @@ class OrderService {
           orderInfo: 'pay with MoMo',
           orderType: 'momo_wallet',
           transId: 4014083433,
-          resultCode: 0,
+          resultCode: 0,  // 0: giao dịch thành công , 11 : giao dịch bị từ chối , etc at https://developers.momo.vn/v3/vi/docs/payment/api/result-handling/resultcode
           message: 'Thành công.',
           payType: 'qr',
           responseTime: 1712108811069,
@@ -490,6 +586,21 @@ class OrderService {
           signature: '10398fbe70cd3052f443da99f7c4befbf49ab0d0c6cd7dc14efffd6e09a526c0'
         }
      */
+    if (req.body.resultCode === 0) {
+      const createdOrder = await this.orderRepository.findOne({ where: { id_payment: req.body.orderId } });
+      if (createdOrder) {
+        createdOrder.paymentStatus = PaymentStatus.PAID;
+        createdOrder.isPaid = true;
+        createdOrder.paidAt = new Date();
+        await this.orderRepository.save(createdOrder);
+      }
+    } else {
+      const createdOrder = await this.orderRepository.findOne({ where: { id_payment: req.body.orderId } });
+      if (createdOrder) {
+        createdOrder.paymentStatus = PaymentStatus.PAYMENT_FAILED;
+        await this.orderRepository.save(createdOrder);
+      }
+    }
 
     return res.status(204).json(req.body);
   }

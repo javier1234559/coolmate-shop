@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, OneToMany, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm";
-import { Product } from "./product.entity";
 import { User } from "./user.entity";
 
 @Entity()
@@ -31,14 +30,29 @@ export class CartItem {
   @ManyToOne(() => Cart, (cart) => cart.items)
   cart: Cart;
 
-  @ManyToOne(() => Product, (product) => product.cartItems, { eager: true })
-  product: Product; // In this line , it should not to be use the product entity , instead create new entity for cart item
+  @Column('nvarchar')
+  product_slug: string;
+
+  @Column('nvarchar')
+  name : string
+
+  @Column('nvarchar', { nullable: true })
+  color: string;
+
+  @Column('nvarchar', { nullable: true })
+  size: string;
 
   @Column('nvarchar')
   image: string;
 
   @Column('int')
   quantity: number;
+
+  @Column('double')
+  price: number;
+
+  @Column('double')
+  totalPrice: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   created_at: Date;

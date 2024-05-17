@@ -10,7 +10,7 @@ import { PAYMENT_METHODS } from '~/constants';
 import { useNavigate } from 'react-router-dom';
 import orderApi from '~/services/orderApi';
 // import dateFormat from "dateformat";
-import moment from 'moment';
+// import moment from 'moment';
 
 const Order = () => {
   const dispatch = useDispatch();
@@ -44,44 +44,30 @@ const Order = () => {
     setPaymentMethod(event.target.value);
   };
 
-  const handlePaymentSubmited = async (paymentMethod) => {
+  const buildOrder = (orderId, paymentMethod, totalPrice) => ({
+    orderId,
+    paymentMethod,
+    amount: totalPrice * 10000, // change to VND
+  });
+
+  const handlePaymentSubmited = async (orderId, paymentMethod) => {
     if (paymentMethod === PAYMENT_METHODS.COD.type) {
-      return;
-    }
-
-    if (paymentMethod === PAYMENT_METHODS.MOMO.type) {
+      navigate(`/thanks?orderId=${orderId}&paymentMethod=${paymentMethod}`);
+    } else if (paymentMethod === PAYMENT_METHODS.MOMO.type) {
       //Build MoMo order object
-      const momoOrder = {
-        amount: totalPrice * 10000, // change to VND
-      };
-
-      // Call API to get MoMo payment URL
+      const momoOrder = buildOrder(orderId, paymentMethod, totalPrice);
       const response = await orderApi.createMoMoPaymentUrl(momoOrder);
-      console.log(response);
       const redirectUrl = response.data.payUrl;
-      const orderId = response.data.orderId;
-      console.log(orderId); //later use this orderId to check order status but first need to store it in redux
-
       if (redirectUrl) {
         window.location.href = redirectUrl;
       } else {
         toast.error('Redirect URL not received from server');
       }
-    }
-
-    if (paymentMethod === PAYMENT_METHODS.ZALOPAY.type) {
+    } else if (paymentMethod === PAYMENT_METHODS.ZALOPAY.type) {
       //Build ZaloPay order object
-      const zaloOrder = {
-        amount: totalPrice * 10000, // change to VND
-      };
-
-      // Call API to get ZaloPay payment URL
+      const zaloOrder = buildOrder(orderId, paymentMethod, totalPrice);
       const response = await orderApi.createZaloPayPaymentUrl(zaloOrder);
-      console.log(response.data);
       const redirectUrl = response.data.order_url;
-      const orderId = response.data.orderId;
-      console.log(orderId); //later use this orderId to check order status but first need to store it in redux
-
       if (redirectUrl) {
         window.location.href = redirectUrl;
       } else {
@@ -117,23 +103,35 @@ const Order = () => {
       return;
     }
 
-    const formDataWithPaymentMethod = { ...formData, paymentMethod, listItem };
-
-    //Handle payment method
-    await handlePaymentSubmited(paymentMethod);
+    const formDataWithPaymentMethod = {
+      shippingInfo: {
+        ...formData,
+      },
+      paymentMethod: paymentMethod,
+      orderItems: listItem,
+      voucherCode: voucherCode,
+    };
 
     console.log('Submitted data:', formDataWithPaymentMethod);
 
     // Call API to submit data
+    try {
+      const response = await orderApi.createOrder(formDataWithPaymentMethod);
 
-    //show toast success
-    toast.success('Order successfully!');
+      if (response.status === 201) {
+        const orderId = response.data.orderId;
+        const paymentMethod = response.data.paymentMethod;
 
-    //delete all items in cart
-    // dispatch(clearCart());
-
-    //navigate to history order user
-    // navigate('/profile');
+        handlePaymentSubmited(orderId, paymentMethod);
+        //delete all items in cart
+        dispatch(clearCart());
+      } else {
+        toast.error('Không thể tạo đơn hàng, vui lòng thử lại.');
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại.');
+      console.log(error);
+    }
   };
 
   const handleVoucherCodeChange = (event) => {

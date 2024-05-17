@@ -6,11 +6,11 @@ const orderServiceController = express.Router();
 
 orderServiceController.route("/zalopay/payment").post(orderService.createZaloPaymentUrl)
 orderServiceController.route("/zalopay/callback").post(orderService.createZaloPayCallBack)
-orderServiceController.route("/zalopay/check-status").post(orderService.createZaloPayCheckStatus)  
+orderServiceController.route("/zalopay/check-status").post(orderService.createZaloPayCheckStatus)
 
 orderServiceController.route("/momo/payment").post(orderService.createMomoPaymentUrl)
 orderServiceController.route("/momo/callback").post(orderService.createMomoPayCallBack)
-orderServiceController.route("/momo/check-status").post(orderService.createMomoPayCheckStatus)  
+orderServiceController.route("/momo/check-status").post(orderService.createMomoPayCheckStatus)
 
 
 // orderServiceController.route("/qr").get(orderService.generateQRCode)
@@ -21,7 +21,7 @@ orderServiceController.route("/:id/pay").put(authMiddleware.verifyToken, orderSe
 orderServiceController.route("/:id/deliver").put(authMiddleware.verifyToken, orderService.updateOrderToDelivered)
 orderServiceController
   .route("/")
-  .post(authMiddleware.verifyToken, orderService.addOrderItems)
+  .post(orderService.addOrderItems)
   .get(authMiddleware.verifyToken, authMiddleware.verifyTokenAndAdminRole, orderService.getOrders)
 
 

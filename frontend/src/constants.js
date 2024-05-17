@@ -20,3 +20,18 @@ export const PAYMENT_METHODS = {
     name: 'MoMo - Thanh toán qua MoMo',
   },
 }
+
+
+export const ORDER_STATUS = {
+  PENDING: 'Chờ duyệt',
+  APPROVED: 'Đã Duyệt',
+  REJECTED: 'Đã bị Từ chối',
+  DELIVERED: 'Đã giao',
+  IN_TRANSIT: 'Đang vận chuyển',
+}
+
+export const PAYMENT_STATUS = {
+  UNPAID: 'Chưa Thanh Toán',
+  PAID: 'Đã Thanh Toán',
+  PAYMENT_FAILED: 'Thanh Toán thất bại',
+}

@@ -11,7 +11,7 @@ export const ProductShow = () => {
   const { data, isLoading } = queryResult;
   const record = data?.data;
 
-  console.log(record);
+  // console.log(record);
   // const { data: categoryData, isLoading: categoryIsLoading } =
   //   useOne({
   //     resource: "products",

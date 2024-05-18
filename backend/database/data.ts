@@ -67,25 +67,25 @@ export const users = [
   }
 ];
 
-export const userAddresses = [
-  {
-    address: "123 Main St",
-    city: "New York",
-    district: "Manhattan",
-    commune: "Downtown",
-    phone: "9876543210",
-    user_id: 1
-  },
-  {
-    address: "1999 Main St",
-    city: "Hawaii",
-    district: "Manhattan",
-    commune: "Downtown",
-    phone: "9876543210",
-    user_id: 2
-  },
+// export const userAddresses = [
+//   {
+//     address: "123 Main St",
+//     city: "New York",
+//     district: "Manhattan",
+//     commune: "Downtown",
+//     phone: "9876543210",
+//     user_id: 1
+//   },
+//   {
+//     address: "1999 Main St",
+//     city: "Hawaii",
+//     district: "Manhattan",
+//     commune: "Downtown",
+//     phone: "9876543210",
+//     user_id: 2
+//   },
 
-];
+// ];
 
 
 export const userPayments = [

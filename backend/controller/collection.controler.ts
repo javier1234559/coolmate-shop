@@ -12,7 +12,7 @@ collectionController.route("/").post(
 );
 collectionController.route("/:id").get(CollectionService.getCollectionById);
 collectionController.route("/slug/:slug").get(CollectionService.getCollectionBySlug)
-collectionController.route("/:id").put(
+collectionController.route("/:id").patch(
   authMiddleware.verifyToken,
   authMiddleware.verifyTokenAndAdminRole,
   CollectionService.updateCollection

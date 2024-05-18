@@ -184,45 +184,43 @@ class OrderService {
     return items;
   }
 
-  static updateOrderToPaid = async (req: Request, res: Response) => {
+  static updateOrderStatus = async (req: Request, res: Response) => {
     const orderId = req.params.id;
-    // const { id, status, update_time, payer  } = req.body;
-
-    // if (!orderId || isNaN(parseInt(orderId))) return res.status(400).json({ message: 'Order ID is not valid' });
-
-    // const order = await this.orderRepository.findOne({ where: { id: parseInt(orderId) } });
-    // if (!order) return res.status(404).json({ message: 'Order not found' });
-
-    // order.isPaid = true;
-    // order.paidAt = new Date();
-    // order.paymentResult = {
-    //   id,
-    //   status,
-    //   modified_at: new Date(),
-
-    // };
-
-  }
-
-  static updateOrderToDelivered = async (req: Request, res: Response) => {
-    const orderId = req.params.id;
-    const { id, status, update_time, payer } = req.body;
 
     if (!orderId || isNaN(parseInt(orderId))) return res.status(400).json({ message: 'Order ID is not valid' });
 
     const order = await this.orderRepository.findOne({ where: { id: parseInt(orderId) } });
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
-    order.isDelivered = true;
-    order.deliveredAt = new Date();
-
     try {
-      const updatedOrder = await this.orderRepository.save(order);
-      return res.status(200).json(updatedOrder);
-    } catch (error: any) {
-      return res.status(500).json({ message: error.message });
+      console.log('req.body', req.body);
+      const newOrder = new Order();
+      newOrder.name = req.body.name;
+      newOrder.phone = req.body.phone;
+      newOrder.email = req.body.email;
+      newOrder.shippingAddress = req.body.shippingAddress;
+      newOrder.noteFromCustomer = req.body.noteFromCustomer;
+      newOrder.status = req.body.status;
+      newOrder.paymentStatus = req.body.paymentStatus;
+      newOrder.paymentMethod = req.body.paymentMethod;
+      newOrder.totalPrice = req.body.totalPrice;
+      newOrder.isPaid = req.body.isPaid;
+      newOrder.paidAt = req.body.paidAt;
+      newOrder.isDelivered = req.body.isDelivered;
+      newOrder.deliveredAt = req.body.deliveredAt;
+
+      const updatedUser = await this.orderRepository.save({
+        ...order,
+        ...newOrder,
+      });
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      console.error('Error updating user', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
     }
+
   }
+
 
   // static generateQRCode = async (req: Request, res: Response) => {
   //   const vietQR = new VietQR();
@@ -368,7 +366,7 @@ class OrderService {
       return_message: 'success',
     };
 
-    console.log('callback called: ' + req.body.data + ' ' + req.body.mac); ;
+    console.log('callback called: ' + req.body.data + ' ' + req.body.mac);;
     try {
       let dataStr = req.body.data;
       let reqMac = req.body.mac;

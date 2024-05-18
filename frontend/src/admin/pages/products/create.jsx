@@ -1,10 +1,10 @@
-import { Create, useForm, useSelect } from "@refinedev/antd";
+import { Create, useForm } from "@refinedev/antd";
 import { Switch, Rate, Upload ,Button,Form, Input} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import MDEditor from "@uiw/react-md-editor";
 
 export const ProductCreate = () => {
-  const { formProps, saveButtonProps } = useForm({
+  const {  saveButtonProps } = useForm({
     warnWhenUnsavedChanges: true,
   });
 

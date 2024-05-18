@@ -4,8 +4,8 @@ import { Refine } from '@refinedev/core';
 import routerProvider, { DocumentTitleHandler, UnsavedChangesNotifier } from '@refinedev/react-router-v6';
 import { App as AntdApp, ConfigProvider, theme } from 'antd';
 import { dataProvider } from './rest-data-provider';
-import { TShirt, User, Checks, ShoppingCartSimple, Tag } from 'phosphor-react';
-import authProvider from './auth-provider';
+import { TShirt, User, Checks, Tag, ArrowsInSimple, Palette, Tree  } from 'phosphor-react';
+import authProvider, { axiosInstance } from './auth-provider';
 import { Outlet } from 'react-router-dom';
 
 //example from: https://github.com/refinedev/refine/blob/master/examples/base-antd/src/App.tsx
@@ -33,7 +33,7 @@ export function RefineContext(props) {
           authProvider={authProvider}
           routerProvider={routerProvider}
           notificationProvider={useNotificationProvider}
-          dataProvider={dataProvider(API_URL)}
+          dataProvider={dataProvider(API_URL, axiosInstance)}
           resources={[
             {
               name: 'users',
@@ -58,6 +58,17 @@ export function RefineContext(props) {
               },
             },
             {
+              name: 'collections',
+              list: 'refine/collections',
+              show: 'refine/collections/show/:id',
+              create: 'refine/collections/create',
+              edit: 'refine/collections/edit/:id',
+              meta: {
+                canDelete: true,
+                icon: <Tree  size={16} />,
+              },
+            },
+            {
               name: 'categories',
               list: 'refine/categories',
               show: 'refine/categories/show/:id',
@@ -69,14 +80,36 @@ export function RefineContext(props) {
               },
             },
             {
-              name: 'carts',
-              list: 'refine/carts',
-              show: 'refine/carts/show/:id',
+              name: 'colors',
+              list: 'refine/colors',
+              show: 'refine/colors/show/:id',
+              create: 'refine/colors/create',
+              edit: 'refine/colors/edit/:id',
               meta: {
                 canDelete: true,
-                icon: <ShoppingCartSimple size={16} />,
+                icon: <Palette size={16} />,
               },
             },
+            {
+              name: 'sizes',
+              list: 'refine/sizes',
+              show: 'refine/sizes/show/:id',
+              create: 'refine/sizes/create',
+              edit: 'refine/sizes/edit/:id',
+              meta: {
+                canDelete: true,
+                icon: <ArrowsInSimple size={16} />,
+              },
+            },
+            // {
+            //   name: 'carts',
+            //   list: 'refine/carts',
+            //   show: 'refine/carts/show/:id',
+            //   meta: {
+            //     canDelete: true,
+            //     icon: <ShoppingCartSimple size={16} />,
+            //   },
+            // },
             {
               name: 'orders',
               list: 'refine/orders',

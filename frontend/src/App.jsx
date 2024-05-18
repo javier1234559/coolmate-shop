@@ -9,11 +9,10 @@ import { ProductCreate } from './admin/pages/products/create';
 import { ProductEdit } from './admin/pages/products/edit';
 import { ProductShow } from './admin/pages/products/show';
 import { UserList } from '~/admin/pages/users/list';
-import { CartList } from '~/admin/pages/carts/list';
 import { CategoryList } from '~/admin/pages/categories/list';
 import { OrderList } from '~/admin/pages/orders/list';
 import { RefineContext } from './admin/RefineContext';
-import { BrowserRouter as Router, Route, Routes, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Outlet, Link } from 'react-router-dom';
 import { ErrorComponent, ThemedSiderV2, ThemedTitleV2 } from '@refinedev/antd';
 import { CatchAllNavigate, NavigateToResource } from '@refinedev/react-router-v6';
 import { Authenticated } from '@refinedev/core';
@@ -26,6 +25,21 @@ import Header from './admin/components/Header';
 import { useState } from 'react';
 import Order from './pages/Order/Order';
 import Thanks from './pages/Thanks/Thanks';
+import { UserCreate } from './admin/pages/users/create';
+import { UserEdit } from './admin/pages/users/edit';
+import { OrderEdit } from './admin/pages/orders/edit';
+import { OrderShow } from './admin/pages/orders/show';
+import { CategoryCreate } from '~/admin/pages/categories/create';
+import { CategoryEdit } from '~/admin/pages/categories/edit';
+import { ColorEdit } from '~/admin/pages/colors/edit';
+import { ColorCreate } from '~/admin/pages/colors/create';
+import { ColorList } from '~/admin/pages/colors/list';
+import { SizeList } from '~/admin/pages/sizes/list';
+import { SizeCreate } from '~/admin/pages/sizes/create';
+import { SizeEdit } from '~/admin/pages/sizes/edit';
+import { CollectionList } from '~/admin/pages/collections/list';
+import { CollectionCreate } from '~/admin/pages/collections/create';
+import { CollectionEdit } from '~/admin/pages/collections/edit';
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
@@ -49,7 +63,7 @@ function App() {
           <Route
             element={
               <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/refine/login" />}>
-                <ThemedLayoutV2 Header={() => <Header theme={currentTheme} setTheme={setCurrentTheme} />} Title={({ collapsed }) => <ThemedTitleV2 collapsed={collapsed} icon={collapsed ? <TShirt size={22} /> : <TShirt size={22} />} text=" COOLMATE DASHBOARD" />} Sider={(props) => <ThemedSiderV2 {...props} fixed />}>
+                <ThemedLayoutV2 Header={() => <Header theme={currentTheme} setTheme={setCurrentTheme} />} Title={({ collapsed }) => <ThemedTitleV2 collapsed={collapsed} icon={<Link to="/refine">{collapsed ? <TShirt size={22} /> : <TShirt size={22} />}</Link>} text=" COOLMATE DASHBOARD" />} Sider={(props) => <ThemedSiderV2 {...props} fixed />}>
                   <Outlet />
                 </ThemedLayoutV2>
               </Authenticated>
@@ -61,17 +75,35 @@ function App() {
               <Route path="edit/:id" element={<ProductEdit />} />
               <Route path="show/:id" element={<ProductShow />} />
             </Route>
+            <Route path="collections">
+              <Route index element={<CollectionList />} />
+              <Route path="create" element={<CollectionCreate />} />
+              <Route path="edit/:id" element={<CollectionEdit />} />
+            </Route>
             <Route path="users">
               <Route index element={<UserList />} />
+              <Route path="create" element={<UserCreate />} />
+              <Route path="edit/:id" element={<UserEdit />} />
             </Route>
             <Route path="categories">
               <Route index element={<CategoryList />} />
+              <Route path="create" element={<CategoryCreate />} />
+              <Route path="edit/:id" element={<CategoryEdit />} />
+            </Route>
+            <Route path="colors">
+              <Route index element={<ColorList />} />
+              <Route path="create" element={<ColorCreate />} />
+              <Route path="edit/:id" element={<ColorEdit />} />
+            </Route>
+            <Route path="sizes">
+              <Route index element={<SizeList />} />
+              <Route path="create" element={<SizeCreate />} />
+              <Route path="edit/:id" element={<SizeEdit />} />
             </Route>
             <Route path="orders">
               <Route index element={<OrderList />} />
-            </Route>
-            <Route path="carts">
-              <Route index element={<CartList />} />
+              <Route path="edit/:id" element={<OrderEdit />} />
+              <Route path="show/:id" element={<OrderShow />} />
             </Route>
           </Route>
 

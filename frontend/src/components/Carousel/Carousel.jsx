@@ -1,4 +1,4 @@
-import { Pagination } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import PropTypes from 'prop-types';
 import 'swiper/css';
@@ -9,15 +9,17 @@ export default function Carousel({ images: carousel_images }) {
   return (
     <>
       <Swiper
-        direction={'vertical'}
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         pagination={{
           clickable: true,
         }}
-        autoplay={{
-          delay: 1500,
-          disableOnInteraction: false,
-        }}
-        modules={[Pagination]}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper">
         {carousel_images.map((image) => (
           <SwiperSlide key={image.id}>

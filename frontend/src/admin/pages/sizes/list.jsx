@@ -1,13 +1,13 @@
-import { List, Breadcrumb, TextField, useTable, EditButton } from '@refinedev/antd';
+import { List, Breadcrumb, TextField, useTable, EditButton, TagField } from '@refinedev/antd';
 import { usePermissions } from '@refinedev/core';
-import { Table, Space } from 'antd';
+import { Table, Space} from 'antd';
 
-export const CategoryList = () => {
+export const SizeList = () => {
   const { data: permissionsData } = usePermissions();
-  const { tableProps } = useTable({ resource: 'categories' });
+  const { tableProps } = useTable({ resource: 'sizes' });
 
   return (
-    <List title="Here's a category manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'medium' }}>
+    <List title="Here's a color manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'medium' }}>
       <Table {...tableProps} rowKey="id">
         <Table.Column
           dataIndex="id"
@@ -17,14 +17,11 @@ export const CategoryList = () => {
           }}
         />
         <Table.Column
-          title="Icon"
-          dataIndex="icon"
+          dataIndex="name" title="Name"
           render={(value) => {
-            return <span dangerouslySetInnerHTML={{ __html: value }} />;
+            return <TagField value={value} />;
           }}
         />
-        <Table.Column dataIndex="name" title="Name" />
-        <Table.Column dataIndex="description" title="Description" />
         <Table.Column
           title="Actions"
           dataIndex="actions"

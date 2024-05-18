@@ -1,30 +1,36 @@
-import { List, Breadcrumb, TextField, TagField, ImageField, useTable, EditButton, ShowButton } from '@refinedev/antd';
+import { List, Breadcrumb ,useTable, EditButton, ShowButton, BooleanField } from '@refinedev/antd';
 import { usePermissions } from '@refinedev/core';
-import { Table, Space } from 'antd';
+import { Table, Space, Tag } from 'antd';
+import { PAYMENT_METHOD_COLOR, PAYMENT_STATUS_COLOR, STATUS_COLOR } from '~/constants';
 
 export const OrderList = () => {
   const { data: permissionsData } = usePermissions();
   const { tableProps } = useTable({ resource: 'orders' });
 
-  console.log(tableProps);
-  const categoryIds = tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-
   return (
     <List title="Here's a order manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'medium' }}>
       <Table {...tableProps} rowKey="id">
-        <Table.Column
-          dataIndex="id"
-          title="#Id"
-          render={(value) => {
-            return <TextField strong value={`#${value}`} />;
-          }}
-        />
+        <Table.Column dataIndex="id" title="#Id" />
         <Table.Column dataIndex="name" title="Name" />
-        <Table.Column dataIndex="description" title="Description" />
+        <Table.Column dataIndex="phone" title="Phone" />
+        <Table.Column dataIndex="email" title="Email" />
+        <Table.Column dataIndex="shippingAddress" title="Shipping Address" />
+        <Table.Column dataIndex="noteFromCustomer" title="Customer Note" />
+        <Table.Column dataIndex="status" title="Status" render={(status) => <Tag color={STATUS_COLOR[status]}>{status}</Tag>} />
+        <Table.Column dataIndex="paymentStatus" title="Payment Status" render={(paymentStatus) => <Tag color={PAYMENT_STATUS_COLOR[paymentStatus]}>{paymentStatus}</Tag>} />
+        <Table.Column dataIndex="paymentMethod" title="Payment Method" render={(paymentMethod) => <Tag color={PAYMENT_METHOD_COLOR[paymentMethod]}>{paymentMethod}</Tag>} />
+        <Table.Column dataIndex="totalPrice" title="Total Price" />
+        <Table.Column dataIndex="isPaid" title="Is Paid?" render={(isPaid) => <BooleanField value={isPaid} />} />
+        <Table.Column dataIndex="paidAt" title="Paid At" />
+        <Table.Column dataIndex="isDelivered" title="Is Delivered?" render={(isDelivered) => <BooleanField value={isDelivered} />} />
+        <Table.Column dataIndex="deliveredAt" title="Delivered At" />
+        <Table.Column dataIndex="created_at" title="Created At" />
+        <Table.Column dataIndex="modified_at" title="Modified At" />
         <Table.Column
           title="Actions"
           dataIndex="actions"
-          render={(_, record) => (
+          fixed="right"
+          render={(_, record ) => (
             <Space>
               <EditButton hideText size="medium" recordItemId={record.id} />
               <ShowButton hideText size="medium" recordItemId={record.id} />

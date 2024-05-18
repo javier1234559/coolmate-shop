@@ -91,8 +91,6 @@ class ProductService {
   static getProductById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    logger.debug(id);
-
     if (!id || isNaN(parseInt(id))) {
       return res.status(404).json({ message: `Invalid product ID: ${id}` });
     }

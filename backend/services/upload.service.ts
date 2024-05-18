@@ -39,10 +39,39 @@ export default class UploadService {
   static storeImage(req: Request, res: Response) {
     parser.single('image')(req, res, function (err) {
       if (err) {
+        console.log(err);
         return res.status(400).json({ error: err.message });
       }
       // You can access `req.file` here
       res.send(req.file);
     });
   }
+
+  // static async storeImageSubmited(avatar_img: any) {
+  //   try {
+  //     let filePath = avatar_img.file.originFileObj.path;
+
+  //     // If path is not available, create a temporary file
+  //     if (!filePath && avatar_img.file.originFileObj.buffer) {
+  //       filePath = path.join(__dirname, avatar_img.file.uid);
+  //       fs.writeFileSync(filePath, avatar_img.file.originFileObj.buffer);
+  //     }
+
+  //     if (!filePath) {
+  //       throw new Error('File path or buffer is not available');
+  //     }
+
+  //     const result = await cloudinary.v2.uploader.upload(filePath);
+
+  //     // If a temporary file was created, delete it
+  //     if (avatar_img.file.originFileObj.buffer) {
+  //       fs.unlinkSync(filePath);
+  //     }
+
+  //     return result.secure_url;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+
+  // }
 }

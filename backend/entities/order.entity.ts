@@ -79,13 +79,13 @@ export class Order {
   @Column('double')
   totalPrice: number;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: false })
   isPaid: boolean;
 
   @Column({ type: 'timestamp', nullable: true })
   paidAt: Date;
 
-  @Column({ type: 'boolean', default: true })
+  @Column({ type: 'boolean', default: false })
   isDelivered: boolean;
 
   @Column({ type: 'timestamp', nullable: true })

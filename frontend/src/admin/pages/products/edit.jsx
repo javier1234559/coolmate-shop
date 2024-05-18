@@ -1,4 +1,4 @@
-import { Edit, useForm, useSelect } from '@refinedev/antd';
+import { Edit, useForm } from '@refinedev/antd';
 import { UploadOutlined } from '@ant-design/icons';
 import MDEditor from '@uiw/react-md-editor';
 import { Switch, Rate, Upload ,Button,Form, Input} from 'antd';
@@ -13,14 +13,10 @@ export const ProductEdit = () => {
 
   const productData = queryResult?.data?.data;
   console.log(productData);
-  // const { selectProps: categorySelectProps } = useSelect({
-  //   resource: "categories",
-  //   defaultValue: ProductData?.category.id,
-  // });
 
   return (
     <Edit saveButtonProps={saveButtonProps} autoSaveProps={autoSaveProps}>
-      <Form layout="vertical">
+      <Form {...formProps} layout="vertical">
         <Form.Item label="Seller Id" name="seller_id">
           <Input disabled />
         </Form.Item>

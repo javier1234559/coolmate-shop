@@ -37,14 +37,10 @@ class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { id: parseInt(id) },
-      cache: true,
     });
 
     if (category) {
-      return res.status(200).json({
-        message: `Category with id = ${id}`,
-        data: category
-      })
+      return res.status(200).json(category)
     } else {
       return res.status(404).json({
         message: `Category with id = ${id} is not found`,
@@ -99,10 +95,7 @@ class CategoryService {
 
     try {
       await this.categoryRepository.save(category);
-      return res.status(200).json({
-        message: `Category with id = ${id} is updated`,
-        data: category
-      });
+      return res.status(200).json(category);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }

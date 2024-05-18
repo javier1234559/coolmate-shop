@@ -39,7 +39,7 @@ export default {
     redirectUrl: process.env.MOMO_REDIRECT_URL,
   },
   cloudinary: {
-    cloud_name: process.env.CLOUDYNARY_NAME!,
+    cloud_name: process.env.CLOUDYNARY_NAME,
     api_key: process.env.CLOUDYNARY_API_KEY,
     api_secret: process.env.CLOUDYNARY_API_SECRET,
   }

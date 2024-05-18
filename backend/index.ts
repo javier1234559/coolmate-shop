@@ -12,6 +12,8 @@ import collectionController from "./controller/collection.controler";
 import uploadController from "./controller/upload.controller";
 import connectDB from "./database/data-source";
 import logger from "./utils/logger";
+import colorController from "./controller/color.controller";
+import sizeController from "./controller/size.controller";
 // import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 // // -------------------------------------------
@@ -48,6 +50,8 @@ app.use("/api/users", userController);
 app.use("/api/products", productController);
 app.use("/api/collections", collectionController);
 app.use("/api/categories", categoryController);
+app.use("/api/colors", colorController);
+app.use("/api/sizes", sizeController);
 app.use("/api/carts", cartController);
 app.use("/api/orders", orderController);
 app.use("/api/upload", uploadController);

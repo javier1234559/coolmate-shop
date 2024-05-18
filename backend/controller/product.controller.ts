@@ -11,7 +11,7 @@ productController.route("/").get(ProductService.getProducts)
     ProductService.createProduct
   );
 productController.route("/:id")
-  .put(
+  .patch(
     authMiddleware.verifyToken,
     authMiddleware.verifyTokenAndAdminRole,
     ProductService.updateProduct

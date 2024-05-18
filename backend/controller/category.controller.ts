@@ -5,11 +5,12 @@ import authMiddleware from '../middleware/auth.middleware';
 const categoryServiceController = express.Router();
 
 categoryServiceController.route("/").get(CategoryService.getCategorys)
+categoryServiceController.route("/:id").get(CategoryService.getCategoryById)
 categoryServiceController.route("/").post(
   authMiddleware.verifyToken,
   authMiddleware.verifyTokenAndAdminRole,
   CategoryService.createCategory)
-categoryServiceController.route("/:id").put(
+categoryServiceController.route("/:id").patch(
   authMiddleware.verifyToken,
   authMiddleware.verifyTokenAndAdminRole,
   CategoryService.updateCategory)

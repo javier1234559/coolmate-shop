@@ -4,7 +4,7 @@ import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
 import { Cart, CartItem } from "../entities/cart.entity";
 import { Order, OrderItem } from "../entities/order.entity";
-import { User, UserAddress, UserPayment } from "../entities/user.entity";
+import { User, UserAddress, UserPayment, UserRole } from "../entities/user.entity";
 import { Review } from "../entities/review.entity";
 import {
   users, discounts,
@@ -102,8 +102,8 @@ class DatabaseSeeder {
       console.log('Seeding users...');
       await this.seedUsers();
 
-      console.log('Seeding user addresses...');
-      await this.seedUserAddresses();
+      // console.log('Seeding user addresses...');
+      // await this.seedUserAddresses();
 
       console.log('Seeding user payments...');
       await this.seedUserPayments();
@@ -182,7 +182,7 @@ class DatabaseSeeder {
       }
     }
   }
-  
+
   private async seedCarttems() {
     for (const cartItem of cartItems) {
       const cart = await this.cartRepository.findOne({ where: { id: cartItem.cart_id } });
@@ -240,7 +240,11 @@ class DatabaseSeeder {
   private async seedUsers() {
     const hashUser = users.map(user => {
       const hashedPassword = bcrypt.hashSync(user.password, 10);
-      return { ...user, password: hashedPassword };
+      let role = UserRole.USER
+      if (user.role === 'admin') {
+        role = UserRole.ADMIN;
+      }
+      return { ...user, password: hashedPassword, role: role };
     });
 
     const usersData = this.userRepository.create(hashUser);

@@ -20,7 +20,7 @@ userController.route("/:id")
     authMiddleware.verifyTokenAndAdminRole,
     userService.getUserById
   )
-  .put(
+  .patch(
     authMiddleware.verifyToken,
     authMiddleware.verifyTokenAndAdminRole,
     userService.updateUser)

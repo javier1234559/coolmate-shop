@@ -22,6 +22,7 @@ export const PAYMENT_METHODS = {
 }
 
 
+
 export const ORDER_STATUS = {
   PENDING: 'Chờ duyệt',
   APPROVED: 'Đã Duyệt',
@@ -35,3 +36,24 @@ export const PAYMENT_STATUS = {
   PAID: 'Đã Thanh Toán',
   PAYMENT_FAILED: 'Thanh Toán thất bại',
 }
+
+
+export const STATUS_COLOR = {
+  'Chờ duyệt': 'orange',
+  'Đã Duyệt': 'green',
+  'Đã bị Từ chối': 'red',
+  'Đã giao': 'blue',
+  'Đang vận chuyển': 'purple',
+};
+
+export const PAYMENT_STATUS_COLOR = {
+  'Chưa Thanh Toán': 'red',
+  'Đã Thanh Toán': 'green',
+  'Thanh Toán thất bại': 'orange',
+};
+
+export const PAYMENT_METHOD_COLOR = {
+  'COD': 'blue',
+  'ZALOPAY': 'green',
+  'MOMO': 'purple',
+};

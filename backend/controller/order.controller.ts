@@ -16,9 +16,9 @@ orderServiceController.route("/momo/check-status").post(orderService.createMomoP
 // orderServiceController.route("/qr").get(orderService.generateQRCode)
 // orderServiceController.route("/create_payment_url").post(orderService.createPaymentUrl)
 orderServiceController.route("/mine").get(authMiddleware.verifyToken, orderService.getMyOrders)
-orderServiceController.route("/:id").get(authMiddleware.verifyToken, orderService.getOrderById)
-orderServiceController.route("/:id/pay").put(authMiddleware.verifyToken, orderService.updateOrderToPaid)
-orderServiceController.route("/:id/deliver").put(authMiddleware.verifyToken, orderService.updateOrderToDelivered)
+orderServiceController.route("/:id").get(authMiddleware.verifyToken, authMiddleware.verifyTokenAndAdminRole, orderService.getOrderById)
+orderServiceController.route("/:id").patch(authMiddleware.verifyToken, authMiddleware.verifyTokenAndAdminRole, orderService.updateOrderStatus)
+// orderServiceController.route("/:id/deliver").put(authMiddleware.verifyToken, orderService.updateOrderToDelivered)
 orderServiceController
   .route("/")
   .post(orderService.addOrderItems)

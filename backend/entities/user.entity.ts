@@ -3,12 +3,17 @@ import { Review } from './review.entity';
 import { Cart } from './cart.entity';
 import { Order } from './order.entity';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  USER = 'user',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'nvarchar', default: 'https://as1.ftcdn.net/v2/jpg/03/53/11/00/500_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg' })
+  @Column({ type: 'nvarchar', default: 'https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg' })
   avatar_img: string;
 
   @Column('nvarchar')
@@ -23,14 +28,18 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   phone: string;
 
-  @Column('nvarchar')
-  role: string;
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER
+  })
+  role: UserRole;
 
   @Column('boolean', { default: false })
   is_google: boolean;
 
-  @OneToMany(() => UserAddress, (address) => address.user, { cascade: true, nullable: true })
-  addresses: UserAddress[];
+  @Column({ type: 'varchar', nullable: true })
+  addresses: string;
 
   @OneToMany(() => UserPayment, (payment) => payment.user, { cascade: true, nullable: true })
   payments: UserPayment[];
@@ -51,30 +60,30 @@ export class User {
   modified_at: Date;
 }
 
-@Entity()
-export class UserAddress {
-  @PrimaryGeneratedColumn()
-  id: number;
+// @Entity()
+// export class UserAddress {
+//   @PrimaryGeneratedColumn()
+//   id: number;
 
-  @Column('nvarchar')
-  address: string;
+//   @Column('nvarchar')
+//   address: string;
 
-  @Column('nvarchar')
-  city: string;
+//   @Column('nvarchar')
+//   city: string;
 
-  @Column('nvarchar')
-  district: string;
+//   @Column('nvarchar')
+//   district: string;
 
-  @Column('nvarchar')
-  commune: string;
+//   @Column('nvarchar')
+//   commune: string;
 
-  @Column('varchar')
-  phone: string;
+//   @Column('varchar')
+//   phone: string;
 
-  @ManyToOne(() => User, (user) => user.addresses)
-  user: User;
+//   @ManyToOne(() => User, (user) => user.addresses)
+//   user: User;
 
-}
+// }
 
 @Entity()
 export class UserPayment {

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import connectDB from "../database/data-source";
-import { User } from "../entities/user.entity";
+import { User, UserRole } from "../entities/user.entity";
 import { FindManyOptions, Like } from "typeorm";
-import config from "../config/config";
+import bcrypt from 'bcrypt';
 
 class UserService {
   static userRepository = connectDB.getRepository(User);
@@ -61,8 +61,19 @@ class UserService {
         return res.status(400).json({ message: 'Email already exists' });
       }
 
-      const newUser = await this.userRepository.save(req.body);
-      return res.status(201).json(newUser);
+      console.log('req.body', req.body);
+      const newUser = new User();
+      newUser.avatar_img = req.body.avatar_img;
+      newUser.name = req.body.name;
+      newUser.email = req.body.email;
+      const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+      newUser.password = hashedPassword;
+      newUser.addresses = req.body.addresses;
+      newUser.role = req.body.role || UserRole.USER;
+      newUser.phone = req.body.phone;
+
+      const createdUser = await this.userRepository.save(newUser);
+      return res.status(201).json(createdUser);
     } catch (error) {
       console.error('Error creating user', error);
       return res.status(500).json({ message: 'Internal Server Error' });
@@ -85,9 +96,20 @@ class UserService {
     }
 
     try {
+      console.log('req.body', req.body);
+      const newUser = new User();
+      newUser.avatar_img = req.body.avatar_img;
+      newUser.name = req.body.name;
+      newUser.email = req.body.email;
+      const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+      newUser.password = hashedPassword;
+      newUser.addresses = req.body.addresses;
+      newUser.role = req.body.role || UserRole.USER;
+      newUser.phone = req.body.phone;
+
       const updatedUser = await this.userRepository.save({
         ...user,
-        ...req.body,
+        ...newUser,
       });
       return res.status(200).json(updatedUser);
     } catch (error) {

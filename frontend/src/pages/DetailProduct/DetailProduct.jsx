@@ -44,27 +44,6 @@ function DetailProduct() {
     }
   };
 
-  const fetchProductDetail = async () => {
-    try {
-      const response = await productApi.getProductDetailBySlug(slug);
-      const detail_product = response.data;
-      setProduct(detail_product);
-    } catch (error) {
-      console.log('Failed to fetch products: ', error);
-    }
-  };
-
-  const fetchReviewProduct = async () => {
-    try {
-      const response = await productApi.getReviewProduct(slug);
-      const review_product = response.data;
-      console.log(review_product);
-      setReviews(review_product);
-    } catch (error) {
-      console.log('Failed to fetch reviews: ', error);
-    }
-  };
-
   const saveProductToCart = () => {
     dispatch(
       addToCart({
@@ -80,6 +59,27 @@ function DetailProduct() {
   };
 
   useEffect(() => {
+    const fetchReviewProduct = async () => {
+      try {
+        const response = await productApi.getReviewProduct(slug);
+        const review_product = response.data;
+        console.log(review_product);
+        setReviews(review_product);
+      } catch (error) {
+        console.log('Failed to fetch reviews: ', error);
+      }
+    };
+
+    const fetchProductDetail = async () => {
+      try {
+        const response = await productApi.getProductDetailBySlug(slug);
+        const detail_product = response.data;
+        setProduct(detail_product);
+      } catch (error) {
+        console.log('Failed to fetch products: ', error);
+      }
+    };
+
     Promise.all([fetchProductDetail(), fetchReviewProduct()])
       .then(() => setisLoading(false))
       .catch((error) => {
@@ -108,6 +108,20 @@ function DetailProduct() {
     );
   }
 
+  const uniqueColors = product?.colorSizes?.reduce((acc, tag) => {
+    if (!acc.find((color) => color.name === tag.color.name)) {
+      acc.push(tag.color);
+    }
+    return acc;
+  }, []);
+
+  const uniqueSizes = product.colorSizes.reduce((acc, tag) => {
+    if (!acc.find((size) => size.name === tag.size.name)) {
+      acc.push(tag.size);
+    }
+    return acc;
+  }, []);
+
   return (
     <div className="container col">
       <div className="product-detail">
@@ -123,34 +137,17 @@ function DetailProduct() {
         </div>
         <div className="product-details">
           <h2 className="product-title">{product?.name}</h2>
-          {/* <div className="rating">
-            {Array.from({ length: Math.floor(product?.rating) }).map((_, index) => (
-              <span key={index}>
-                <Star weight="fill" size={20} />
-              </span>
-            ))}
-            {product?.rating % 1 !== 0 && (
-              <span>
-                <StarHalf weight="fill" size={20} />
-              </span>
-            )}
-            {Array.from({ length: 5 - Math.ceil(product?.rating) }).map((_, index) => (
-              <span key={Math.floor(product?.rating) + index} className="empty-star">
-                <Star size={20} />
-              </span>
-            ))}
-          </div> */}
           <RatingStars value={4.5} />
           <div className="price">
-            <h1>{product?.price}.000đ</h1>
+            <h1>{product?.price}đ</h1>
           </div>
           <div className="color-tags">
             <h2 className="color-name">
               Màu sắc : <span>{selectedColor}</span>
             </h2>
             <div>
-              {product?.colorSizes?.map((tag) => (
-                <span key={tag?.id} style={{ backgroundColor: tag?.color?.hex_code }} className={`color-tag ${selectedColor === tag?.id ? 'selected' : ''}`} onClick={() => handleColorTagClick(tag?.color.name)}></span>
+              {uniqueColors.map((tag) => (
+                <span key={tag?.id} style={{ backgroundColor: tag?.hex_code }} className={`color-tag ${selectedColor === tag?.id ? 'selected' : ''}`} onClick={() => handleColorTagClick(tag?.name)}></span>
               ))}
             </div>
           </div>
@@ -159,11 +156,13 @@ function DetailProduct() {
               Kích thước : <span>{selectedSize}</span>
             </h2>
             <div>
-              {product?.colorSizes?.map((tag, index) => (
-                <div key={index} className={`color-tag ${selectedSize === tag?.size?.name ? 'selected' : ''}`} onClick={() => handleSizeTagClick(tag?.size?.name)}>
-                  {tag?.size?.name}
-                </div>
-              ))}
+              {uniqueSizes?.map((tag, index) => {
+                return (
+                  <div key={index} className={`color-tag ${selectedSize === tag?.name ? 'selected' : ''}`} onClick={() => handleSizeTagClick(tag?.name)}>
+                    {tag?.name}
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="row">

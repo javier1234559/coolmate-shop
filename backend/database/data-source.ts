@@ -6,7 +6,7 @@ import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
 import { Order, OrderItem } from "../entities/order.entity";
 import { Review } from "../entities/review.entity";
-import { User, UserAddress, UserPayment } from "../entities/user.entity";
+import { User,  UserPayment } from "../entities/user.entity";
 import { Discount } from "../entities/discount.entity"
 import { Cart, CartItem } from "../entities/cart.entity";
 
@@ -27,9 +27,7 @@ const connectDB = new DataSource({
     Order,
     OrderItem,
     Review,
-    UserAddress,
     UserPayment,
-    OrderItem,
     Product,
     ProductColorSize,
     Size,

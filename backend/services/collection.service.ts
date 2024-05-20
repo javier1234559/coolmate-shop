@@ -18,19 +18,12 @@ class CollectionService {
       take: pageSize,
       skip: skip,
       where: keyword ? [{ title: Like('%' + keyword + '%') }] : undefined,
+      relations: ['products', 'products.colorSizes', 'products.colorSizes.color', 'products.colorSizes.size'],
     };
 
     try {
-      const [Collections, total] = await this.collectionRepository.findAndCount(condition);
-      const CollectionDTOs = Collections.map((item: Collection) => ({
-        id: item.id,
-        imageSrc: item.thumbnail_image,
-        title: item.title,
-        description: item.description,
-        slug: item.slug
-      }));
-
-      return res.status(200).json(CollectionDTOs);
+      const [collections, total] = await this.collectionRepository.findAndCount(condition);
+      return res.status(200).json(collections);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
@@ -46,7 +39,6 @@ class CollectionService {
 
     const collection = await this.collectionRepository.findOne({
       where: { id: parseInt(id) },
-      cache: true,
     });
 
     if (collection) {
@@ -62,14 +54,9 @@ class CollectionService {
   static getCollectionBySlug = async (_req: Request, res: Response) => {
     const { slug } = _req.params;
 
-    if (!slug) {
-      return res.status(404).json({ message: `Collection with path ${slug} is not valid` });
-    }
-
     const collection = await this.collectionRepository.findOne({
-      where: { slug },
-      relations: ['products'],
-      cache: true,
+      where: { slug: slug },
+      relations: ['products', 'products.colorSizes', 'products.colorSizes.color', 'products.colorSizes.size'],
     });
 
     if (collection) {
@@ -81,29 +68,14 @@ class CollectionService {
     }
   }
 
-  static getBestSellerCollection = async (_req: Request, res: Response) => {
-    try {
-      const bestSellers = await this.collectionRepository
-        .createQueryBuilder('Collection')
-        .leftJoinAndSelect('Collection.orderItems', 'orderItem')
-        .select(['Collection.id', 'Collection.name', 'SUM(orderItem.quantity) AS totalQuantity'])
-        .groupBy('Collection.id')
-        .orderBy('totalQuantity', 'DESC')
-        .getRawMany();
-
-      return res.status(200).json(bestSellers);
-    } catch (error) {
-      console.error('Error fetching best-selling Collections', error);
-      return res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
-
   static createCollection = async (_req: Request, res: Response) => {
-    const { title, description, thumbnail_image, slug } = _req.body;
+    const { title, description, thumbnail_image, slug, products } = _req.body;
 
     if (!title || !description || !thumbnail_image || !slug) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
+
+    const listProducts = await this.productRepository.find({ where: products.map((product: any) => ({ id: product.id })) });
 
     try {
       const newCollection = this.collectionRepository.create({
@@ -111,6 +83,7 @@ class CollectionService {
         description,
         thumbnail_image,
         slug,
+        products: listProducts,
       });
 
       await this.collectionRepository.save(newCollection);
@@ -189,7 +162,7 @@ class CollectionService {
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
-   };
+  };
 
 }
 

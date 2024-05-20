@@ -23,7 +23,7 @@ export const CollectionList = () => {
             return <Image width={50} src={value} />;
           }}
         /> */}
-        <Table.Column dataIndex="imageSrc" title="Image" render={(value) => <ImageField value={value} title={'Image content'} width={200} style={{ objectFit: 'cover', borderRadius: '1rem' }} />} />
+        <Table.Column dataIndex="thumbnail_image" title="Thumbnail Image" render={(value) => <ImageField value={value} title={'Image content'} width={200} style={{ objectFit: 'cover', borderRadius: '1rem' }} />} />
         <Table.Column dataIndex="title" title="Title" />
         <Table.Column dataIndex="description" title="Description" />
         <Table.Column dataIndex="slug" title="Slug" />

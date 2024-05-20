@@ -5,9 +5,13 @@ import { FindManyOptions, Like } from "typeorm";
 import { Review } from "../entities/review.entity";
 import logger from "../utils/logger";
 import { Category } from "../entities/category.entity";
+import { User } from "../entities/user.entity";
+import { OrderItem } from "../entities/order.entity";
+import { printObject } from "../utils/prettyLog";
 
 class ProductService {
   static productRepository = connectDB.getRepository(Product);
+  static userRepository = connectDB.getRepository(User);
   static productColorSizeRepository = connectDB.getRepository(ProductColorSize);
   static productMediaRepository = connectDB.getRepository(ProductMedia);
   static productCategoryRepository = connectDB.getRepository(Category);
@@ -31,9 +35,9 @@ class ProductService {
         ? [
           { name: Like('%' + keyword + '%') },
           { category: { name: Like('%' + keyword + '%') } },
+          { brand: Like('%' + keyword + '%') },
         ]
         : undefined,
-      // cache: true,
     };
 
     try {
@@ -64,16 +68,54 @@ class ProductService {
     }
   }
 
+  static createReview = async (req: Request, res: Response) => {
+    const { slug } = req.params;
+    const { rating, comment } = req.body;
+
+    const product = await this.productRepository.findOne({
+      where: { slug: slug },
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: `Product with ID ${slug} not found` });
+    }
+
+
+    const review = new Review();
+    review.product = product;
+    review.rating = rating;
+    review.comment = comment;
+
+    //set user rating 
+    const user = this.userRepository.findOne({ where: { email: req.user.email } });
+    if (!user) {
+      review.user = user;
+    }
+
+    // update product rating
+    product.rating = parseFloat(((product.rating * product.numReviews + rating) / (product.numReviews + 1)).toFixed(2));
+    product.numReviews = product.numReviews + 1;
+
+    try {
+      await this.reviewRepository.save(review);
+      await this.productRepository.save(product);
+      return res.status(200).json(review);
+    } catch (error) {
+      console.error('Error creating review', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+
+  }
+
   static getReviewsBySlugProduct = async (req: Request, res: Response) => {
     const { slug } = req.params;
-    console.log(slug);
     if (!slug) {
       return res.status(404).json({ message: `Invalid product slug: ${slug}` });
     }
 
     const product = await this.productRepository.findOne({
       where: { slug: slug },
-      cache: true,
+      relations: ['reviews']
     });
 
     if (!product) {
@@ -81,8 +123,12 @@ class ProductService {
     }
 
     const reviews = await this.reviewRepository.find({
-      where: { product: product },
-      cache: true,
+      where: {
+        product: {
+          id: product.id
+        }
+      },
+      relations: ['user'],
     });
 
     return res.status(200).json(reviews);
@@ -97,7 +143,6 @@ class ProductService {
 
     const product = await this.productRepository.findOne({
       where: { id: parseInt(id) },
-      cache: true,
       relations: ['category'],
     });
 
@@ -187,19 +232,17 @@ class ProductService {
     try {
       const bestSellers = await this.productRepository
         .createQueryBuilder('product')
-        .leftJoin('product.orderItems', 'orderItem')
         .leftJoinAndSelect('product.category', 'category')
         .leftJoinAndSelect('product.media', 'media')
         .leftJoinAndSelect('product.colorSizes', 'colorSizes')
-        .leftJoinAndSelect('colorSizes.color', 'color')
-        .leftJoinAndSelect('colorSizes.size', 'size')
-        .addSelect([
-          'SUM(orderItem.quantity) AS totalQuantity'
-        ])
-        .groupBy('product.id, category.id, media.id, colorSizes.id, color.id, size.id')
+        .addSelect(subQuery => {
+          return subQuery
+            .select('SUM(orderItem.quantity)', 'totalQuantity')
+            .from(OrderItem, 'orderItem')
+            .where('orderItem.product_slug = product.slug');
+        }, 'totalQuantity')
         .orderBy('totalQuantity', 'DESC')
         .getMany();
-
 
       return res.status(200).json(bestSellers);
     } catch (error) {
@@ -231,11 +274,13 @@ class ProductService {
 
   static updateProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { name, seller_id, price, brand, description, is_active, category, media, colorSizes } = req.body;
 
+    const { name, price, brand, description, is_active, category, media, colorSizes } = req.body;
     if (!id || isNaN(parseInt(id))) {
       return res.status(404).json({ message: `Invalid product ID: ${id}` });
     }
+
+    printObject(req.body);
 
     const product = await this.productRepository.findOne({
       where: { id: parseInt(id) },
@@ -245,23 +290,70 @@ class ProductService {
       return res.status(404).json({ message: `Product with ID ${id} not found` });
     }
 
-    const checkUndefined = [name, seller_id, price, brand, description, is_active, category, media, colorSizes]
+    const checkUndefined = [name, price, brand, description, is_active, category, media, colorSizes]
       .every((item) => item !== undefined);
 
     if (!checkUndefined) {
       return res.status(400).json({ message: "Invalid input" });
     }
 
-    product.seller_id = seller_id;
+    if (req.user) {
+      product.seller_id = req.user.id;
+      printObject(req.user);
+    }
+
     product.name = name;
     product.price = price;
     product.brand = brand;
     product.description = description;
     product.is_active = is_active;
     product.slug = name.toLowerCase().replace(/ /g, '-');
-    product.category = category;
-    product.colorSizes = colorSizes
-    product.media = media
+
+
+    //check exist or create new category
+    let categoryExist = await this.productCategoryRepository.findOne({ where: { name: category.name } });
+    if (!categoryExist) {
+      const newCategory = new Category();
+      newCategory.icon = category?.icon;
+      newCategory.name = category?.name;
+      newCategory.description = category?.description;
+      categoryExist = await this.productCategoryRepository.save(newCategory);
+    }
+    product.category = categoryExist;
+    // check exist or create new colorSizes
+    product.colorSizes = [];
+    for (var item of colorSizes) {
+      let colorSize = await this.productColorSizeRepository.findOne({
+        where: {
+          color: {
+            name: item?.color?.name
+          }, size: {
+            name: item?.size?.name
+          }
+        }
+      });
+      if (!colorSize) {
+        // Create new colorSize if it doesn't exist
+        colorSize = new ProductColorSize();
+        colorSize.color = item.color;
+        colorSize.size = item.size;
+      }
+      product.colorSizes.push(colorSize);
+    }
+
+    //check exist or create new media
+    product.media = [];
+    for (var obj of media) {
+      let mediaExist = await this.productMediaRepository.findOne({ where: { media_url: obj?.media_url } });
+      if (!mediaExist) {
+        let newMedia = new ProductMedia();
+        newMedia.media_type = obj.media_type;
+        newMedia.media_url = obj.media_url;
+        mediaExist = newMedia;
+      }
+      product.media.push(mediaExist);
+    }
+
 
     logger.info(product);
 

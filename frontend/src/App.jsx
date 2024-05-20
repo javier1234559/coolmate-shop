@@ -40,6 +40,9 @@ import { SizeEdit } from '~/admin/pages/sizes/edit';
 import { CollectionList } from '~/admin/pages/collections/list';
 import { CollectionCreate } from '~/admin/pages/collections/create';
 import { CollectionEdit } from '~/admin/pages/collections/edit';
+import OrderHistory from './pages/OrderHistory/OrderHistory';
+import Search from './pages/Search/Search';
+import Collection from './pages/Collection/Collection';
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState('dark');
@@ -50,10 +53,13 @@ function App() {
         <Route element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="/product/:slug" element={<DetailProduct />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/collection/:slug" element={<Collection />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/order" element={<Order />} />
+          <Route path="/history/order/:id" element={<OrderHistory />} />
           <Route path="/thanks" element={<Thanks />} />
         </Route>
 
@@ -63,7 +69,7 @@ function App() {
           <Route
             element={
               <Authenticated key="authenticated-routes" fallback={<CatchAllNavigate to="/refine/login" />}>
-                <ThemedLayoutV2 Header={() => <Header theme={currentTheme} setTheme={setCurrentTheme} />} Title={({ collapsed }) => <ThemedTitleV2 collapsed={collapsed} icon={<Link to="/refine">{collapsed ? <TShirt size={22} /> : <TShirt size={22} />}</Link>} text=" COOLMATE DASHBOARD" />} Sider={(props) => <ThemedSiderV2 {...props} fixed />}>
+                <ThemedLayoutV2 Header={() => <Header theme={currentTheme} setTheme={setCurrentTheme} />} Title={({ collapsed }) => <ThemedTitleV2 collapsed={collapsed} icon={collapsed ? <TShirt size={22} /> : <TShirt size={22} />} text=" COOLMATE DASHBOARD" />} Sider={(props) => <ThemedSiderV2 {...props} fixed />}>
                   <Outlet />
                 </ThemedLayoutV2>
               </Authenticated>

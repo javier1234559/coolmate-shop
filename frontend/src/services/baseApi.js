@@ -1,4 +1,6 @@
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { store } from '~/redux/store';
 // import process from 'process';
 
 const API_BASE_URL = 'http://localhost:8080/api';
@@ -14,11 +16,12 @@ const baseApi = axios.create({
 baseApi.interceptors.request.use(
   (config) => {
 
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const state = store.getState(); // get the current state
+    const token = state?.auth?.accessToken; // get the token from the state
 
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -37,13 +40,16 @@ baseApi.interceptors.response.use(
 
     if (status === 401) {
       // Handle unauthorized access, e.g., redirect to login
-      console.log('Unauthorized access');
+      toast.error(error.response.data.message);
+      console.error(error.response.data);
     } else if (status === 404) {
       // Handle not found errors
-      console.log('Not found');
+      toast.error(error.response.data.message);
+      console.error(error.response.data);
     } else {
       // Handle other errors
-      console.log('An error occurred');
+      toast.error(error.response.data.message);
+      console.error(error.response.data);
     }
 
     return Promise.reject(error);

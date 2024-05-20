@@ -1,5 +1,4 @@
 import { List, Breadcrumb, TextField, TagField, ImageField, useTable, EditButton, ShowButton } from '@refinedev/antd';
-import { useMany } from '@refinedev/core';
 import { usePermissions } from '@refinedev/core';
 import { Table, Space } from 'antd';
 
@@ -7,29 +6,14 @@ export const ProductList = () => {
   const { data: permissionsData } = usePermissions();
   const { tableProps } = useTable({ resource: 'products' });
 
-  console.log(tableProps);
-  const categoryIds = tableProps?.dataSource?.map((item) => item.category.id) ?? [];
-
-  const { data, isLoading } = useMany({
-    resource: 'categories',
-    ids: categoryIds,
-    queryOptions: {
-      enabled: categoryIds.length > 0,
-    },
-  });
-
   return (
     <List title="Here's a product manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'large' }}>
       <Table {...tableProps} scroll={{ x: 'max-content' }} rowKey="id">
-        <Table.Column
+      <Table.Column
           dataIndex="id"
-          title="ID#"
+          title="#Id"
           render={(value) => {
-            if (isLoading) {
-              return <TextField value="Loading..." />;
-            }
-
-            return <TextField value={`#${value}`} />;
+            return <TextField strong value={`#${value}`} />;
           }}
         />
         <Table.Column dataIndex="media" title="Image" render={(_, record) => <ImageField value={record?.media[0]?.media_url} title={'Image content'} width={50} style={{ borderRadius: '1rem' }} />} />
@@ -39,14 +23,10 @@ export const ProductList = () => {
           dataIndex="price"
           title="Price"
           render={(value) => {
-            if (isLoading) {
-              return <TextField value="Loading..." />;
-            }
-
             return <TextField value={`${value}đ`} />;
           }}
         />
-        <Table.Column dataIndex="brand" title="Category" render={(value) => <TagField color="cyan" value={value} />} />
+        <Table.Column dataIndex="category" title="Category" render={(value) => <TagField color="cyan" value={value.name} />} />
         <Table.Column dataIndex="brand" title="Brand" />
         <Table.Column
           dataIndex="colorSizes"

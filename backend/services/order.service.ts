@@ -12,21 +12,44 @@ import qs from "qs";
 // import { sortObject } from "../utils/sortObject";
 import crypto from "crypto";
 import { Discount } from "../entities/discount.entity";
+import { User } from "../entities/user.entity";
+import { Review } from "../entities/review.entity";
 
 
 class OrderService {
   static orderRepository = connectDB.getRepository(Order);
+  static userRepository = connectDB.getRepository(User);
   static productRepository = connectDB.getRepository(Product);
   static discountRepository = connectDB.getRepository(Discount);
   static productColorSizeRepository = connectDB.getRepository(ProductColorSize);
 
+  static checkValidDiscountCode = async (req: Request, res: Response) => {
+    const discountCode = req.query.discountCode as string;
+    if (!discountCode) return res.status(400).json({ message: 'Discount code is required' });
+
+    try {
+      const discount = await this.discountRepository.findOne({ where: { discountCode: discountCode } });
+      if (discount) {
+        if (discount.quantity <= 0) {
+          return res.status(400).json({ message: 'Discount code has run out' });
+        } else {
+          return res.status(200).json(discount);
+        }
+      } else {
+        return res.status(404).json({ message: 'Discount code not found' });
+      }
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
   static getMyOrders = async (req: Request, res: Response) => {
-    const userId = req.user.id;
+    const userEmail = req.user.email;
     try {
       const orders = await this.orderRepository.find({
         where: {
           user: {
-            id: userId
+            email: userEmail
           }
         }
       });
@@ -67,6 +90,8 @@ class OrderService {
           where: {
             id: parseInt(orderId)
           }
+          ,
+          relations: ['items']
         }
       );
       if (order) {
@@ -93,8 +118,11 @@ class OrderService {
     order.shippingAddress = shippingInfo.address;
     order.noteFromCustomer = shippingInfo.note;
     order.paymentMethod = paymentMethod;
-    if (req.user) {
-      order.user = req.user;
+
+    // find user my email if exist
+    const user = await this.userRepository.findOne({ where: { email: shippingInfo.email } });
+    if (user) {
+      order.user = user;
     }
 
     // map over the order items in database to use the price in datase

@@ -138,15 +138,17 @@ const Order = () => {
     setVoucherCode(event.target.value);
   };
 
-  const handleApplyVoucherCode = () => {
+  const handleApplyVoucherCode = async () => {
     event.preventDefault();
-    //set just one voucher = VOUCHER10 for testing
-    if (voucherCode === 'VOUCHER10') {
-      setVoucherDiscount(10);
+
+    //call api to check valid voucher code
+    try {
+      const response = await orderApi.checkDiscountCode(voucherCode);
+      const value = response.data.discountValue;
+      setVoucherDiscount(value);
       toast.success('Voucher code applied');
-    } else {
+    } catch (e) {
       setVoucherDiscount(0);
-      toast.error('Invalid voucher code');
     }
   };
 

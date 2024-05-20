@@ -2,10 +2,13 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import PropTypes from 'prop-types';
 import 'swiper/css';
+import { useNavigate } from 'react-router-dom';
 import 'swiper/css/pagination';
 import './Carousel.css';
 
 export default function Carousel({ images: carousel_images }) {
+  const navigate = useNavigate();
+
   return (
     <>
       <Swiper
@@ -22,7 +25,7 @@ export default function Carousel({ images: carousel_images }) {
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper">
         {carousel_images.map((image) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={image.id} onClick={() => navigate(`/collection/${image.slug}`)}>
             <img src={image.image} alt={image.id} />
           </SwiperSlide>
         ))}

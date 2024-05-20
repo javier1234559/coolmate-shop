@@ -1,0 +1,242 @@
+.checkout-page {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+  background-color: #f5f5f5;
+}
+
+.personal-info,
+.cart-summary {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 20px;
+}
+
+.personal-info {
+  width: 45%;
+}
+
+.cart-summary {
+  width: 50%;
+  padding: 2rem;
+}
+
+.cart-summary h2 {
+  font-size: 2.6rem;
+}
+
+.checkout-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.checkout-form h2 {
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label,
+.form-group select {
+  display: inline-block;
+  margin-bottom: 10px;
+  width: calc(33.33% - 10px);
+  vertical-align: top;
+}
+
+.checkout-form .form-group label {
+  font-weight: normal;
+}
+
+.input-field,
+.select-field,
+.textarea-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.payment-options {
+  margin-top: 10px;
+}
+
+.payment-options label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.payment-options input[type="radio"] {
+  display: none;
+}
+
+.payment-options label::before {
+  content: '';
+  display: inline-block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-right: 10px;
+  border: 2px solid #303030;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.payment-options input[type="radio"]:checked+label::before {
+  background-color: #ecff6f;
+}
+
+.voucher-form {
+  display: flex;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+.voucher-form input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 15px 30px;
+}
+
+.voucher-form button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 4px;
+  margin-left: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+.cart-summary ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.cart-summary li {
+  margin-bottom: 15px;
+}
+
+.cart-summary .label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.cart-summary .value {
+  color: #000;
+  font-size: 1.6rem;
+}
+
+.order-summary {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.order-summary h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.order-summary ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.order-summary .total {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.order-summary .label {
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-right: 10px;
+}
+
+.order-summary .value {
+  color: #000;
+}
+
+.checkout-form button[type="submit"] {
+  padding: 15px 30px;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.checkout-form button[type="submit"]:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.cart-info {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.qty-history {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-top: 1rem;
+}
+
+.review_form {
+  width: 100%;
+  margin: 0 auto;
+}
+.review_form rating {
+  margin: 0;
+}
+
+.review_form .ant-rate {
+  font-size: 24px;
+}
+
+
+/* Reponsive Design */
+@media screen and (max-width: 1024px) {
+  .checkout-page {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .personal-info,
+  .cart-summary {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+
+  .cart-summary {
+    padding: 1rem;
+  }
+
+  .form-group label,
+  .form-group select {
+    width: 100%;
+  }
+
+  .voucher-form {
+    flex-direction: column;
+  }
+
+  .voucher-form button {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}

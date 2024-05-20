@@ -41,7 +41,7 @@ export class Product {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   modified_at: Date;
 
-  @ManyToOne(() => Category, (category) => category.products, { cascade: true })
+  @ManyToOne(() => Category, (category) => category.products, { cascade: true , eager: true })
   category: Category;
 
   @ManyToMany(() => Collection, (collection) => collection.products, { nullable: true })

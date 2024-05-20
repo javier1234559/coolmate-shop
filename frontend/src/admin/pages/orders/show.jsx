@@ -1,6 +1,6 @@
 import { useShow } from '@refinedev/core';
 import { Show } from '@refinedev/antd';
-import { Typography, Switch, Tag } from 'antd';
+import { Typography, Switch, Tag, List, Image } from 'antd';
 import { PAYMENT_METHOD_COLOR, PAYMENT_STATUS_COLOR, STATUS_COLOR } from '~/constants';
 
 const { Title, Text } = Typography;
@@ -11,10 +11,7 @@ export const OrderShow = () => {
   const record = data?.data;
 
   return (
-    <Show
-      isLoading={isLoading}
-      canDelete={false}
-      >
+    <Show isLoading={isLoading} canDelete={false}>
       <Title level={5}>Id</Title>
       <Text>{record?.id}</Text>
 
@@ -55,6 +52,20 @@ export const OrderShow = () => {
 
       <Title level={5}>Delivered At</Title>
       <Text>{record?.deliveredAt}</Text>
+
+      <List
+        itemLayout="horizontal"
+        dataSource={record?.items}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta avatar={<Image src={item.image} alt={item.name} width={50} height={50} />} title={item.name} description={`Color: ${item.color}, Size: ${item.size}, Quantity: ${item.quantity}`} />
+            <div>
+              <div>Price: {item.price}</div>
+              <div>Total Price: {item.totalPrice}</div>
+            </div>
+          </List.Item>
+        )}
+      />
 
       <Title level={5}>Created At</Title>
       <Text>{record?.created_at}</Text>

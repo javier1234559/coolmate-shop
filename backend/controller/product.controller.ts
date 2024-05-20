@@ -26,23 +26,7 @@ productController.route("/latest").get(ProductService.getLastestProduct);
 productController.route("/:id").get(ProductService.getProductById);
 productController.route("/slug/:slug").get(ProductService.getProductBySlug);
 productController.route("/:slug/reviews").get(ProductService.getReviewsBySlugProduct);
+productController.route("/:slug/reviews").post(authMiddleware.verifyToken, ProductService.createReview);
 
-//   .post(protect, admin, ProductService.createProduct);
-// productController
-//   .route("/:id/reviews")
-//   .post(protect, checkObjectId, ProductService.createProductReview);
-// productController.get("/top", ProductService.getTopProducts);
-// productController
-//   .route("/best-seller")
-//   .get(ProductService.getBestSellerProduct);
-// productController
-//   .route("/latest")
-//   .get(ProductService.getLastestProduct);
-// productController
-
-//   .route("/:id")
-//   .get(ProductService.getProductById)
-//   .put(protect, admin, checkObjectId, ProductService.updateProduct)
-//   .delete(protect, admin, checkObjectId, ProductService.deleteProduct);
 
 export default productController;

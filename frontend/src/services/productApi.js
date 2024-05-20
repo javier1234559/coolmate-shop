@@ -22,6 +22,14 @@ const productApi = {
   getReviewProduct(slug) {
     const url = `/products/${slug}/reviews`;
     return baseApi.get(url);
+  },
+  createReviewProduct(slug, data) {
+    const url = `/products/${slug}/reviews`;
+    return baseApi.post(url, data);
+  },
+  searchProduct(keyword) {
+    const url = `/products?keyword=${keyword}`;
+    return baseApi.get(url);
   }
 
 }

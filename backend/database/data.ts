@@ -33,10 +33,11 @@ export const paymentResults = [
 ];
 
 export const colors = [
-  { name: "Red", hex_code: "#FF0000" },
-  { name: "Green", hex_code: "#00FF00" },
-  { name: "Blue", hex_code: "#0000FF" },
-  { name: "Yellow", hex_code: "#FFFF00" }
+  { name: "Red", hex_code: "#e06c66" },
+  { name: "Green", hex_code: "#98c363" },
+  { name: "Blue", hex_code: "#3965bd" },
+  { name: "Yellow", hex_code: "#ffcb6b" },
+  { name: "Pink", hex_code: "#efa19b" },
 ]
 
 export const sizes = [
@@ -145,7 +146,7 @@ export const productColorSizes = [
   {
     quantity: 100,
     product_id: 1,
-    color_id: 2,
+    color_id: 1,
     size_id: 1,
   },
   {
@@ -157,12 +158,12 @@ export const productColorSizes = [
   {
     quantity: 100,
     product_id: 1,
-    color_id: 3,
+    color_id: 1,
     size_id: 3,
   },
   {
     quantity: 100,
-    product_id: 4,
+    product_id: 1,
     color_id: 1,
     size_id: 4,
   }
@@ -170,14 +171,130 @@ export const productColorSizes = [
   {
     quantity: 100,
     product_id: 2,
+    color_id: 1,
+    size_id: 5,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
     color_id: 2,
     size_id: 1,
   },
   {
     quantity: 100,
     product_id: 2,
-    color_id: 1,
+    color_id: 2,
     size_id: 2,
+  }
+  ,
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 2,
+    size_id: 3,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 2,
+    size_id: 4,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 2,
+    size_id: 5,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 3,
+    size_id: 1,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 3,
+    size_id: 2,
+  }
+  ,
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 3,
+    size_id: 3,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 3,
+    size_id: 4,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 3,
+    size_id: 5,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 4,
+    size_id: 1,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 4,
+    size_id: 2,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 4,
+    size_id: 3,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 4,
+    size_id: 4,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 4,
+    size_id: 5,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 5,
+    size_id: 1,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 5,
+    size_id: 2,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 5,
+    size_id: 3,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 5,
+    size_id: 4,
+  },
+  {
+    quantity: 100,
+    product_id: 2,
+    color_id: 5,
+    size_id: 5,
   }
 
 ]

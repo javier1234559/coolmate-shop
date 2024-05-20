@@ -23,11 +23,13 @@ const authMiddleware = {
         return res.status(403).json("Token is not valid");
       }
       req.user = user;
+      logger.info("middleware authen" + req);
       next();
     });
   },
 
   verifyTokenAndAdminRole: (req: Request, res: Response, next: NextFunction) => {
+    logger.info("middleware admin role" + req);
     authMiddleware.verifyToken(req, res, () => {
       if (req.user.id == req.params.id || req.user.role == "admin") {
         next();

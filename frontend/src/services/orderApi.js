@@ -17,6 +17,19 @@ const orderApi = {
     const url = `/orders/zalopay/check-status`;
     return baseApi.post(url, { app_trans_id: orderId });
   },
+  getOrderById(orderId) {
+    const url = `/orders/${orderId}`;
+    return baseApi.get(url);
+
+  },
+  checkDiscountCode(discountCode) {
+    const url = `/orders/check-discount?discountCode=${discountCode}`;
+    return baseApi.get(url);
+  },
+  getMyOrders() {
+    const url = `/orders/mine`;
+    return baseApi.get(url);
+  },
   createOrder(order) {
     const url = `/orders`;
     return baseApi.post(url, order);

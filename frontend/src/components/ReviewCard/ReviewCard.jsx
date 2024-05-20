@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import './ReviewCard.css';
 import RatingStars from '../RatingStars/RatingStars';
 
-function ReviewCard({ rating, productType, userName, comment, reviewDate }) {
+function ReviewCard({ rating, userName, comment, reviewDate }) {
   return (
     <div className="review-card">
-      <RatingStars value={4.5} />
-      <p className="product-type">{productType}</p>
+      <RatingStars value={rating} />
       <p className="user-name">{userName}</p>
       <p className="comment">{comment}</p>
       <p className="review-date">{reviewDate}</p>

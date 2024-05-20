@@ -15,6 +15,15 @@ const CardProduct = ({ product }) => {
     // setCurrentImageSrc(images[tag.id]);
   };
 
+  const uniqueColors = product?.colorSizes?.reduce((acc, tag) => {
+    if (!acc.find((color) => color.name === tag.color.name)) {
+      acc.push(tag.color);
+    }
+    return acc;
+  }, []);
+
+
+
   return (
     <Link to={`/product/${product?.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
       <div className="product-card">
@@ -28,8 +37,8 @@ const CardProduct = ({ product }) => {
         </div>
         <div className="details">
           <div className="color-tags">
-            {product?.colorSizes?.map((tag) => (
-              <span key={tag?.id} style={{ backgroundColor: tag.color?.hex_code }} className={`color-tag ${selectedColor === tag?.id ? 'selected' : ''}`} onClick={() => handleColorTagClick(tag)}></span>
+            {uniqueColors?.map((tag) => (
+              <span key={tag?.id} style={{ backgroundColor: tag?.hex_code }} className={`color-tag ${selectedColor === tag?.id ? 'selected' : ''}`} onClick={() => handleColorTagClick(tag)}></span>
             ))}
           </div>
           <div className="product-name">{product?.name}</div>

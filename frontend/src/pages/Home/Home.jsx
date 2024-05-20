@@ -12,6 +12,7 @@ import { PRODUCT_LIST_HEADING } from '~/constants';
 function Home() {
   const [carouselImages, setCarouselImages] = useState(carousel_images);
   const [products, setProducts] = useState([]);
+  const [listCollection, setListCollection] = useState([]);
   const [heading, setHeading] = useState(PRODUCT_LIST_HEADING.LATEST);
   const [isLoading, setisLoading] = useState(false);
 
@@ -20,9 +21,11 @@ function Home() {
       const response = await collectionApi.getTopCollection();
       const images = response?.data?.map((collection) => ({
         id: collection.id,
-        image: collection.imageSrc,
+        image: collection.thumbnail_image,
+        slug: collection.slug,
       }));
-
+      console.log('Top ', response?.data);
+      setListCollection(response?.data);
       setCarouselImages(images);
     } catch (error) {
       console.log('Failed to fetch products: ', error);
@@ -32,7 +35,7 @@ function Home() {
   const fetchLastestProducts = async () => {
     try {
       const response = await productApi.getProduct();
-      console.log(response);
+      console.log(response.data);
       setProducts(response?.data);
       setHeading(PRODUCT_LIST_HEADING.LATEST);
     } catch (error) {
@@ -75,9 +78,20 @@ function Home() {
             {PRODUCT_LIST_HEADING.BEST_SELLER}
           </Button>
         </div>
-        <h1 className='heading-home'>{heading}</h1>
+        <h1 className="heading-home">{heading}</h1>
         <div className="product-list">{isLoading ? <Skeleton /> : products?.map((product) => <CardProduct key={product?.id} product={product} />)}</div>
       </div>
+      {listCollection?.map((collection) => (
+        <div key={collection.id} className="collection-home">
+          <h1 className="heading-home">{collection.title}</h1>
+          <div className="collection_thumbnail">
+            <img src={collection?.thumbnail_image} alt={collection?.title} />
+          </div>
+          <div className="content-container ">
+            <div className="product-list">{isLoading ? <Skeleton /> : collection?.products?.map((product) => <CardProduct key={product?.id} product={product} />)}</div>
+          </div>
+        </div>
+      ))}
     </>
   );
 }

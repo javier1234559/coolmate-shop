@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column, CreateDateColumn } from "typeorm";
 import { Product } from "./product.entity";
 import { User } from "./user.entity";
 
@@ -19,4 +19,6 @@ export class Review {
   @Column('double')
   rating: number;
 
+  @CreateDateColumn({ type: 'timestamp' })
+  created_at: Date;
 }

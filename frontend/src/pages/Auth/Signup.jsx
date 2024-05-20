@@ -5,7 +5,7 @@ import Input from '~/components/Input/Input';
 import SignupProvider from '~/components/SignUpProvider/SignupProvider';
 import Skeleton from '~/components/Skeleton/Skeleton';
 import useRegister from '~/hooks/useRegister';
-import './SignUp.css';
+import './Signup.css';
 
 function SignUp() {
   const navigate = useNavigate();

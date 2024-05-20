@@ -13,39 +13,24 @@ import SlidingCart from '../SlidingCart/SlidingCart';
 const navigations = [
   {
     id: 1,
-    name: 'SALE',
+    name: 'COOLMATE',
     link: '/',
   },
   {
     id: 2,
-    name: 'Sản phẩm',
-    link: '/products',
+    name: 'ÁO LÓT',
+    link: '',
   },
   {
     id: 3,
-    name: 'Đồ lót',
+    name: 'QUẦN',
     link: '/about',
   },
   {
     id: 4,
-    name: 'Đồ thể thao',
+    name: 'ÁO',
     link: '/about',
-  },
-  {
-    id: 5,
-    name: 'Mặc hằng ngày',
-    link: '/about',
-  },
-  {
-    id: 6,
-    name: 'Nước hoa',
-    link: '/about',
-  },
-  {
-    id: 7,
-    name: 'Giới thiệu',
-    link: '/about',
-  },
+  }
 ];
 
 function Navbar() {
@@ -77,7 +62,7 @@ function Navbar() {
         <ul className="nav-link_container">
           {navigations.map((nav) => (
             <li key={nav.id} className="nav-link">
-              <NavLink to={nav.link} className={navLinkClass}>
+              <NavLink to={`search?keyword=${nav.link}`} className={navLinkClass}>
                 {nav.name}
               </NavLink>
             </li>

@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { ShoppingCart, X } from 'phosphor-react';
-import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addProductQuantity, removeFromCart } from '~/redux/cartSlice';
 import { calcProvisional } from '~/utils/utils';
 import './SlidingCart.css';
@@ -66,7 +66,7 @@ function CartProducts({ index, itemCart, addProductQuantity, removeFromCart }) {
           <input type="number" value={itemCart.quantity} onChange={inputHandler} id="qty" />
         </p>
       </div>
-      <p className="cart-product_price">${(itemCart.product.price * itemCart.quantity).toFixed(2)}</p>
+      <p className="cart-product_price">{(itemCart.product.price * itemCart.quantity).toFixed(2)}</p>
       <span className="cart-product_x" onClick={removeProduct}>
         <X size="16px" />
       </span>
@@ -79,7 +79,7 @@ function CartCheckOut({ listItemCart, toggleShowCart }) {
   return (
     <div className="cart-checkout_container">
       <h3>Checkout</h3>
-      <p>${totalPrice}</p>
+      <p>{totalPrice}</p>
       <Link to="order" onClick={toggleShowCart}>
         Go to Checkout
       </Link>

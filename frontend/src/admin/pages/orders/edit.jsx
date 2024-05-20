@@ -13,17 +13,17 @@ export const OrderEdit = () => {
 
   const statusOptions = Object.entries(ORDER_STATUS).map(([key, value]) => ({
     label: value,
-    value: key,
+    value: value,
   }));
 
   const paymentOptions = Object.entries(PAYMENT_STATUS).map(([key, value]) => ({
     label: value,
-    value: key,
+    value: value,
   }));
 
   const paymentMethodOptions = Object.entries(PAYMENT_METHODS).map(([key, value]) => ({
     label: value.type,
-    value: key,
+    value: value,
   }));
 
   return (

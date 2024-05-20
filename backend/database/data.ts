@@ -119,7 +119,74 @@ export const products = [
     seller_id: 2,
     name: 'Áo Thun Nam Thể Thao V1',
     brand: 'Brand B',
-    description: 'Description for Áo Thun Nam Thể Thao V1',
+    description:
+      `
+    <div class="product-description__content is-load" rel-script="product-single-content" style="font-size: 16px"><p dir="ltr">Áo Polo Nam Thể Thao Promax-S1 <a href="https://www.coolmate.me/">Coolmate</a> chất liệu Poly thoáng khí, mát mẻ và nhanh khô. Sản phẩm được thiết kế kiểu dáng Regular fit dáng suông thích hợp sử dụng khi đi làm, đi chơi hoặc mặc ở nhà đều được mà nam giới nên có trong tủ đồ của mình.&nbsp;</p>
+<h2 dir="ltr"><strong>Tại sao nên lựa chọn Áo Polo Nam Thể Thao Promax-S1 tại Coolmate?</strong></h2>
+<ul>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation"><a href="https://www.coolmate.me/product/ao-polo-the-thao-nam-promax-s1-logo-1?color=xanh-navy">Áo Polo Nam Thể Thao Promax-S1</a> có khả năng xử lý hoàn thiện vải nhanh khô, thấm hút tốt, bề mặt vải nhiều lỗ nhỏ gia tăng khả năng thoát ẩm, phối đồ dễ dàng, sử dụng linh hoạt khi đi làm, đi chơi hoặc ở nhà.&nbsp;</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Chương trình miễn phí vận chuyển cho đơn hàng từ 200K</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Đổi trả hàng hoàn toàn miễn phí trong vòng 60 ngày</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Dịch vụ tư vấn, chăm sóc khách hàng chuyên nghiệp, tận tâm</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Trở thành thành viên <a href="https://www.coolmate.me/page/coolclub-chuong-trinh-khach-hang-than-thiet-cua-coolmate">CoolClub</a> với nhiều ưu đãi hấp dẫn!</p>
+</li>
+</ul>
+<h2 dir="ltr"><strong>Đặc điểm nổi bật của Áo Polo Nam Thể Thao Promax-S1</strong></h2>
+<h3 dir="ltr" style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip0_59.jpg" width="1000"></h3>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip1_71.jpg" width="1000"></p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip2_80.jpg" width="1000"></p>
+<p>Thành phần vải áo Polo nam sử dụng 100% Poly, định lượng vải 155gsm siêu nhẹ đã được hoàn thiện tính năng Quick-Dry và Wicking mang tới cho bạn cảm giác mát mẻ và luôn khô thoáng, tăng khả năng khử mùi.</p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip3_29.jpg" width="1000"></p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip4_21.jpg" width="1000"></p>
+<p>Chất liệu Poly có bề mặt vải nhiều lỗ nhỏ, hỗ trợ gia tăng sự thoát mồ hôi, giúp áo nhanh khô hơn các dòng áo truyền thống.</p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip5_70.jpg" width="1000"></p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/May2023/mceclip0_131.jpg" width="1000"></p>
+<p>Thiết kế <a href="https://www.coolmate.me/collection/ao-polo-nam">áo polo nam</a> dáng suông Regular fit mang đến cho người dùng sự vừa vặn với dáng người, thích hợp mặc khi đi làm, đi chơi hay ở nhà đều thoải mái và lịch sự.</p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip8_24.jpg" width="1000"></p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip9_93.jpg" width="1000"></p>
+<p>Tông màu <a href="https://www.coolmate.me/collection/ao-nam">áo nam</a> có nhiều sư lựa chọn như Xanh Navy, Xanh bóng đêm, Xanh Aqua, Trắng, Đen là các màu trung tính, khiến bạn dễ dàng phối đồ với mọi trong phục, thể hiện được nét nam tính của riêng mình.</p>
+<p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/February2023/mceclip10_32.jpg" width="1000"></p>
+<p style="text-align: center;"><strong><img src="https://mcdn.coolmate.me/image/January2023/dri-breathe-sat-nach-111_75.jpg" alt="" width="1000"></strong></p>
+<h2 dir="ltr"><strong>Cách phối đồ với Áo Polo Nam Thể Thao Promax-S1</strong></h2>
+<p dir="ltr">Áo Polo Nam Thể Thao Promax-S1 là dòng áo polo được khá nhiều nam giới ưa thích, không chỉ dễ mặc mà sản phẩm cũng rất dễ phối đồ. Trong đó, bạn có thể phối áo polo nam với quần jogger, suit jacket/blazer, quần kaki, quần tây,...&nbsp;</p>
+<p dir="ltr">Để outfit phối cùng Áo Polo Nam Thể Thao Promax-S1 trở nên hoàn thiện, các chàng có thể tham khảo những bí kíp phối đồ thông qua <a href="https://www.coolmate.me/post/phoi-ao-polo-nam-thoi-trang-sanh-dieu?gad_source=1&amp;gclid=Cj0KCQiA5-uuBhDzARIsAAa21T9zG3Yby7aSkz6UM68y6igb0DxxnATaADdVh6cDodV-VHYHLr1rBEkaAmBmEALw_wcB">Mách chàng từ A- Z cách phối đồ với áo polo nam thời trang, sành điệu</a>.</p>
+<h2 dir="ltr"><strong>Cách giặt và bảo quản Áo Polo Nam Thể Thao Promax-S1 đơn giản nhất</strong></h2>
+<ul>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Thay vì giặt máy thì giặt tay sẽ giúp đảm bảo được độ bền của áo.&nbsp;</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Hạn chế đổ trực tiếp bột giặt/xà phòng lên bề mặt áo nhằm tránh ảnh hưởng đến chất liệu.&nbsp;</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Nên giặt áo Polo nam với nước lạnh hoặc nước ấm.</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Không nên phơi áo trực tiếp dưới ánh nắng mặt trời.</p>
+</li>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation">Sau khi phơi khô nên gấp gọn gàng trong tủ, không nên treo bằng móc tránh dão phần cổ áo.&nbsp;</p>
+</li>
+</ul>
+<p dir="ltr">Nếu các chàng đang có mong muốn rinh chiếc Áo Polo Nam Thể Thao Promax-S1, hãy đặt online ở website Coolmate.me,<a href="https://www.facebook.com/coolmate.me"> Fanpage Coolmate</a>. Hoặc các gian hàng của Coolmate trên <a href="https://shopee.vn/coolmate.vn">Shopee Mall</a>, <a href="https://www.lazada.vn/shop/coolmate">Lazada Mall</a> hoặc Tiktok shop.&nbsp;</p>
+<p dir="ltr">Bạn có thể theo dõi kênh <a href="https://zalo.me/coolmate">Zalo OA Coolmate</a> để biết được tình trạng tiếp nhận đơn hàng và các chương trình khuyến mãi.</p>
+<p dir="ltr">Bạn cũng có thể đến trải nghiệm và mua trực tiếp tại:&nbsp;</p>
+<ul>
+<li dir="ltr" aria-level="1">
+<p dir="ltr" role="presentation"><a href="https://www.google.com/maps/place/Coolmate.me/@20.9708027,105.7731748,15z/data=!4m6!3m5!1s0x31345320cfe92f59:0xc409538d7ac466d7!8m2!3d20.9611237!4d105.795238!16s%2Fg%2F11h3spxt4t?entry=ttu">Cơ sở Hà Nội</a>: Tầng 3-4, Tòa nhà BMM, KM2, Đường Phùng Hưng, Phường Phúc La, Quận Hà Đông, TP Hà Nội.</p>
+</li>
+</ul>
+<p dir="ltr">Đừng quên cập nhật ưu đãi, voucher hàng tháng tại<a href="https://www.coolmate.me/lp/ma-giam-gia-coolmate"> Mã giảm giá Coolmate</a></p></div>
+    `,
     rating: 4.0,
     slug: 'ao-thun-nam-the-thao-v1',
     numReviews: 8,

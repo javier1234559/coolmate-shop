@@ -6,10 +6,20 @@ export const ProductList = () => {
   const { data: permissionsData } = usePermissions();
   const { tableProps } = useTable({ resource: 'products' });
 
+  const createSetColor = (item) => {
+    console.log('value' + JSON.stringify(item));
+    return item?.reduce((acc, tag) => {
+      if (!acc.find((color) => color.name === tag.color.name)) {
+        acc.push(tag.color);
+      }
+      return acc;
+    }, []);
+  };
+
   return (
     <List title="Here's a product manager" breadcrumb={<Breadcrumb showHome={true} />} canCreate={permissionsData?.includes('admin')} createButtonProps={{ size: 'large' }}>
       <Table {...tableProps} scroll={{ x: 'max-content' }} rowKey="id">
-      <Table.Column
+        <Table.Column
           dataIndex="id"
           title="#Id"
           render={(value) => {
@@ -18,7 +28,6 @@ export const ProductList = () => {
         />
         <Table.Column dataIndex="media" title="Image" render={(_, record) => <ImageField value={record?.media[0]?.media_url} title={'Image content'} width={50} style={{ borderRadius: '1rem' }} />} />
         <Table.Column dataIndex="name" title="Title" width={200} />
-        <Table.Column dataIndex="description" title="Description" width={300} />
         <Table.Column
           dataIndex="price"
           title="Price"
@@ -31,13 +40,16 @@ export const ProductList = () => {
         <Table.Column
           dataIndex="colorSizes"
           title="Color"
-          render={(value) => (
-            <Space>
-              {value?.map((item) => (
-                <TagField key={item?.id} value={item?.color?.name} color={item?.color?.hex_code} />
-              ))}
-            </Space>
-          )}
+          render={(value) => {
+            let array = createSetColor(value);
+            return (
+              <Space>
+                {array?.map((item) => (
+                  <TagField key={item?.id} value={item?.name} color={item?.hex_code} />
+                ))}
+              </Space>
+            );
+          }}
         />
         <Table.Column dataIndex="rating" title="Rating" render={(value) => <TagField color="lime" value={value} />} />
         <Table.Column

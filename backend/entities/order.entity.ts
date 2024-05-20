@@ -12,7 +12,7 @@ export enum PaymentMethod {
 export enum OrderStatus {
   PENDING = 'Chờ duyệt',
   APPROVED = 'Đã Duyệt',
-  REJECTED = 'Reject',
+  REJECTED = 'Đã bị Từ chối',
   DELIVERED = 'Đã giao',
   IN_TRANSIT = 'Đang vận chuyển',
 }

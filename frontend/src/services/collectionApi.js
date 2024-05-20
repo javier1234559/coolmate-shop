@@ -1,4 +1,4 @@
-import baseApi from "./baseapi";
+import baseApi from "./baseApi";
 
 const collectionApi = {
   getTopCollection() {

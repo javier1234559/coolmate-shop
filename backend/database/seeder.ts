@@ -4,13 +4,11 @@ import { Category } from "../entities/category.entity";
 import { Collection } from "../entities/collection.entity";
 import { Cart, CartItem } from "../entities/cart.entity";
 import { Order, OrderItem } from "../entities/order.entity";
-import { User, UserAddress, UserPayment, UserRole } from "../entities/user.entity";
+import { User, UserPayment, UserRole } from "../entities/user.entity";
 import { Review } from "../entities/review.entity";
 import {
   users, discounts,
-  products, userAddresses, categories,
-  paymentResults,
-  deliveredDetails, userPayments,
+  products, categories, userPayments,
   carts, cartItems, reviews,
   orders, orderItems,
   colors, sizes, productMedia, collections, productColorSizes
@@ -40,7 +38,6 @@ class DatabaseSeeder {
   private collectionRepository: Repository<Collection>;
 
   private userRepository: Repository<User>;
-  private userAddressRepository: Repository<UserAddress>;
   private userPaymentRepository: Repository<UserPayment>;
 
   private reviewRepository: Repository<Review>;
@@ -59,7 +56,6 @@ class DatabaseSeeder {
     }
 
     this.userRepository = this.connection.getRepository(User);
-    this.userAddressRepository = this.connection.getRepository(UserAddress);
     this.userPaymentRepository = this.connection.getRepository(UserPayment);
     this.productRepository = this.connection.getRepository(Product);
     this.categoryRepository = this.connection.getRepository(Category);
@@ -214,17 +210,6 @@ class DatabaseSeeder {
     await this.categoryRepository.save(categoriesData);
   }
 
-  private async seedUserAddresses() {
-    for (const userAddress of userAddresses) {
-      const user = await this.userRepository.findOne({ where: { id: userAddress.user_id } });
-      if (user) {
-        const userAddressData = this.userAddressRepository.create(userAddress);
-        userAddressData.user = user;
-        await this.userAddressRepository.save(userAddressData);
-      }
-    }
-
-  }
 
   private async seedUserPayments() {
     for (const userPayment of userPayments) {

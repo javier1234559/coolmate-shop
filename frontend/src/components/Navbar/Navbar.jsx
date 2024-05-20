@@ -48,7 +48,8 @@ function Navbar() {
   }
 
   const navLinkClass = ({ isActive }) => {
-    return isActive ? 'nav-activate' : '';
+    // return isActive ? 'nav-activate' : '';
+    return '';
   };
 
   return (

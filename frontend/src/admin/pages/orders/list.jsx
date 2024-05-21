@@ -1,4 +1,4 @@
-import { List, Breadcrumb ,useTable, EditButton, ShowButton, BooleanField } from '@refinedev/antd';
+import { List, Breadcrumb, useTable, EditButton, ShowButton, BooleanField } from '@refinedev/antd';
 import { usePermissions } from '@refinedev/core';
 import { Table, Space, Tag } from 'antd';
 import { PAYMENT_METHOD_COLOR, PAYMENT_STATUS_COLOR, STATUS_COLOR } from '~/constants';
@@ -24,13 +24,13 @@ export const OrderList = () => {
         <Table.Column dataIndex="paidAt" title="Paid At" />
         <Table.Column dataIndex="isDelivered" title="Is Delivered?" render={(isDelivered) => <BooleanField value={isDelivered} />} />
         <Table.Column dataIndex="deliveredAt" title="Delivered At" />
-        <Table.Column dataIndex="created_at" title="Created At" />
-        <Table.Column dataIndex="modified_at" title="Modified At" />
+        <Table.Column dataIndex="created_at" title="Created At" sorter={(a, b) => new Date(a.created_at) - new Date(b.created_at)} />
+        <Table.Column dataIndex="modified_at" title="Modified At" sorter={(a, b) => new Date(a.modified_at) - new Date(b.modified_at)} />
         <Table.Column
           title="Actions"
           dataIndex="actions"
           fixed="right"
-          render={(_, record ) => (
+          render={(_, record) => (
             <Space>
               <EditButton hideText size="medium" recordItemId={record.id} />
               <ShowButton hideText size="medium" recordItemId={record.id} />

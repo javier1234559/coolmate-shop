@@ -74,17 +74,17 @@ export const OrderEdit = () => {
           <Switch />
         </Form.Item>
 
-        <Form.Item label="Paid At" name="paidAt">
+        {/* <Form.Item label="Paid At" name="paidAt">
           <DatePicker />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item label="Is Delivered?" name="isDelivered">
           <Switch />
         </Form.Item>
 
-        <Form.Item label="Delivered At" name="deliveredAt">
+        {/* <Form.Item label="Delivered At" name="deliveredAt">
           <DatePicker />
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </Edit>
   );

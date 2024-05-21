@@ -47,7 +47,6 @@ export const UserList = () => {
         <Table.Column dataIndex="name" title="Name" />
         <Table.Column dataIndex="email" title="Email" />
         <Table.Column dataIndex="phone" title="Phone" />
-        <Table.Column dataIndex="password" title="Password" />
         <Table.Column
           dataIndex="role"
           title="Role"

@@ -1,18 +1,18 @@
 export const carousel_images = [
   {
     id: 1,
-    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/February2024/UT_JOGGER.png',
-    slug : 'ao-thun-nam-chay-bo-graphic-photic-zone'
+    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/January2024/Banner-Basic_copytet.jpg',
+    slug: 'ao-thun-nam-chay-bo-graphic-photic-zond'
   },
   {
     id: 2,
-    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/January2024/Banner-Basic_copytet.jpg',
-    slug : 'ao-thun-nam-chay-bo-graphic-photic-zond'
+    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/February2024/UT_JOGGER.png',
+    slug: 'ao-thun-nam-chay-bo-graphic-photic-zone'
   },
   {
     id: 3,
     image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=80,format=auto/uploads/September2023/Ready-2-wear-banner19_84.jpg',
-    slug : 'collecton-1'
+    slug: 'collecton-1'
   },
 ];
 

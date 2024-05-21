@@ -284,10 +284,15 @@ class DatabaseSeeder {
   }
 
   private async seedCollections() {
-    const collectionsData = this.collectionRepository.create(collections);
-    for (const collection of collectionsData) {
-      const products = await this.productRepository.find();
-      collection.products = products;
+    for (const collectionData of collections) {
+      const collection = this.collectionRepository.create(collectionData);
+      collection.products = [];
+      for (const id of collectionData.product_ids) {
+        const product = await this.productRepository.findOne({ where: { id: id } });
+        if (product) {
+          collection.products.push(product);
+        }
+      }
       await this.collectionRepository.save(collection);
     }
   }

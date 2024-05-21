@@ -14,22 +14,32 @@ const navigations = [
   {
     id: 1,
     name: 'COOLMATE',
-    link: '/',
+    link: 'coolmate',
   },
   {
     id: 2,
-    name: 'ÁO LÓT',
-    link: '',
+    name: 'ÁO THUN',
+    link: 'Áo Thun',
   },
   {
     id: 3,
     name: 'QUẦN',
-    link: '/about',
+    link: 'Quần',
   },
   {
     id: 4,
-    name: 'ÁO',
-    link: '/about',
+    name: 'ÁO KHOÁC',
+    link: 'Áo Khoác',
+  },
+  {
+    id: 5,
+    name: 'QUẦN NGẮN',
+    link: 'Quần Ngắn',
+  },
+  {
+    id: 6,
+    name: 'ÁO POLO',
+    link: 'Áo polo',
   }
 ];
 

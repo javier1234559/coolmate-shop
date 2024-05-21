@@ -8,11 +8,13 @@ import { persistor } from './redux/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
 import './styles/index.css';
 
+const CLIENT_ID = '1084448509397-5gd8k5ti7apd88khaupg0f2st3h556k3.apps.googleusercontent.com';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <GoogleOAuthProvider clientId={`1084448509397-h7nh7hl8fuqtmgbfu6kbmvjcg8827gjb.apps.googleusercontent.com`}>
+        <GoogleOAuthProvider clientId={CLIENT_ID}>
           <App />
         </GoogleOAuthProvider>
       </PersistGate>

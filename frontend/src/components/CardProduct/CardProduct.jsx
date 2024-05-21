@@ -16,7 +16,7 @@ const CardProduct = ({ product }) => {
   };
 
   const uniqueColors = product?.colorSizes?.reduce((acc, tag) => {
-    if (!acc.find((color) => color.name === tag.color.name)) {
+    if (!acc.find((color) => color?.name === tag?.color?.name)) {
       acc.push(tag.color);
     }
     return acc;

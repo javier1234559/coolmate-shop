@@ -47,7 +47,7 @@ const Order = () => {
   const buildOrder = (orderId, paymentMethod, totalPrice) => ({
     orderId,
     paymentMethod,
-    amount: totalPrice * 10000, // change to VND
+    amount: totalPrice
   });
 
   const handlePaymentSubmited = async (orderId, paymentMethod) => {

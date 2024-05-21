@@ -339,6 +339,7 @@ class OrderService {
 
     // Payload from client
     let amount = Number.parseInt(req.body.amount);
+    console.log("SỐ TIỀN THANH TOÁN :"+ amount);
     let order_id = req.body.orderId;
     let paymentMethod = req.body.paymentMethod;
 
@@ -489,7 +490,7 @@ class OrderService {
     let amount = Number.parseInt(req.body.amount);
     let order_id = req.body.orderId;
     let paymentMethod = req.body.paymentMethod;
-    console.log('amount: ', amount);
+    console.log("SỐ TIỀN THANH TOÁN :"+ amount);
 
     //Momo configuration
     let accessKey = config.momo.accessKey;

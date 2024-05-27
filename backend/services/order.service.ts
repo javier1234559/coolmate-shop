@@ -370,6 +370,7 @@ class OrderService {
       callback_url: `${config.ngrok_URL}/api/orders/zalopay/callback`,
       description: `Coolmate - Payment for the order #${transID}`,
       bank_code: '',
+      mac : '',
     };
 
     // appid|app_trans_id|appuser|amount|apptime|embeddata|item
@@ -446,6 +447,7 @@ class OrderService {
     let postData = {
       app_id: config.zalopay.appid,
       app_trans_id, // Input your app_trans_id
+      mac : '',
     };
 
     let data = postData.app_id + '|' + postData.app_trans_id + '|' + config.zalopay.key1; // appid|app_trans_id|key1

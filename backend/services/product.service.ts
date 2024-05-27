@@ -87,7 +87,7 @@ class ProductService {
     review.comment = comment;
 
     //set user rating 
-    const user = this.userRepository.findOne({ where: { email: req.user.email } });
+    const user = await this.userRepository.findOne({ where: { email: req.user.email } });
     if (!user) {
       review.user = user;
     }

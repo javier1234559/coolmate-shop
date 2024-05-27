@@ -21,4 +21,5 @@ export class Review {
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;
+  review: Promise<User>;
 }

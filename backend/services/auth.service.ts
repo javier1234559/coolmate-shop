@@ -2,7 +2,7 @@ import { OAuth2Client } from 'google-auth-library';
 import config from '../config/config';
 import { Request, Response } from 'express';
 import connectDB from '../database/data-source';
-import { User } from '../entities/user.entity';
+import { User, UserRole } from '../entities/user.entity';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import logger from '../utils/logger';
@@ -91,19 +91,15 @@ class authService {
       }
 
       // Hash the password
+        // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
-
-      // Create a new user instance
       const newUser = this.userRepository.create({
         name,
         email,
         password: hashedPassword,
         phone,
-        role,
+        role: role as UserRole, // Update the role property to be of type UserRole
       });
-
-      // Save the new user
-      await this.userRepository.save(newUser);
       return res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       return res.status(500).json({ message: 'Error registering user', error });
@@ -131,13 +127,12 @@ class authService {
       let user = await this.userRepository.findOne({ where: { email } });
       if (!user) {
         //if not exist create new user 
-        const newUser = this.userRepository.create({
-          name,
-          email,
-          avatar_img: picture,
-          is_google: true,
-          role: 'user',
-        });
+        const newUser = new User();
+        newUser.name = name;
+        newUser.email = email;
+        newUser.avatar_img = picture;
+        newUser.is_google = true;
+        newUser.role = UserRole.USER;
         user = await this.userRepository.save(newUser);
       }
 

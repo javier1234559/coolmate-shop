@@ -1,17 +1,17 @@
 export const carousel_images = [
   {
     id: 1,
-    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/January2024/Banner-Basic_copytet.jpg',
+    image: "/images/banner1.webp",
     slug: 'ao-thun-nam-chay-bo-graphic-photic-zond'
   },
   {
     id: 2,
-    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/February2024/UT_JOGGER.png',
+    image: "/images/banner2.webp",
     slug: 'ao-thun-nam-chay-bo-graphic-photic-zone'
   },
   {
     id: 3,
-    image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=80,format=auto/uploads/September2023/Ready-2-wear-banner19_84.jpg',
+    image: "/images/banner3.webp",
     slug: 'collecton-1'
   },
 ];
@@ -19,7 +19,7 @@ export const carousel_images = [
 export const products = [
   {
     id: 1,
-    imageSrc: 'https://media.coolmate.me/cdn-cgi/image/width=672,height=990,quality=85,format=auto/uploads/November2023/23CMAW.QD004.z.14_47.jpg',
+    imageSrc: '/images/1_1/webp',
     stars: 4.5,
     isNew: true,
     colorTags: [

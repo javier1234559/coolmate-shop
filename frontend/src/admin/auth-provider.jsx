@@ -26,7 +26,7 @@ const authProvider = {
         Authorization: `Bearer ${user.accessToken}`,
       };
 
-      console.log(user.accessToken)
+      console.log(JSON.stringify(user));
 
 
       return {

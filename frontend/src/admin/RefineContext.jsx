@@ -7,10 +7,11 @@ import { dataProvider } from './rest-data-provider';
 import { TShirt, User, Checks, Tag, ArrowsInSimple, Palette, Tree  } from 'phosphor-react';
 import authProvider, { axiosInstance } from './auth-provider';
 import { Outlet } from 'react-router-dom';
+import { API_BASE_URL } from '~/services/baseApi';
 
 //example from: https://github.com/refinedev/refine/blob/master/examples/base-antd/src/App.tsx
 // const API_URL = 'https://api.fake-rest.refine.dev';
-const API_URL = 'http://localhost:8080/api';
+const API_URL = API_BASE_URL;
 
 export function RefineContext(props) {
   return (

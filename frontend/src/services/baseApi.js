@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { store } from '~/redux/store';
 
-const API_BASE_URL = 'https://backend-coolmate.fly.dev/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const baseApi = axios.create({
   baseURL: API_BASE_URL,

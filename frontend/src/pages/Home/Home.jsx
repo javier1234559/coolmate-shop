@@ -19,14 +19,14 @@ function Home() {
   const fetchTopCollections = async () => {
     try {
       const response = await collectionApi.getTopCollection();
-      const images = response?.data?.map((collection) => ({
-        id: collection.id,
-        image: collection.thumbnail_image,
-        slug: collection.slug,
-      }));
+      // const images = response?.data?.map((collection) => ({
+      //   id: collection.id,
+      //   image: collection.thumbnail_image,
+      //   slug: collection.slug,
+      // }));
       console.log('Top ', response?.data);
       setListCollection(response?.data);
-      setCarouselImages(images);
+      // setCarouselImages(images);
     } catch (error) {
       console.log('Failed to fetch products: ', error);
     }

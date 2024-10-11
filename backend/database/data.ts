@@ -1,49 +1,48 @@
-
 export const categories = [
   {
     icon: `🍟`,
-    name: 'Áo Thun',
-    description: 'Áo thun dành cho nam '
+    name: "Áo Thun",
+    description: "Áo thun dành cho nam ",
   },
   {
     icon: `🍔`,
-    name: 'Quần dài',
-    description: 'Quần dành cho nam'
+    name: "Quần dài",
+    description: "Quần dành cho nam",
   },
   {
     icon: `🍔`,
-    name: 'Áo khoắc',
-    description: 'Áo khoác dành cho nam'
+    name: "Áo khoắc",
+    description: "Áo khoác dành cho nam",
   },
   {
     icon: `🍔`,
-    name: 'Áo polo',
-    description: 'Áo polo dành cho nam'
+    name: "Áo polo",
+    description: "Áo polo dành cho nam",
   },
   {
     icon: `🍔`,
-    name: 'Quần ngắn',
-    description: 'Quần dành cho nam'
+    name: "Quần ngắn",
+    description: "Quần dành cho nam",
   },
-]
+];
 
 export const deliveredDetails = [
   { status: "Pending", updateTime: new Date().toISOString() },
   { status: "Ready", updateTime: new Date().toISOString() },
   { status: "On the way", updateTime: new Date().toISOString() },
-  { status: "Delivered", updateTime: new Date().toISOString() }
-]
+  { status: "Delivered", updateTime: new Date().toISOString() },
+];
 
 export const paymentResults = [
   {
     status: "success",
     payment_type: "Credit Card",
-    provider: "Stripe"
+    provider: "Stripe",
   },
   {
     status: "pending",
     payment_type: "PayPal",
-    provider: "PayPal"
+    provider: "PayPal",
   },
 ];
 
@@ -54,16 +53,16 @@ export const colors = [
   { name: "Yellow", hex_code: "#ffcb6b" },
   { name: "Pink", hex_code: "#efa19b" },
   { name: "Brown", hex_code: "#9b8378" },
-]
+];
 
 export const sizes = [
-  { name: 'S' },
-  { name: 'M' },
-  { name: 'L' },
-  { name: 'XL' },
-  { name: 'XXL' },
-  { name: 'XXXL' },
-]
+  { name: "S" },
+  { name: "M" },
+  { name: "L" },
+  { name: "XL" },
+  { name: "XXL" },
+  { name: "XXXL" },
+];
 
 export const users = [
   {
@@ -72,7 +71,7 @@ export const users = [
     password: "password123",
     phone: "1234567890",
     role: "user",
-    avatar_img: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/59.jpg",
+    avatar_img: "https://avatar.iran.liara.run/public/75",
   },
   {
     name: "Jane Smith",
@@ -80,8 +79,8 @@ export const users = [
     password: "Admin@123",
     phone: "+9876543210",
     role: "admin",
-    avatar_img: "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1237.jpg",
-  }
+    avatar_img: "https://avatar.iran.liara.run/public/49",
+  },
 ];
 
 // export const userAddresses = [
@@ -104,7 +103,6 @@ export const users = [
 
 // ];
 
-
 export const userPayments = [
   {
     user_id: 1,
@@ -115,38 +113,39 @@ export const userPayments = [
     user_id: 2,
     payment_type: "Credit Card",
     provider: "Visa",
-  }
+  },
 ];
 
 export const products = [
   {
     seller_id: 1,
-    name: 'Áo Thun Nam Chạy Bộ Graphic Photic Zone',
-    brand: 'Coolmate',
-    description: 'Description for Áo Thun Nam Chạy Bộ Graphic Photic Zone',
+    name: "Combo 3 Quần Lót Nam trunk Lenzing Modal cạp logo Coolmate",
+    brand: "Coolmate",
+    description:
+      "Description for Combo 3 Quần Lót Nam trunk Lenzing Modal cạp logo Coolmate",
     rating: 0,
-    slug: 'ao-thun-nam-chay-bo-graphic-photic-zone',
+    slug: "combo-3-quan-lot-trunk-lenzing-modal-cap-logo-coolmate",
     numReviews: 0,
     price: 189000,
     category_id: 1,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 2,
-    name: 'Áo Thun Nam Thể Thao V1',
-    brand: 'Brand B',
-    description: 'Description for Áo Thun Nam Thể Thao V1',
+    name: "Áo Thun Nam Thể Thao V1",
+    brand: "Brand B",
+    description: "Description for Áo Thun Nam Thể Thao V1",
     rating: 0,
-    slug: 'ao-thun-nam-the-thao-v1',
+    slug: "ao-thun-nam-the-thao-v1",
     numReviews: 0,
     price: 239000,
     category_id: 1,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 3,
-    name: 'Quần Jogger Nam UT đa năng',
-    brand: 'Coolmate',
+    name: "Quần Jogger Nam UT đa năng",
+    brand: "Coolmate",
     description: `
    <h3 class="product-description__heading">Chi tiết sản phẩm</h3> <div class="product-description__content is-active" rel-script="product-single-content" style="font-size: 16px"><p dir="ltr">Thoải mái vận động, phong cách bất tận là những gì <a href="https://www.coolmate.me/collection/quan-dai-nam">Quần dài nam</a> Jogger UT mang đến cho bạn. Chất liệu Polyamide co giãn, nhẹ tênh cùng thiết kế jogger năng động giúp bạn di chuyển dễ dàng, tự tin thể hiện cá tính trong mọi hoạt động.</p>
 <p style="text-align: center;"><img src="https://mcdn.coolmate.me/image/January2024/mceclip0_5.jpg"></p>
@@ -260,176 +259,186 @@ export const products = [
     
     `,
     rating: 0,
-    slug: 'quan-jogger-nam-ut-da-nang',
+    slug: "quan-jogger-nam-ut-da-nang",
     numReviews: 0,
     price: 499000,
     category_id: 2,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 4,
-    name: 'Quần Shorts thể thao 7 inch đa năng',
-    brand: 'Coolmate',
-    description: 'Description for Quần Shorts thể thao 7 inch đa năng',
+    name: "Quần Shorts thể thao 7 inch đa năng",
+    brand: "Coolmate",
+    description: "Description for Quần Shorts thể thao 7 inch đa năng",
     rating: 0,
-    slug: 'quan-short-the-thao-7-inch-da-nang',
+    slug: "quan-short-the-thao-7-inch-da-nang",
     numReviews: 0,
     price: 169000,
     category_id: 5,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 5,
-    name: 'Quần Jeans Nam Basics dáng Slim fit',
-    brand: 'Coolmate',
-    description: 'Description for Quần Jeans Nam Basics dáng Slim fit',
+    name: "Quần Jeans Nam Basics dáng Slim fit",
+    brand: "Coolmate",
+    description: "Description for Quần Jeans Nam Basics dáng Slim fit",
     rating: 0,
-    slug: 'quan-jeans-nam-basics-dang-nam-slim-fit',
+    slug: "quan-jeans-nam-basics-dang-nam-slim-fit",
     numReviews: 0,
     price: 499000,
     category_id: 2,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 6,
-    name: 'Áo Khoác Nam có mũ Daily Wear',
-    brand: 'Coolmate',
-    description: 'Description for Áo Khoác Nam có mũ Daily Wear',
+    name: "Áo Khoác Nam có mũ Daily Wear",
+    brand: "Coolmate",
+    description: "Description for Áo Khoác Nam có mũ Daily Wear",
     rating: 0,
-    slug: 'ao-khoac-nam-co-mu-dailu-wear',
+    slug: "ao-khoac-nam-co-mu-dailu-wear",
     numReviews: 0,
     price: 499000,
     category_id: 3,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 7,
     name: 'Quần Shorts Nam Gym 7" Power',
-    brand: 'Coolmate',
+    brand: "Coolmate",
     description: 'Description for Quần Shorts Nam Gym 7" Power',
     rating: 0,
-    slug: 'quan-sort-nam-gym-7-power',
+    slug: "quan-sort-nam-gym-7-power",
     numReviews: 0,
     price: 339000,
     category_id: 5,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 8,
-    name: 'Quần Dài Nam Thể Thao Pro Active',
-    brand: 'Coolmate',
-    description: 'Description for Quần Dài Nam Thể Thao Pro Active',
+    name: "Quần Dài Nam Thể Thao Pro Active",
+    brand: "Coolmate",
+    description: "Description for Quần Dài Nam Thể Thao Pro Active",
     rating: 0,
-    slug: 'quan-dai-nam-the-thao-pro-active',
+    slug: "quan-dai-nam-the-thao-pro-active",
     numReviews: 0,
     price: 260000,
     category_id: 2,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 9,
-    name: 'Áo Polo Nam Cafe Bo Kẻ',
-    brand: 'Coolmate',
-    description: 'Description for Áo Polo Nam Cafe Bo Kẻ',
+    name: "Áo Polo Nam Cafe Bo Kẻ",
+    brand: "Coolmate",
+    description: "Description for Áo Polo Nam Cafe Bo Kẻ",
     rating: 0,
-    slug: 'ao-polo-nam-cafe-bo-ke',
+    slug: "ao-polo-nam-cafe-bo-ke",
     numReviews: 0,
     price: 295000,
     category_id: 4,
-    is_active: true
+    is_active: true,
   },
   {
     seller_id: 10,
-    name: 'Quần Shorts Nam chạy bộ 2 lớp Essential',
-    brand: 'Coolmate',
-    description: 'Description for Quần Shorts Nam chạy bộ 2 lớp Essential',
+    name: "Quần Shorts Nam chạy bộ 2 lớp Essential",
+    brand: "Coolmate",
+    description: "Description for Quần Shorts Nam chạy bộ 2 lớp Essential",
     rating: 0,
-    slug: 'quan-short-nam-chay-bo-2-lop-essential',
+    slug: "quan-short-nam-chay-bo-2-lop-essential",
     numReviews: 0,
     price: 499000,
     category_id: 5,
-    is_active: true
+    is_active: true,
   },
-
-]
+];
 
 export const productMedia = [
   {
     product_id: 1,
-    media_type: 'image',
-    media_url: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg"
+    media_type: "image",
+    media_url: "/images/1.webp",
   },
   {
     product_id: 1,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/format=auto/uploads/March2024/24CMAW.PL005.24_13.jpg"
+    media_type: "image",
+    media_url: "images/1.webp",
   },
   {
     product_id: 2,
-    media_type: 'image',
-    media_url: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/photic3d.4.jpg"
+    media_type: "image",
+    media_url: "images/2.webp",
   },
   {
     product_id: 2,
-    media_type: 'image',
-    media_url: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/photic3d.4.jpg"
+    media_type: "image",
+    media_url: "images/1.webp",
   },
   {
     product_id: 3,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/April2024/utdanangthumb231.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/April2024/utdanangthumb231.jpg",
   },
   {
     product_id: 3,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2023/23CMCW.QJ003.16.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2023/23CMCW.QJ003.16.jpg",
   },
   {
     product_id: 3,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2024/joggerutdanang6.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2024/joggerutdanang6.jpg",
   },
   {
     product_id: 3,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2023/23CMCW.QJ003.16.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2023/23CMCW.QJ003.16.jpg",
   },
   {
     product_id: 4,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/April2024/thumb7indanan2_81_copy.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/April2024/thumb7indanan2_81_copy.jpg",
   },
   {
     product_id: 5,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE002.7_72.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/November2023/23CMCW.JE002.7_72.jpg",
   },
   {
     product_id: 6,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/October2023/CM006.thumb1.2_74.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/October2023/CM006.thumb1.2_74.jpg",
   },
   {
     product_id: 7,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2024/qs.7.gp.7.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/February2024/qs.7.gp.7.jpg",
   },
   {
     product_id: 8,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/October2023/QD001.4_21.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/October2023/QD001.4_21.jpg",
   },
   {
     product_id: 9,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/April2024/24CMCW.PL001.THUMB1_41.jpg"
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/April2024/24CMCW.PL001.THUMB1_41.jpg",
   },
   {
     product_id: 10,
-    media_type: 'image',
-    media_url: "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/July2023/QCBUF2-THUMB-1.jpg"
-  }
-]
+    media_type: "image",
+    media_url:
+      "https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/July2023/QCBUF2-THUMB-1.jpg",
+  },
+];
 export const productColorSizes = [
   {
     quantity: 100,
@@ -454,8 +463,7 @@ export const productColorSizes = [
     product_id: 1,
     color_id: 1,
     size_id: 4,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 2,
@@ -473,8 +481,7 @@ export const productColorSizes = [
     product_id: 2,
     color_id: 2,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 2,
@@ -504,8 +511,7 @@ export const productColorSizes = [
     product_id: 2,
     color_id: 3,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 2,
@@ -625,8 +631,7 @@ export const productColorSizes = [
     product_id: 4,
     color_id: 2,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 4,
@@ -656,8 +661,7 @@ export const productColorSizes = [
     product_id: 4,
     color_id: 3,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 4,
@@ -753,8 +757,7 @@ export const productColorSizes = [
     product_id: 5,
     color_id: 2,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 5,
@@ -784,8 +787,7 @@ export const productColorSizes = [
     product_id: 5,
     color_id: 3,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 5,
@@ -977,8 +979,7 @@ export const productColorSizes = [
     product_id: 9,
     color_id: 2,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 9,
@@ -1008,8 +1009,7 @@ export const productColorSizes = [
     product_id: 9,
     color_id: 3,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 9,
@@ -1105,8 +1105,7 @@ export const productColorSizes = [
     product_id: 10,
     color_id: 2,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 10,
@@ -1136,8 +1135,7 @@ export const productColorSizes = [
     product_id: 10,
     color_id: 3,
     size_id: 2,
-  }
-  ,
+  },
   {
     quantity: 100,
     product_id: 10,
@@ -1216,9 +1214,7 @@ export const productColorSizes = [
     color_id: 5,
     size_id: 5,
   },
-
-
-]
+];
 
 // export const productColorSizes = [
 //   {
@@ -1377,48 +1373,52 @@ export const productColorSizes = [
 
 // ]
 
-
 export const collections = [
   {
     product_ids: [1, 2, 3, 4],
-    title: 'Coolmate basic ',
-    description: 'Summer Collection basic là bộ sưu tập đơn giản nhưng không kém phần nổi bật, phù hợp với mọi hoàn cảnh, mọi lứa tuổi. Bộ sưu tập này giúp bạn tự tin hơn trong mọi hoàn cảnh.',
-    slug: 'summer-basic',
+    title: "Coolmate basic ",
+    description:
+      "Summer Collection basic là bộ sưu tập đơn giản nhưng không kém phần nổi bật, phù hợp với mọi hoàn cảnh, mọi lứa tuổi. Bộ sưu tập này giúp bạn tự tin hơn trong mọi hoàn cảnh.",
+    slug: "summer-basic",
     is_active: true,
-    thumbnail_image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/January2024/Banner-Basic_copytet.jpg'
+    thumbnail_image:
+      "https://media.coolmate.me/cdn-cgi/image/width=1920,quality=90,format=auto/uploads/January2024/Banner-Basic_copytet.jpg",
   },
   {
     product_ids: [10, 9, 8, 7, 6, 5],
-    title: 'Ready to wear',
-    description: 'Bộ sưu tập Ready to wear là bộ sưu tập mới nhất của Coolmate, với những thiết kế mới lạ, độc đáo, chất lượng cao, giúp bạn tự tin hơn trong mọi hoàn cảnh.',
-    slug: 'ready-to-wear',
+    title: "Ready to wear",
+    description:
+      "Bộ sưu tập Ready to wear là bộ sưu tập mới nhất của Coolmate, với những thiết kế mới lạ, độc đáo, chất lượng cao, giúp bạn tự tin hơn trong mọi hoàn cảnh.",
+    slug: "ready-to-wear",
     is_active: true,
-    thumbnail_image: 'https://media.coolmate.me/cdn-cgi/image/width=1920,quality=80,format=auto/uploads/September2023/Ready-2-wear-banner19_84.jpg'
+    thumbnail_image:
+      "https://media.coolmate.me/cdn-cgi/image/width=1920,quality=80,format=auto/uploads/September2023/Ready-2-wear-banner19_84.jpg",
   },
-]
-
+];
 
 export const carts = [
   {
     user_id: 1,
     totalprice: 250,
     items: [],
-  }
-]
+  },
+];
 
 export const cartItems = [
   {
     cart_id: 1,
     product_id: 1,
-    image: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg",
+    image:
+      "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg",
     quantity: 2,
   },
   {
     cart_id: 1,
     product_id: 2,
-    image: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/photic3d.4.jpg",
+    image:
+      "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/photic3d.4.jpg",
     quantity: 1,
-  }
+  },
 ];
 
 export const orders = [
@@ -1436,18 +1436,19 @@ export const orders = [
     isPaid: true,
     paidAt: new Date(),
     isDelivered: false,
-    deliveredAt: new Date()
-  }
-]
+    deliveredAt: new Date(),
+  },
+];
 
 export const orderItems = [
   {
     order_id: 1,
-    image: "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg",
+    image:
+      "https://media.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/January2024/24CMAW.AT011.1_91.jpg",
     quantity: 2,
     product_id: 1,
     created_at: new Date(),
-    modified_at: new Date()
+    modified_at: new Date(),
   },
 ];
 
@@ -1463,18 +1464,18 @@ export const reviews = [
     product_id: 2,
     rating: 3.5,
     comment: "Great product",
-  }
-]
+  },
+];
 
 export const discounts = [
   {
     discountValue: 10,
     discountCode: "VOUCHER10",
-    quantity: 2
+    quantity: 2,
   },
   {
     discountValue: 20,
     discountCode: "VOUCHER20",
-    quantity: 5
-  }
-]
+    quantity: 5,
+  },
+];
